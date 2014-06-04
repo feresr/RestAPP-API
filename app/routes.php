@@ -34,9 +34,12 @@ Route::group(array('prefix' => 'api/v1'),function(){
 
 
 	Route::get('/',array('as' => 'home', function(){
-
+		if(Auth::check()){
 		return Response::json(array('action'=>'loggedin?', 'status' => Auth::check(), 'user' => Auth::user()->firstname));
-		
+		}else{
+
+			return "Welcome guest";
+		}
 	}));
 
 
