@@ -9,32 +9,8 @@ class OrdersController extends BaseController {
 	 */
 	public function index()
 	{
-
-		if(Auth::check()){
-
-			$orderRow = Order::where('user_id',Auth::User()->id)->get();
-
-			foreach($orderRow as $order){
-
-				$order = array(
-						'id' 			=> 	$order->id ,
-						'table' 		=> 	$order->table->toArray(),
-						'user_id' 		=> 	$order->user_id,
-						'created_at' 	=> 	$order->created_at,
-						'updated_at' 	=>	$order->updated_at,
-						'items'			=> 	$order->items->toArray()
-				);
-			}
-
-			return Response::json($orderRow->toArray());
-
-		}else{
-
-			return Response::json(array('action'=>'fetch-orders', 'status' => 'faliure'));
-
-		}
-
-
+		$orders = Auth::User()->orders()->get();
+		return Response::json($orders);
 	}
 
 
@@ -56,29 +32,34 @@ class OrdersController extends BaseController {
 	 */
 	public function store()
 	{
-		if(Auth::check()){
-			$order = Input::get();
-			$table = Input::get('table');
-			$items = Input::get('items');
+		$input = Input::get();
+		$table = Table::find($input['table_id']);
 
-			if(!$table->taken){
-				$table->taken = true;
+		if(!$table->taken){
 
-				$order->push();
-				$table->push();
+			$order = new Order();
 
-				return Response::json(array('action'=>'new-order', 'status' => 'success', 'order' => $order->toArray() ));
+			$order->user_id = Auth::User()->id;
+			$table->taken = true;
+			$order->table_id = $table->id;
+
+			$order->save();
+			$table->save();
+
+			$order = array(
+						'id' 			=> 	$order->id ,
+						'table' 		=> 	$table->toArray(),
+						'user_id' 		=> 	$order->user_id,
+						//'created_at' 	=> 	$order->created_at,
+						//'updated_at' 	=>	$order->updated_at,
+						'items'			=> 	$order->items->toArray()
+			);
 
 
-			}else{
-
-				return Response::json(array('action'=>'new-order', 'status' => 'faliure', 'message' => 'taken' ));
-
-			}
-
+			return Response::json($order);
 		}
 
-		return Response::json(array('action'=>'new-order', 'status' => 'faliure', 'message' => 'unauthenticated user' ));
+		return null;
 	}
 
 
@@ -91,22 +72,7 @@ class OrdersController extends BaseController {
 	public function show($id)
 	{
 		$order = Order::find($id);
-		if($order){
-
-				$order = array(
-					'id' 			=> 	$order->id ,
-					'table' 		=> 	$order->table->toArray(),
-					'user_id' 		=> 	$order->user_id,
-					'created_at' 	=> 	$order->created_at,
-					'updated_at' 	=>	$order->updated_at,
-					'items'			=> 	$order->items->toArray()
-				);
-
-			return Response::json($order);
-
-		}
-
-		return Response::json(array('action'=>'show-order', 'status' => 'faliure', 'message' => 'order doesnt belong to user' ));
+		return Response::json($order);
 	}
 
 

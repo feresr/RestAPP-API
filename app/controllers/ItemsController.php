@@ -9,28 +9,8 @@ class ItemsController extends BaseController {
 	 */
 	public function index()
 	{
-		$itemsRow  = Item::all();
-
-
-
-		$items = array();
-
-		foreach($itemsRow as $item){
-
-			$item = array(
-					'id' 			=> 	$item->id,
-					'name' 			=>	$item->name,
-					'description'	=> 	$item->description,
-					'price'			=> 	$item->price,
-					'category_id' 	=> 	$item->category_id
-				);
-
-			array_push($items, $item);
-
-		}
-
-
-		return Response::json(array('action'=>'fetch-items', 'status' => 'success', 'items' => $items));
+		$items  = Item::get();
+		return Response::json($items);
 
 	}
 
@@ -65,7 +45,8 @@ class ItemsController extends BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$item = Item::find($id);
+		return Response::json($item);
 	}
 
 

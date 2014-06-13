@@ -23,8 +23,10 @@ class Order extends Eloquent{
 
     public function items()
     {
-        return $this->belongsToMany('Item','order_item');
+        return $this->belongsToMany('Item', 'order_item');
     }
 
 
+
 }
+

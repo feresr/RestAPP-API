@@ -9,24 +9,10 @@ class CategoriesController extends BaseController {
 	 */
 	public function index()
 	{
-		$categoryRow  = Category::all();
+		$categories  = Category::all();
 
-		$categories = array();
-
-		foreach($categoryRow as $category){
-
-			$category = array(
-					'id' 			=> 	$category->id,
-					'name' 		=>	$category->name
-					
-				);
-
-			array_push($categories, $category);
-
-		}
-
-
-		return Response::json(array('action'=>'fetch-categories', 'status' => 'success', 'categories' => $categories));
+		
+		return Response::json($categories);
 	}
 
 

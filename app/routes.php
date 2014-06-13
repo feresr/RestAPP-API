@@ -16,10 +16,11 @@
 Route::group(array('prefix' => 'api/v1'),function(){
 
 	Route::resource('sessions', 'SessionsController', array('only'=> array('destroy','store')));
-	Route::resource('items', 'ItemsController', array('only'=> array('index')));
+	Route::resource('items', 'ItemsController', array('only'=> array('index','show')));
 	Route::resource('categories', 'CategoriesController', array('only'=> array('index')));
-	Route::resource('tables', 'TablesController', array('only'=> array('index')));
+	Route::resource('tables', 'TablesController', array('only'=> array('index','show')));
 	Route::resource('orders', 'OrdersController');
+	Route::resource('orderItems', 'OrderItemsController');
 	Route::resource('available-tables', 'AvailableTablesController');
 });
 

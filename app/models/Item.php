@@ -15,4 +15,10 @@ class Item extends Eloquent{
         return $this->belongsToMany('Order');
     }
 
+    public function category(){
+
+    	return $this->belongsTo('Category');
+
+    }
+
 }

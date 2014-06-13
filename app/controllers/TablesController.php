@@ -9,24 +9,7 @@ class TablesController extends BaseController {
 	 */
 	public function index()
 	{
-		$tablesRow  = Table::all();
-
-		$tables = array();
-
-		foreach($tablesRow as $table){
-
-			$table = array(
-					'id' 			=> 	$table->id,
-					'number' 		=>	$table->number,
-					'seats'			=> 	$table->seats,
-					'description'	=> $table->description,
-					'taken' 		=> $table->taken
-				);
-
-			array_push($tables, $table);
-
-		}
-
+		$tables  = Table::all();
 
 		return Response::json($tables);
 	}
@@ -62,7 +45,8 @@ class TablesController extends BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$table  = Table::find($id);
+		return Response::json($table);
 	}
 
 
