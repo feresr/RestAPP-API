@@ -32,12 +32,14 @@ class OrdersController extends BaseController {
 	 */
 	public function store()
 	{
+		$order = new Order();
+		
 		$input = Input::get();
 		$table = Table::find($input['table_id']);
 
 		if(!$table->taken){
 
-			$order = new Order();
+			
 
 			$order->user_id = Auth::User()->id;
 			$table->taken = true;
@@ -46,20 +48,10 @@ class OrdersController extends BaseController {
 			$order->save();
 			$table->save();
 
-			$order = array(
-						'id' 			=> 	$order->id ,
-						'table' 		=> 	$table->toArray(),
-						'user_id' 		=> 	$order->user_id,
-						//'created_at' 	=> 	$order->created_at,
-						//'updated_at' 	=>	$order->updated_at,
-						'items'			=> 	$order->items->toArray()
-			);
-
-
-			return Response::json($order);
+			
 		}
 
-		return null;
+		return Response::json($order);
 	}
 
 
@@ -148,7 +140,13 @@ class OrdersController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$order = Order::find($id);
+		$order->active = false;
+		$order->table->taken = false;
+		$order->table->save();
+		if($order->save()){
+			return Response::json($order);
+		}
 	}
 
 
