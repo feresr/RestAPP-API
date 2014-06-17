@@ -5,6 +5,28 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
+	protected $fillable = array('name', 'lastname', 'password');
+
+	public static $rules = array(
+		'name' => 'required|min:2',
+		'lastname' => 'required|unique:users',
+		'password' => 'required'
+	);
+
+	public static $messages = array(
+		'name.required' => 'El nombre es obligatorio.',
+		'name.min' => 'El nombre debe contener al menos dos caracteres.',
+		'lastname.required' => 'El apellido es obligatorio.',
+		'password.required' => 'El password es obligatorio.'
+	);
+	
+	public static function validate($data, $id=null){
+		$reglas = self::$rules;
+		$messages = self::$messages;
+		return Validator::make($data, $reglas, $messages);
+	}
+
+
 	/**
 	 * The database table used by the model.
 	 *
