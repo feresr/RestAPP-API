@@ -1,8 +1,6 @@
 <?php
 
-
 class OrderItem extends Eloquent{
-
 	/**
 	 * The database table used by the model.
 	 *
@@ -11,16 +9,13 @@ class OrderItem extends Eloquent{
 	protected $table = 'order_item';
 
 
-    public function order()
-    {
-        return $this->hasOne('Order');
-    }
+	public function order()
+	{
+		return $this->hasOne('Order');
+	}
 
 	public function item()
-    {
-        return $this->hasOne('Item');
-    }
-
-    
-
- }
+	{
+		return $this->hasOne('Item');
+	}
+}
