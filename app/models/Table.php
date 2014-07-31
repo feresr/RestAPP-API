@@ -30,9 +30,9 @@ class Table extends Eloquent{
 	);
 
 	public static function validate($data, $id=null){
-		$reglas = self::$rules;
+		$rules = self::$rules;
 		$messages = self::$messages;
-		return Validator::make($data, $reglas, $messages);
+		return Validator::make($data, $rules, $messages);
 	}
 
 }

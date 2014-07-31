@@ -9,10 +9,15 @@ class OrdersController extends BaseController {
 	 */
 	public function index()
 	{
-		$orders = Auth::User()->orders()->get();
-		return Response::json($orders);
+		if(Request::wantsJson())
+		{
+			$orders = Auth::User()->orders(true)->get();
+			return Response::json($orders);
+		}else{
+			$orders = Order::where('active', true)->get();
+			return View::make('order.index', array('orders' => $orders));
+		}
 	}
-
 
 	/**
 	 * Show the form for creating a new resource.
@@ -21,9 +26,11 @@ class OrdersController extends BaseController {
 	 */
 	public function create()
 	{
-		return View::make('orders.create');
+		$order = new Order();
+		$users = User::all(array('id','name','lastname'));
+		$tables = Table::where('taken',false)->get();
+		return View::make('order.save', array('order' => $order, 'users'=> $users,'tables'=>$tables)); 
 	}
-
 
 	/**
 	 * Store a newly created resource in storage.
@@ -32,26 +39,41 @@ class OrdersController extends BaseController {
 	 */
 	public function store()
 	{
-		$order = new Order();
-		
 		$input = Input::get();
+		$validator = Order::validate($input);
+
+		if($validator->fails()){
+				return Response::json(array(
+				'success' => false,
+				'errors' => $validator->getMessageBag()->toArray()
+			));
+		}
+
 		$table = Table::find($input['table_id']);
 
 		if(!$table->taken){
 
+			$order = new Order();
+			if(isset($input['user_id'])){
+				$order->user_id = $input['user_id'];
+			}else{
+				$order->user_id = Auth::User()->id;
+			}
 			
-
-			$order->user_id = Auth::User()->id;
-			$table->taken = true;
 			$order->table_id = $table->id;
-
-			$order->save();
-			$table->save();
-
+			$order->table->taken = true;
 			
-		}
+			$order->push();
 
-		return Response::json($order);
+			return Response::json($order);
+
+		}else{
+
+			return Response::json(array(
+					'success' => false,
+					'errors' => 'Table is taken'
+			));	
+		}
 	}
 
 
@@ -64,7 +86,12 @@ class OrdersController extends BaseController {
 	public function show($id)
 	{
 		$order = Order::find($id);
-		return Response::json($order);
+		if (Request::wantsJson())
+		{
+			return Response::json($order);
+		}else{
+			return View::make('order.show', array('order' => $order));
+		}
 	}
 
 
@@ -76,7 +103,7 @@ class OrdersController extends BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		//TODO: MOSTRAR FORMULARIO PARA EDITAR ORDENES (MOZO O MESA) 
 	}
 
 
@@ -88,25 +115,18 @@ class OrdersController extends BaseController {
 	 */
 	public function update($id)
 	{
-
-
+		// TODO: VER COMO SE GUARDAN ITEMS EN ANDROID ESTE CODIGO ESTÁ BORRANDO ORDENES ENTERAS
+		// ESTO VA EN ORDERITEMSCONTROLLER.
 		$order = Order::find($id);
 
 		if($order->user == Auth::user()){
 
-
 			if (Request::isJson())
 			{
 
-
 			    $input = Input::json()->all();
 
-
-
-
 			    DB::table('order_item')->where('order_id', '=', $id)->delete();
-
-
 
 			    foreach($input["items"] as $item){
 
@@ -141,13 +161,22 @@ class OrdersController extends BaseController {
 	public function destroy($id)
 	{
 		$order = Order::find($id);
-		$order->active = false;
-		$order->table->taken = false;
-		$order->table->save();
-		if($order->save()){
+		if($order != null){
+
+			$order->active = false;
+			$order->table->taken = false;
+
+			$order->push();
+
 			return Response::json($order);
+
+		}else{
+
+			return Response::json(array(
+				'success' => false,
+				'errors' => 'Order not found'
+			));	
+
 		}
 	}
-
-
 }

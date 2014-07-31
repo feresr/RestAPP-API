@@ -9,8 +9,14 @@ class OrderItemsController extends BaseController {
 	 */
 	public function index()
 	{
-		$orders = OrderItem::get();
-		return Response::json($orders);
+		$orders = Auth::User()->orders(true)->get();
+		$response = [];
+		foreach ($orders as $order) {
+			$itemsInOrder = OrderItem::where('order_id', '==', $order->id)->get()->toArray();
+			array_merge($response,$itemsInOrder);
+		}
+
+		return Response::json($response);
 	}
 
 	/**

@@ -34,6 +34,7 @@ Route::group(array('prefix' => 'api/v1'),function(){
 	})->before('auth');
 
 
+
 	Route::get('/',array('as' => 'home', function(){
 		if(Auth::check()){
 		return Response::json(array('action'=>'loggedin?', 'status' => Auth::check(), 'user' => Auth::user()->firstname));

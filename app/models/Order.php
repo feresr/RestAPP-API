@@ -2,12 +2,15 @@
 
 class Order extends Eloquent{
 
+    public static $messages = array(
+        'table_id.required' => 'Debe ingresar una una mesa'
+    );
+
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */  
-
     protected $table = 'orders';
 
     public function table()
@@ -22,18 +25,18 @@ class Order extends Eloquent{
 
     public function items()
     {
-        return $this->belongsToMany('Item')->withPivot(array('quantity','price'));
+        return $this->belongsToMany('Item','order_item')->withPivot(array('quantity','price'));
     }
 
      //VALIDACIONES
     public static $rules = array(
-        'user_id' => 'required',
         'table_id'=>'required'
     );
 
     public static function validate($data, $id=null){
-        $reglas = self::$rules;
-        return Validator::make($data, $reglas);
+        $rules = self::$rules;
+        $messages = self::$messages;
+        return Validator::make($data, $rules, $messages);
     }
 }
 

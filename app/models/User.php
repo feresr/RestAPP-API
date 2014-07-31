@@ -21,9 +21,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	);
 	
 	public static function validate($data, $id=null){
-		$reglas = self::$rules;
+		$rules = self::$rules;
 		$messages = self::$messages;
-		return Validator::make($data, $reglas, $messages);
+		return Validator::make($data, $rules, $messages);
 	}
 
 
@@ -102,9 +102,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->email;
 	}
 
-	public function orders(){
+	public function orders($onlyActive = false){
 
-		return $this->hasMany('Order')->where('active', true);
-
+		if($onlyActive){
+			return $this->hasMany('Order')->where('active', true);
+		}else{
+			return $this->hasMany('Order');
+		}
 	}
+
+
 }
