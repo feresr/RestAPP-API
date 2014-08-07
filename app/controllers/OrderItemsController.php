@@ -26,16 +26,36 @@ class OrderItemsController extends BaseController {
 	 */
 	public function store()
 	{
-
 		$input = Input::get();
-		$orderItem = new OrderItem();
-		$orderItem->item_id = $input['item_id'];
-		$orderItem->order_id = $input['order_id'];
-		$orderItem->quantity = $input['quantity'];
-		$orderItem->price = 2.4;
-		$orderItem->save();
+		$validator = OrderItem::::validate($input);
 
-		return Response::json($orderItem);
+		if(!$validator->fails())
+		{
+			$orderItem = new OrderItem();
+			$item = Item::find($input['item_id'], array('id','price'));
+			$quantity = $input['quantity'];
+			$total = $item->price * $quantity;
+			$order->total += $total;
+			$order->save();
+
+			$orderItem = new OrderItem();
+			$orderItem->item_id = $input['item_id'];
+			$orderItem->order_id = $input['order_id'];
+			$orderItem->quantity = $input['quantity'];
+			$orderItem->price = $item->price;
+			$orderItem->save();
+
+			return Response::json(array(
+				'success'     =>  true,
+				'message'     =>  'Se agrego el item correctamente'
+			));
+		}
+		else {
+			return Response::json(array(
+				'success' => false,
+				'errors' => $validator->getMessageBag()->toArray()
+			));
+		}
 	}
 
 

@@ -76,7 +76,6 @@ class OrdersController extends BaseController {
 		}
 	}
 
-
 	/**
 	 * Display the specified resource.
 	 *
@@ -94,7 +93,6 @@ class OrdersController extends BaseController {
 		}
 	}
 
-
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -103,9 +101,11 @@ class OrdersController extends BaseController {
 	 */
 	public function edit($id)
 	{
-		//TODO: MOSTRAR FORMULARIO PARA EDITAR ORDENES (MOZO O MESA) 
+		$order = Order::find($id);
+		$tables = Table::all(array('id','number', 'taken'));
+		$users = User::all();
+		return View::make('order.save', array('order' => $order, 'tables' => $tables, 'users' => $users));
 	}
-
 
 	/**
 	 * Update the specified resource in storage.
@@ -115,42 +115,18 @@ class OrdersController extends BaseController {
 	 */
 	public function update($id)
 	{
-		// TODO: VER COMO SE GUARDAN ITEMS EN ANDROID ESTE CODIGO ESTÁ BORRANDO ORDENES ENTERAS
-		// ESTO VA EN ORDERITEMSCONTROLLER.
+		//ESTO LO TIENE QUE VER EL NEGRO (yo no lo uso)
+		$input = Input::get();
 		$order = Order::find($id);
 
-		if($order->user == Auth::user()){
+		$validator = Order::validate($input, $order->id);
 
-			if (Request::isJson())
-			{
+		if(!$validator->fails()){
 
-			    $input = Input::json()->all();
+			$table = T
 
-			    DB::table('order_item')->where('order_id', '=', $id)->delete();
-
-			    foreach($input["items"] as $item){
-
-				   	DB::table('order_item')->insert( array(
-				   								'order_id' => $id,
-				   								'quantity' => $item['quantity'],
-				   								'item_id'	=> $item['item_id'],
-				   								'price' => $item['price'],
-				   								)
-											);
-
-			    }
-
-			return Response::json(array('action'=>'update-order', 'status' => 'success'));
-
-
-			}
-
-			return Response::json(array('action'=>'update-order', 'status' => 'failure', 'message' => 'no json received'));
 		}
-
-		return Response::json(array('action'=>'update-order', 'status' => 'failure', 'message' => 'this order doesnt belong to this user'));
 	}
-
 
 	/**
 	 * Remove the specified resource from storage.
@@ -176,7 +152,6 @@ class OrdersController extends BaseController {
 				'success' => false,
 				'errors' => 'Order not found'
 			));	
-
 		}
 	}
 }
