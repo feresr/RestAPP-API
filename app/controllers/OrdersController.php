@@ -115,17 +115,7 @@ class OrdersController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//ESTO LO TIENE QUE VER EL NEGRO (yo no lo uso)
-		$input = Input::get();
-		$order = Order::find($id);
 
-		$validator = Order::validate($input, $order->id);
-
-		if(!$validator->fails()){
-
-			$table = T
-
-		}
 	}
 
 	/**

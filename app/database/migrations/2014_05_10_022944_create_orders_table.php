@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration {
 			$table->increments('id');
 			$table->integer('table_id');
 			$table->integer('user_id');
+			$table->float('total')->default(0.00);
 			$table->boolean('active')->default(true);
 			$table->timestamps();
 		});

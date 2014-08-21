@@ -10,10 +10,11 @@ class OrderItemsController extends BaseController {
 	public function index()
 	{
 		$orders = Auth::User()->orders(true)->get();
-		$response = [];
+
+		$response = array();
 		foreach ($orders as $order) {
-			$itemsInOrder = OrderItem::where('order_id', '==', $order->id)->get()->toArray();
-			array_merge($response,$itemsInOrder);
+			$itemsInOrder = OrderItem::where('order_id', $order->id)->get()->toArray();
+			array_push($response,$itemsInOrder);
 		}
 
 		return Response::json($response);
@@ -27,7 +28,7 @@ class OrderItemsController extends BaseController {
 	public function store()
 	{
 		$input = Input::get();
-		$validator = OrderItem::::validate($input);
+		$validator = OrderItem::validate($input);
 
 		if(!$validator->fails())
 		{
@@ -35,19 +36,22 @@ class OrderItemsController extends BaseController {
 			$item = Item::find($input['item_id'], array('id','price'));
 			$quantity = $input['quantity'];
 			$total = $item->price * $quantity;
+			//TODO: Deberiamos checkear si la orden existe y está activa.
+			$order = Order::find($input['order_id']);
 			$order->total += $total;
 			$order->save();
 
 			$orderItem = new OrderItem();
-			$orderItem->item_id = $input['item_id'];
-			$orderItem->order_id = $input['order_id'];
-			$orderItem->quantity = $input['quantity'];
+			$orderItem->item_id = $item->id;
+			$orderItem->order_id = $order->id;
+			$orderItem->quantity = $quantity;
 			$orderItem->price = $item->price;
 			$orderItem->save();
 
 			return Response::json(array(
 				'success'     =>  true,
-				'message'     =>  'Se agrego el item correctamente'
+				'message'     =>  'Se agrego el item correctamente',
+				'id' => $orderItem->id
 			));
 		}
 		else {
@@ -57,7 +61,6 @@ class OrderItemsController extends BaseController {
 			));
 		}
 	}
-
 
 	/**
 	 * Remove the specified resource from storage.
@@ -73,18 +76,4 @@ class OrderItemsController extends BaseController {
 
 		return Response::json($orderItem);
 	}
-
-
-/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		return View::make('orderitem.create');
-	}
-
-
-
 }
