@@ -6,7 +6,7 @@ class OrderItem extends Eloquent{
 	 *
 	 * @var string
 	 */
-	protected $table = 'order_item';
+	protected $table = 'item_order';
 
 
 	public function order()
