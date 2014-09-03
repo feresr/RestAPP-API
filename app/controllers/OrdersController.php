@@ -29,7 +29,8 @@ class OrdersController extends BaseController {
 		$order = new Order();
 		$users = User::all(array('id','name','lastname'));
 		$tables = Table::where('taken',false)->get();
-		return View::make('order.save', array('order' => $order, 'users'=> $users,'tables'=>$tables)); 
+		$title = 'NUEVA';
+		return View::make('order.save', array('order' => $order, 'users'=> $users,'tables'=>$tables, 'title' => $title)); 
 	}
 
 	/**
@@ -65,7 +66,7 @@ class OrdersController extends BaseController {
 			
 			$order->push();
 
-			return Response::json($order);
+			return Response::json(array('success' => true, 'order' => $order));
 
 		}else{
 
@@ -104,7 +105,8 @@ class OrdersController extends BaseController {
 		$order = Order::find($id);
 		$tables = Table::all(array('id','number', 'taken'));
 		$users = User::all();
-		return View::make('order.save', array('order' => $order, 'tables' => $tables, 'users' => $users));
+		$title = 'EDITAR';
+		return View::make('order.save', array('order' => $order, 'tables' => $tables, 'users' => $users, 'title' => $title));
 	}
 
 	/**
@@ -115,7 +117,29 @@ class OrdersController extends BaseController {
 	 */
 	public function update($id)
 	{
+		$input = Input::get();
+		$order = Order::find($id);
+		$validator = Order::validate($input, $order->id);
+	 	if ($validator->fails()){
+			return Response::json(array(
+				'success' => false,
+				'errors' => $validator->getMessageBag()->toArray()
+			));
+		}else{  
+			$table = Table::find($order->table_id);
+			$table->taken= false;
+			$table->save();
 
+			$table = Table::find($input['table_id']);
+			$order->table_id = $table->id;
+			$order->user_id = $input['user_id'];
+			$order->table->taken = true;
+			$order->push();
+			return Response::json(array(
+				'success' => true,
+				'idorder' => $id
+			));
+		}
 	}
 
 	/**
@@ -134,8 +158,13 @@ class OrdersController extends BaseController {
 
 			$order->push();
 
-			return Response::json($order);
-
+			if(Request::wantsJson())
+			{
+				return Response::json($order);
+			}
+			else{
+				return Redirect::to('orders')->with('notice', 'La Orden ha sido eliminada correctamente.');
+			}
 		}else{
 
 			return Response::json(array(

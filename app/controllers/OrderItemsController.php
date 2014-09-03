@@ -71,9 +71,31 @@ class OrderItemsController extends BaseController {
 	public function destroy($id)
 	{
 		$orderItem = OrderItem::find($id);
+		if($orderItem){
+			$order = Order::find($orderItem->order_id);
+			if($order){
+				$order->total -= $orderItem->price * $orderItem->quantity;
+				$order->save();
+				$orderItem->delete();
+				
+				return Response::json(array('success' => true, 'order_item' => $orderItem));
 
-		$orderItem->delete();
-
-		return Response::json($orderItem);
+			}else{
+				return Response::json(array('success' => false, 'message' => "Order not found"));
+			}
+			return Response::json(array('success' => false, 'message' => "OrderItem not found"));
+		}
 	}
+
+	public function edit($id) { 
+		$order = Order::find($id);
+		$categories = Category::all(array('id','name'));
+		return View::make('order.agregar', array('order' => $order,'categories'=>$categories));
+	}
+
+	public function items($id) {
+		$order = Order::find($id);
+		return View::make('order.items', array('order' => $order));
+	}
+
 }
