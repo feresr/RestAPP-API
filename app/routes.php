@@ -13,7 +13,7 @@
 
 
 // Route group for API versioning
-Route::group(array('prefix' => 'api/v1'),function(){
+Route::group(array('before' => 'auth','prefix' => 'api/v1'),function(){
 
 	Route::resource('sessions', 'SessionsController', array('only'=> array('destroy','store')));
 	Route::resource('items', 'ItemsController', array('only'=> array('index','show')));

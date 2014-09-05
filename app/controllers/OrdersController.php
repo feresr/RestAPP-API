@@ -66,7 +66,10 @@ class OrdersController extends BaseController {
 			
 			$order->push();
 
-			return Response::json(array('success' => true, 'order' => $order));
+			return Response::json(array('success' => true, 
+				'message' => 'Se agrego la orden correctamente',
+				'id' => $order->id));
+
 
 		}else{
 
