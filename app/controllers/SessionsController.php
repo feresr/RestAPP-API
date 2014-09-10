@@ -19,6 +19,7 @@ class SessionsController extends BaseController {
 	//POST api/v1/sessions
 	public function store()
 	{
+
 		$input = Input::all();
 
 		$attempt = Auth::attempt(array(
@@ -28,16 +29,9 @@ class SessionsController extends BaseController {
 
 		if($attempt){
 			return Auth::User();
-			//$user = array(	'firstname' => Auth::User()->firstname,
-				//			'lastname' => Auth::User()->lastname
-						//);
-
-			//return Response::json(array('action'=>'login', 'status' => 'success', 'userdata' => $user));
 		}else{
 			return null;
 		}
-
-		//return Response::json(array('action'=>'login', 'status' => 'faliure'));
 	}
 
 

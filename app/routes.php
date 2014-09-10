@@ -15,7 +15,7 @@
 // Route group for API versioning
 Route::group(array('before' => 'auth','prefix' => 'api/v1'),function(){
 
-	Route::resource('sessions', 'SessionsController', array('only'=> array('destroy','store')));
+	//Route::resource('sessions', 'SessionsController', array('only'=> array('destroy','store')));
 	Route::resource('items', 'ItemsController', array('only'=> array('index','show')));
 	Route::resource('categories', 'CategoriesController', array('only'=> array('index')));
 	Route::resource('tables', 'TablesController', array('only'=> array('index','show')));
