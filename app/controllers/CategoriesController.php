@@ -105,7 +105,22 @@ class CategoriesController extends BaseController {
 			'types' => 'edit'
 		));
 	}
-
+	/**
+	* Display the specified resource.
+	*
+	* @param  int  $id
+	* @return Response
+	*/
+	public function delete($id)
+	{
+		$category = Category::find($id);
+		if (Request::wantsJson())
+		{
+			return Response::json($category);
+		}else{
+			return View::make('categorias.delete', array('category' => $category));
+		}
+	}
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -116,8 +131,6 @@ class CategoriesController extends BaseController {
 	{
 		$category = Category::find($id);
 		$category->delete();
-		return Response::json(array(
-			'success' => true
-		));
+		return Redirect::to('categorias')->with('notice', 'La categoria ha sido eliminada correctamente.');
 	}
 }
