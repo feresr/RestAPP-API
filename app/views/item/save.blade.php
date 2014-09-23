@@ -48,7 +48,7 @@
     </div>
 
        {{ Form::submit('Guardar item',array('class'=>'btn btn-primary')) }}
-       <a href="/restappadmin/public/index.php/items" class="btn btn-default" role="button">Cancelar</a>
+       <a href="/restapp-rest/public/index.php/items" class="btn btn-default" role="button">Cancelar</a>
     {{ Form::close() }}
 </div>
 </div>

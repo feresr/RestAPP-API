@@ -3,7 +3,7 @@ google.load("visualization", "1", {packages:["corechart"]});
 
 function drawChart() {
 
-$.getJSON("/restappadmin/public/index.php/admin/colum", function (datos) {
+$.getJSON("/restapp-rest/public/index.php/admin/colum", function (datos) {
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'Meses');
         data.addColumn('number', 'Total');
@@ -23,7 +23,7 @@ $.getJSON("/restappadmin/public/index.php/admin/colum", function (datos) {
         chart.draw(data, options);
   });
 //////
-$.getJSON("/restappadmin/public/index.php/admin/cargagraficos", function (datos) {
+$.getJSON("/restapp-rest/public/index.php/admin/cargagraficos", function (datos) {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Categories');
     data.addColumn('number', 'Cantidad');

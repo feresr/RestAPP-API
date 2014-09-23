@@ -2,22 +2,35 @@
 
 class HomeController extends BaseController {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Default Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| You may wish to use controllers instead of, or in addition to, Closure
-	| based routes. That's great! Here is an example controller method to
-	| get you started. To route to this controller, just add the route:
-	|
-	|	Route::get('/', 'HomeController@showWelcome');
-	|
-	*/
-
-	public function home()
+   	public function index()
 	{
-		return View::make('hello');
+    $consulta = new Consulta();
+    $reserva = new FaceReserva();
+		return View::make('web.index', array('consulta' => $consulta, 'reserva' => $reserva));
 	}
+      public function store()
+  {
+      $consulta = new Consulta();
+      $consulta->email = Input::get('email');
+      $consulta->consulta = Input::get('consulta');
+      
+      $validator = Consulta::validate(Input::all());
+   if($validator->fails()){
+         return Response::json(array(
+          'success' => false,
+          'errors' => $validator->getMessageBag()->toArray()
+      ));
+   }else{
+      $consulta->save();
+          return Response::json(array(
+            'success'     =>  true
+        ));
+   }
+  }
+	public function indexAdmin() {
+    $users = User::all(array('id', 'firstname', 'lastname' ));
+    $orders = Order::all()->count();
+    return View::make('inicio',array('users'=> $users, 'orders'=>$orders));
+   }
 
 }
