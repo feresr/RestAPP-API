@@ -15,7 +15,7 @@ $(document).ready(function(){
 
 <h1> Mesa Nro: <span class="badge"><h2>{{ $order->table['number'] }}</h2></span></h1>
     <ul>
-       <li> Mozo: {{ $order->user['name'].' '.$order->user['lastname']}} </li>
+       <li> Mozo: {{ $order->user['firstname'].' '.$order->user['lastname']}} </li>
        <li> Estado: @if($order->active==true)
             <span class="label label-success">Abierta</span>
               @else

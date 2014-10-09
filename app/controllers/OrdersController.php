@@ -27,7 +27,7 @@ class OrdersController extends BaseController {
 	public function create()
 	{
 		$order = new Order();
-		$users = User::all(array('id','name','lastname'));
+		$users = User::all(array('id','firstname','lastname'));
 		$tables = Table::where('taken',false)->get();
 		$title = 'NUEVA';
 		return View::make('order.save', array('order' => $order, 'users'=> $users,'tables'=>$tables, 'title' => $title)); 
@@ -175,5 +175,24 @@ class OrdersController extends BaseController {
 				'errors' => 'Order not found'
 			));	
 		}
+	}
+public function mesas()
+	{
+	$coords = Coord::all();
+	//$orders = Order::where('active', true)->get();
+	return View::make('order.mesas', array('coords' => $coords));
+	}
+
+public function savepos($left, $top, $id)
+	{
+	$coord = Coord::find($id);
+	$coord->x_pos = $left;
+	$coord->y_pos = $top;
+	$coord->save();
+
+	return Response::json(array(
+	'success' => true,
+	'message' => 'cambio pos'
+	));	
 	}
 }

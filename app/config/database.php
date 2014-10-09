@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'restapp',
-			'username'  => 'homestead',
-			'password'  => 'secret',
+			'database'  => 'restappdb',
+			'username'  => 'root',
+			'password'  => 'lbdt14',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

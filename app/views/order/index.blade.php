@@ -11,49 +11,50 @@
     @endif
     <p> <a href='orders/create' class="btn btn-primary"><i class="icon-plus"></i> Crear nueva orden</a> </p>
     @if($orders->count())
-<div class="widget-content-white glossed">
     <div class="padded">
-          <table class="table table-striped table-bordered table-hover datatable">
-          <thead>
-          <tr>
-             <th> Fecha </th>
-             <th> Estado </th>
-             <th> Mozo </th>
-             <th> Mesa </th>
-             <th> </th>
-          </tr>
-          </thead>
-          <tbody>
-          @foreach($orders as $item)
-             <tr>
-                <td> {{ $item->created_at }} </td>
-                <td> @if($item->active==true)
-                <span class="label label-success">Abierta</span>
-              @else
-                <span class="label label-danger">Cerrada</span>
-              @endif </td>
-                <td> {{$item->user['firstname']}} {{$item->user['lastname']}}</td>
-                <td> {{$item->table['number']}}</td>
-                <td> {{ link_to('orders/'.$item->id, 'Ver') }} </td>               
+        <div class="row">
+        @foreach($orders as $order)
+        <div class="col-lg-3">
+        @if($order->ready == true)
+            <div class="panel panel-success">
+            <span class="label label-success pull-right">Mozo: {{$order->user['firstname'].' '.$order->user['lastname']}}</span>
+        @else
+            <div class="panel panel-danger">
+              <span class="badge pull-right alert-animated">Mozo: {{$order->user['firstname'].' '.$order->user['lastname']}}</span>
+              <button id='check' value="{{$order->id}}" type="button" class="btn btn-primary pull-right">Vista </button>
+        @endif
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    {{ HTML::image('images/table.png', "Imagen no encontrada", array('class' => 'img-circle')) }}
+                    <h4><span class="label label-success">Mesa Nº {{$order->table['number']}}</span></h4>
+                  </div>
+                  <div class="col-xs-6 text-right">
+                    {{ HTML::image('images/waiter.png', "Imagen no encontrada", array('class' => 'img-circle')) }}
+                  </div>
+                </div>
+              </div>              
+                <div class="panel-footer announcement-bottom">
+                <td> {{ link_to('orders/'.$order->id, 'Ver') }} </td>               
                 <td>
-                @if($item->active==true) 
-                  {{ link_to('orders/edit/'.$item->id, 'Editar',array('class'=>'btn btn-default btn-xs')) }} 
+                @if($order->active==true) 
+                  {{ link_to('orders/edit/'.$order->id, 'Editar',array('class'=>'btn btn-default btn-xs')) }} 
                   @endif
                 </td>
           <td>
-        @if($item->active==true)
-        {{ link_to('orders/cobrar/'.$item->id, 'Cobrar',array('class'=>'btn btn-primary btn-xs')) }}
+        @if($order->active==true)
+        {{ link_to('orders/cobrar/'.$order->id, 'Cobrar',array('class'=>'btn btn-primary btn-xs')) }}
         @endif
                 </td>
         <td> 
-<td><a href='orders/{{$item->id}}/delete' class="btn btn-danger btn-xs"><i class="icon-remove"></i></a></td>
+<td><a href='orders/{{$order->id}}/delete' class="btn btn-danger btn-xs"><i class="icon-remove"></i></a></td>
         </td>
-        <td><a href='orders/editar/{{$item->id}}' class="btn btn-default btn-xs"><i class="icon-pencil"></i> edit</a></td>
-             </tr>
+        <td><a href='orders/editar/{{$order->id}}' class="btn btn-default btn-xs"><i class="icon-pencil"></i> edit</a></td>
+                </div>
+            </div>
+          </div>
           @endforeach
-          </tbody>
-       </table>
-</div>
+    </div>
 </div>
     @else
     <div class="alert alert-danger">No existen ordenes a la fecha</div>

@@ -4,17 +4,16 @@
 @section('head')
   <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
   <style>
-  .draggable { 	height:100px;
-	padding:10px 10px 10px 10px;
-	width:100px;cursor:move;
-border:1px #000 solid;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
+  .draggable
+  { 	
+  height:0px;
+	width:0px;
+  cursor:move;
 }
-  #containment { 
+
+  #containment-wrapper { 
   border:1px solid #000;
   height:700px;
-  margin: 0px 0px 0px 0px;
   position:relative;
   width:800px;
   -moz-border-radius: 10px;
@@ -22,18 +21,19 @@ border:1px #000 solid;
 }
   </style>
 @stop
-<div id="containment">
+<div id="containment-wrapper">
 @foreach($coords as $coord)
 <div id="draggable{{$coord->id}}" value="{{$coord->id}}" class="draggable ui-widget-content" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;" >
 {{ HTML::image('images/table.png') }}
 </div>
 @endforeach
 </div>
+
  
  <script>
   $(function() {
     $( "#draggable1" ).draggable
-    ({ containment: "#containment", scroll: false }).mouseup(
+    ({ containment: "#containment-wrapper", scroll: true }).mouseup(
     				function(){
 						var coord = $(this).position();		
             var id =  $("#draggable1").val();			
@@ -47,7 +47,7 @@ border:1px #000 solid;
             });  
 					});
         $( "#draggable2" ).draggable
-    ({ containment: "#containment", scroll: false }).mouseup(
+    ({ containment: "#containment-wrapper", scroll: false }).mouseup(
             function(){
             var coord = $(this).position();   
             var id =  $("#draggable2").val();  
@@ -61,7 +61,7 @@ border:1px #000 solid;
             });  
           });
         $( "#draggable9" ).draggable
-    ({ containment: "#containment", scroll: false }).mouseup(
+    ({ containment: "#containment-wrapper", scroll: false }).mouseup(
             function(){
             var coord = $(this).position();   
             var id =  $("#draggable2").val();  
@@ -75,7 +75,7 @@ border:1px #000 solid;
             });  
           });
         $( "#draggable4" ).draggable
-    ({ containment: "#containment", scroll: false }).mouseup(
+    ({ containment: "#containment-wrapper", scroll: false }).mouseup(
             function(){
             var coord = $(this).position();   
             var id =  $("#draggable2").val();  
