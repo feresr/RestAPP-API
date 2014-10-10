@@ -183,6 +183,29 @@ public function mesas()
 	return View::make('order.mesas', array('coords' => $coords));
 	}
 
+public function editar()
+	{
+	$coords = Coord::all();
+	$orders = Order::where('active', true)->get();
+	//$orders = Order::where('active', true)->get();
+	return View::make('order.edit', array('coords' => $coords, 'orders' => $orders));
+	}
+
+public function edi($id)
+	{
+		$order = Order::where('table_id', '=', $id)->where('active', '=', true)->get();
+			if($order != null)
+			{
+				return Response::json($order);
+			}
+		//$order = Order::find(2);
+			return Response::json(array(
+				'success' => false
+			));
+		//return View::make('order.agregar', array('categories' => $categories, 'order' => $order));
+		//return Redirect::to('orders/edit/'.$order->id);	
+	}
+
 public function savepos($left, $top, $id)
 	{
 	$coord = Coord::find($id);

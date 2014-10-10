@@ -49,7 +49,8 @@ class TablesController extends BaseController {
 		}
 		$table = new Table();
 		$table->number = $input['number'];
-		$table->quantity = $input['quantity'];
+		$table->seats = $input['seats'];
+		$table->description = $input['description'];
 		$table->taken = false;
 		$table->save();
 		return Response::json(array(
@@ -108,7 +109,8 @@ class TablesController extends BaseController {
 			));
 		}else{
 			$table->number = $input['number'];
-			$table->quantity = $input['quantity'];
+			$table->seats = $input['seats'];
+			$table->description = $input['description'];
 			$table->save();
 			return Response::json(array(
 				'success' => true,

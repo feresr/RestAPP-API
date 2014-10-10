@@ -261,12 +261,7 @@
         <div class="row">
           <div class="col-md-6 col-md-offset-3 text-center">
             <h3>The buttons below are impossible to resist.</h3>
-<a href="<?= Social::login('facebook') ?>">Login to facebook</a>
-<pre>
-    <?php if (Social::check('facebook')): ?>
-    <?= print_r( Social::facebook('/120500222/feed') )?>
-    <?php endif; ?>
-  </pre>
+
         </div>
       </div>
     </div>

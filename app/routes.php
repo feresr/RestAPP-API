@@ -63,8 +63,9 @@ Route::group(array('before' => 'guest'), function()
 Route::get('users', 'UsersController@index');
 Route::get('users/create', 'UsersController@create');
 Route::post('users/create', 'UsersController@store');
-Route::get('users/{id}/edit', 'UsersController@edit');
 Route::post('users/create/{id}', 'UsersController@update');
+Route::get('users/{id}/edit', 'UsersController@edit');
+
 //Route::resource('users', 'UsersController');
 
 Route::get('/', 'HomeController@index');
@@ -80,6 +81,7 @@ Route::post('listOrders/{cant}/{items}', 'CocinaController@itemsOrders');
 Route::post('orders/view/{id}', 'CocinaController@orderview');
 
 Route::get('orders/mesas', 'OrdersController@mesas');
+Route::get('orders/edit', 'OrdersController@editar');
 Route::post('orders/savepos/{left}/{top}/{id}', 'OrdersController@savepos');
 Route::get('orders','OrdersController@index');
 Route::get('orders/create', 'OrdersController@create');
@@ -98,6 +100,7 @@ Route::get('orders/list/{id}', 'OrderItemsController@items');
 Route::get('orders/edit/{id}', 'OrderItemsController@edit');
 Route::post('orders/edit', 'OrderItemsController@store');
 Route::post('orders/edit/{iditem}', 'OrderItemsController@destroy');
+Route::get('orders/edi/{id}', 'OrdersController@edi');
 
 Route::get('items', 'ItemsController@index');
 Route::get('items/create', 'ItemsController@create');
