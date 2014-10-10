@@ -29,10 +29,10 @@
 @stop
 <div id="containment-wrapper">
 @foreach($coords as $coord)
-<div id='table_select' value='{{$coord->table_id}}' class="draggable" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;">
+<div id='table_select' value='{{$coord->table_id}}' onclick="editar({{ $coord->table_id}})" class="draggable" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;">
 {{ HTML::image('images/table.png') }}
   <div class='indicators'><h3><span class="label label-success">{{$coord->table_id}}</span></h3>
-  <a onclick="editar({{ $coord->table_id}})" class="btn btn-default" role="button">Editar</a>
+
   </div>
 </div>
 @endforeach
@@ -41,8 +41,11 @@
 </div>
 
 <script>
+/*$('#table_select').click(function() {
+    $('#table_select').removeClass('active');
+    $(this).addClass('active');
+  });*/
 function editar(idtable){          
-
 $.getJSON("edi/"+ idtable, 
             function(data){
               $('#result').html("");
