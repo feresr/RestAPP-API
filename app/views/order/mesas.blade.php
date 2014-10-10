@@ -88,6 +88,20 @@
                 }
             });  
           });
+        $( "#draggable10" ).draggable
+    ({ containment: "#containment-wrapper", scroll: true }).mouseup(
+            function(){
+            var coord = $(this).position();   
+            var id =  $("#draggable1").val();     
+            $.post("savepos/" + coord.left + "/" + coord.top+"/"+10, 
+                    function(data){
+                      if (data.success != true){
+                          alert('Error');
+                      }else{
+                        alert(data.message);
+                }
+            });  
+          });
   });
   </script>
 @stop

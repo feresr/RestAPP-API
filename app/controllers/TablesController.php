@@ -53,6 +53,13 @@ class TablesController extends BaseController {
 		$table->description = $input['description'];
 		$table->taken = false;
 		$table->save();
+
+		$coord = new Coord();
+		$coord->table_id = $table->id;
+		$coord->x_pos = '10';
+		$coord->y_pos = '10';
+		$coord->save();
+
 		return Response::json(array(
 			'success' => true
 		));
@@ -118,7 +125,22 @@ class TablesController extends BaseController {
 		  	));
 		}
 	}
-
+	/**
+	* Display the specified resource.
+	*
+	* @param  int  $id
+	* @return Response
+	*/
+	public function delete($id)
+	{
+		$table = Table::find($id);
+		if (Request::wantsJson())
+		{
+			return Response::json($table);
+		}else{
+			return View::make('table.delete', array('table' => $table));
+		}
+	}
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -129,8 +151,6 @@ class TablesController extends BaseController {
 	{
 		$table = Table::find($id);
 		$table->delete();
-		return Response::json(array(
-			'success' => true
-		));
+		return Redirect::to('tables')->with('notice', 'La mesa ha sido eliminada correctamente.');
 	}
 }
