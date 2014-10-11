@@ -11,6 +11,8 @@
 /**
  * Interface for the EventDispatcher which handles the event dispatching layer.
  *
+ * @package    Swift
+ * @subpackage Events
  * @author     Chris Corbyn
  */
 interface Swift_Events_EventDispatcher
@@ -41,7 +43,7 @@ interface Swift_Events_EventDispatcher
      *
      * @param Swift_Transport $source
      * @param string          $response
-     * @param bool            $valid    If the response is valid
+     * @param boolean         $valid    If the response is valid
      *
      * @return Swift_Events_ResponseEvent
      */

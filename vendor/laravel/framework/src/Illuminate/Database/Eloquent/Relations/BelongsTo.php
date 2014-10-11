@@ -144,7 +144,7 @@ class BelongsTo extends Relation {
 	 *
 	 * @param  array   $models
 	 * @param  string  $relation
-	 * @return array
+	 * @return void
 	 */
 	public function initRelation(array $models, $relation)
 	{
@@ -205,18 +205,6 @@ class BelongsTo extends Relation {
 		$this->parent->setAttribute($this->foreignKey, $model->getAttribute($this->otherKey));
 
 		return $this->parent->setRelation($this->relation, $model);
-	}
-
-	/**
-	 * Dissociate previously associated model from the given parent.
-	 *
-	 * @return \Illuminate\Database\Eloquent\Model
-	 */
-	public function dissociate()
-	{
-		$this->parent->setAttribute($this->foreignKey, null);
-
-		return $this->parent->setRelation($this->relation, null);
 	}
 
 	/**

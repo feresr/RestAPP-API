@@ -11,6 +11,8 @@
 /**
  * An ESMTP handler for AUTH support.
  *
+ * @package    Swift
+ * @subpackage Transport
  * @author     Chris Corbyn
  */
 class Swift_Transport_Esmtp_AuthHandler implements Swift_Transport_EsmtpHandler
@@ -143,7 +145,7 @@ class Swift_Transport_Esmtp_AuthHandler implements Swift_Transport_EsmtpHandler
     /**
      * Get the name of the ESMTP extension this handles.
      *
-     * @return bool
+     * @return boolean
      */
     public function getHandledKeyword()
     {
@@ -171,7 +173,8 @@ class Swift_Transport_Esmtp_AuthHandler implements Swift_Transport_EsmtpHandler
             $count = 0;
             foreach ($this->_getAuthenticatorsForAgent() as $authenticator) {
                 if (in_array(strtolower($authenticator->getAuthKeyword()),
-                    array_map('strtolower', $this->_esmtpParams))) {
+                    array_map('strtolower', $this->_esmtpParams)))
+                {
                     $count++;
                     if ($authenticator->authenticate($agent, $this->_username, $this->_password)) {
                         return;
@@ -179,8 +182,8 @@ class Swift_Transport_Esmtp_AuthHandler implements Swift_Transport_EsmtpHandler
                 }
             }
             throw new Swift_TransportException(
-                'Failed to authenticate on SMTP server with username "'.
-                $this->_username.'" using '.$count.' possible authenticators'
+                'Failed to authenticate on SMTP server with username "' .
+                $this->_username . '" using ' . $count . ' possible authenticators'
                 );
         }
     }
@@ -238,6 +241,8 @@ class Swift_Transport_Esmtp_AuthHandler implements Swift_Transport_EsmtpHandler
     public function resetState()
     {
     }
+
+    // -- Protected methods
 
     /**
      * Returns the authenticator list for the given agent.

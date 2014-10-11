@@ -11,6 +11,8 @@
 /**
  * Sends Messages using the mail() function.
  *
+ * @package    Swift
+ * @subpackage Transport
  * @author     Chris Corbyn
  */
 class Swift_MailTransport extends Swift_Transport_MailTransport

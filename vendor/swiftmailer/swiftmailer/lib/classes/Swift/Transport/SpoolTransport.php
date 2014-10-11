@@ -11,6 +11,7 @@
 /**
  * Stores Messages in a queue.
  *
+ * @package Swift
  * @author  Fabien Potencier
  */
 class Swift_Transport_SpoolTransport implements Swift_Transport
@@ -57,7 +58,7 @@ class Swift_Transport_SpoolTransport implements Swift_Transport
     /**
      * Tests if this Transport mechanism has started.
      *
-     * @return bool
+     * @return boolean
      */
     public function isStarted()
     {
@@ -84,7 +85,7 @@ class Swift_Transport_SpoolTransport implements Swift_Transport
      * @param Swift_Mime_Message $message
      * @param string[]           $failedRecipients An array of failures by-reference
      *
-     * @return int     The number of sent e-mail's
+     * @return integer The number of sent e-mail's
      */
     public function send(Swift_Mime_Message $message, &$failedRecipients = null)
     {

@@ -52,7 +52,7 @@ class ServerBagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
             'AUTHORIZATION' => 'Basic '.base64_encode('foo:'),
             'PHP_AUTH_USER' => 'foo',
-            'PHP_AUTH_PW' => '',
+            'PHP_AUTH_PW' => ''
         ), $bag->getHeaders());
     }
 
@@ -63,28 +63,18 @@ class ServerBagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
             'AUTHORIZATION' => 'Basic '.base64_encode('foo:bar'),
             'PHP_AUTH_USER' => 'foo',
-            'PHP_AUTH_PW' => 'bar',
+            'PHP_AUTH_PW' => 'bar'
         ), $bag->getHeaders());
-    }
-
-    public function testHttpBasicAuthWithPhpCgiBogus()
-    {
-        $bag = new ServerBag(array('HTTP_AUTHORIZATION' => 'Basic_'.base64_encode('foo:bar')));
-
-        // Username and passwords should not be set as the header is bogus
-        $headers = $bag->getHeaders();
-        $this->assertFalse(isset($headers['PHP_AUTH_USER']));
-        $this->assertFalse(isset($headers['PHP_AUTH_PW']));
     }
 
     public function testHttpBasicAuthWithPhpCgiRedirect()
     {
-        $bag = new ServerBag(array('REDIRECT_HTTP_AUTHORIZATION' => 'Basic '.base64_encode('username:pass:word')));
+        $bag = new ServerBag(array('REDIRECT_HTTP_AUTHORIZATION' => 'Basic '.base64_encode('foo:bar')));
 
         $this->assertEquals(array(
-            'AUTHORIZATION' => 'Basic '.base64_encode('username:pass:word'),
-            'PHP_AUTH_USER' => 'username',
-            'PHP_AUTH_PW' => 'pass:word',
+            'AUTHORIZATION' => 'Basic '.base64_encode('foo:bar'),
+            'PHP_AUTH_USER' => 'foo',
+            'PHP_AUTH_PW' => 'bar'
         ), $bag->getHeaders());
     }
 
@@ -95,7 +85,7 @@ class ServerBagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
             'AUTHORIZATION' => 'Basic '.base64_encode('foo:'),
             'PHP_AUTH_USER' => 'foo',
-            'PHP_AUTH_PW' => '',
+            'PHP_AUTH_PW' => ''
         ), $bag->getHeaders());
     }
 
@@ -108,17 +98,6 @@ class ServerBagTest extends \PHPUnit_Framework_TestCase
             'AUTHORIZATION' => $digest,
             'PHP_AUTH_DIGEST' => $digest,
         ), $bag->getHeaders());
-    }
-
-    public function testHttpDigestAuthWithPhpCgiBogus()
-    {
-        $digest = 'Digest_username="foo", realm="acme", nonce="'.md5('secret').'", uri="/protected, qop="auth"';
-        $bag = new ServerBag(array('HTTP_AUTHORIZATION' => $digest));
-
-        // Username and passwords should not be set as the header is bogus
-        $headers = $bag->getHeaders();
-        $this->assertFalse(isset($headers['PHP_AUTH_USER']));
-        $this->assertFalse(isset($headers['PHP_AUTH_PW']));
     }
 
     public function testHttpDigestAuthWithPhpCgiRedirect()

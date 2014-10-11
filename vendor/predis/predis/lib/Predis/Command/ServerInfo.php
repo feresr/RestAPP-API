@@ -34,36 +34,25 @@ class ServerInfo extends AbstractCommand
         $infoLines = preg_split('/\r?\n/', $data);
 
         foreach ($infoLines as $row) {
-            if (strpos($row, ':') === false) {
+            @list($k, $v) = explode(':', $row);
+
+            if ($row === '' || !isset($v)) {
                 continue;
             }
 
-            list($k, $v) = $this->parseRow($row);
-            $info[$k] = $v;
+            if (!preg_match('/^db\d+$/', $k)) {
+                if ($k === 'allocation_stats') {
+                    $info[$k] = $this->parseAllocationStats($v);
+                    continue;
+                }
+
+                $info[$k] = $v;
+            } else {
+                $info[$k] = $this->parseDatabaseStats($v);
+            }
         }
 
         return $info;
-    }
-
-    /**
-     * Parses single row of the reply buffer and returns the key-value pair.
-     *
-     * @param  string $row Single row of the reply buffer.
-     * @return array
-     */
-    public function parseRow($row)
-    {
-        list($k, $v) = explode(':', $row, 2);
-
-        if (!preg_match('/^db\d+$/', $k)) {
-            if ($k === 'allocation_stats') {
-                $v = $this->parseAllocationStats($v);
-            }
-        } else {
-            $v = $this->parseDatabaseStats($v);
-        }
-
-        return array($k, $v);
     }
 
     /**

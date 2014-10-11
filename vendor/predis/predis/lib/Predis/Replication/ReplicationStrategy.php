@@ -201,8 +201,6 @@ class ReplicationStrategy
             'ZRANK'             => true,
             'ZREVRANK'          => true,
             'ZSCAN'             => true,
-            'ZLEXCOUNT'         => true,
-            'ZRANGEBYLEX'       => true,
             'HGET'              => true,
             'HMGET'             => true,
             'HEXISTS'           => true,
@@ -219,7 +217,6 @@ class ReplicationStrategy
             'OBJECT'            => true,
             'BITCOUNT'          => true,
             'TIME'              => true,
-            'PFCOUNT'           => true,
             'SORT'              => array($this, 'isSortReadOnly'),
         );
     }

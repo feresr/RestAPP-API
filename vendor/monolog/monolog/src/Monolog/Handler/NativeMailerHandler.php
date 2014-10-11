@@ -22,8 +22,8 @@ use Monolog\Logger;
 class NativeMailerHandler extends MailHandler
 {
     /**
-     * The email addresses to which the message will be sent
-     * @var array
+     * The email address to which the message is delivered
+     * @var string
      */
     protected $to;
 

@@ -103,23 +103,14 @@ class ClassNotFoundFatalErrorHandler implements FatalErrorHandlerInterface
             }
 
             // get class loaders wrapped by DebugClassLoader
-            if ($function[0] instanceof DebugClassLoader) {
-                $function = $function[0]->getClassLoader();
-
-                // Since 2.5, returning an object from DebugClassLoader::getClassLoader() is @deprecated
-                if (is_object($function)) {
-                    $function = array($function);
-                }
-
-                if (!is_array($function)) {
-                    continue;
-                }
+            if ($function[0] instanceof DebugClassLoader && method_exists($function[0], 'getClassLoader')) {
+                $function[0] = $function[0]->getClassLoader();
             }
 
             if ($function[0] instanceof ComposerClassLoader || $function[0] instanceof SymfonyClassLoader) {
-                foreach ($function[0]->getPrefixes() as $prefix => $paths) {
+                foreach ($function[0]->getPrefixes() as $paths) {
                     foreach ($paths as $path) {
-                        $classes = array_merge($classes, $this->findClassInPath($path, $class, $prefix));
+                        $classes = array_merge($classes, $this->findClassInPath($path, $class));
                     }
                 }
             }
@@ -131,11 +122,10 @@ class ClassNotFoundFatalErrorHandler implements FatalErrorHandlerInterface
     /**
      * @param string $path
      * @param string $class
-     * @param string $prefix
      *
      * @return array
      */
-    private function findClassInPath($path, $class, $prefix)
+    private function findClassInPath($path, $class)
     {
         if (!$path = realpath($path)) {
             return array();
@@ -144,7 +134,7 @@ class ClassNotFoundFatalErrorHandler implements FatalErrorHandlerInterface
         $classes = array();
         $filename = $class.'.php';
         foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path), \RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
-            if ($filename == $file->getFileName() && $class = $this->convertFileToClass($path, $file->getPathName(), $prefix)) {
+            if ($filename == $file->getFileName() && $class = $this->convertFileToClass($path, $file->getPathName())) {
                 $classes[] = $class;
             }
         }
@@ -155,38 +145,27 @@ class ClassNotFoundFatalErrorHandler implements FatalErrorHandlerInterface
     /**
      * @param string $path
      * @param string $file
-     * @param string $prefix
      *
      * @return string|null
      */
-    private function convertFileToClass($path, $file, $prefix)
+    private function convertFileToClass($path, $file)
     {
-        $candidates = array(
-            // namespaced class
-            $namespacedClass = str_replace(array($path.DIRECTORY_SEPARATOR, '.php', '/'), array('', '', '\\'), $file),
-            // namespaced class (with target dir)
-            $namespacedClassTargetDir = $prefix.str_replace(array($path.DIRECTORY_SEPARATOR, '.php', '/'), array('', '', '\\'), $file),
-            // PEAR class
-            str_replace('\\', '_', $namespacedClass),
-            // PEAR class (with target dir)
-            str_replace('\\', '_', $namespacedClassTargetDir),
-        );
+        $namespacedClass = str_replace(array($path.DIRECTORY_SEPARATOR, '.php', '/'), array('', '', '\\'), $file);
+        $pearClass = str_replace('\\', '_', $namespacedClass);
 
         // We cannot use the autoloader here as most of them use require; but if the class
         // is not found, the new autoloader call will require the file again leading to a
         // "cannot redeclare class" error.
-        foreach ($candidates as $candidate) {
-            if ($this->classExists($candidate)) {
-                return $candidate;
-            }
+        if (!$this->classExists($namespacedClass) && !$this->classExists($pearClass)) {
+            require_once $file;
         }
 
-        require_once $file;
+        if ($this->classExists($namespacedClass)) {
+            return $namespacedClass;
+        }
 
-        foreach ($candidates as $candidate) {
-            if ($this->classExists($candidate)) {
-                return $candidate;
-            }
+        if ($this->classExists($pearClass)) {
+            return $pearClass;
         }
     }
 

@@ -72,7 +72,7 @@ abstract class Relation {
 	 *
 	 * @param  array   $models
 	 * @param  string  $relation
-	 * @return array
+	 * @return void
 	 */
 	abstract public function initRelation(array $models, $relation);
 
@@ -116,6 +116,16 @@ abstract class Relation {
 	}
 
 	/**
+	 * Restore all of the soft deleted related models.
+	 *
+	 * @return int
+	 */
+	public function restore()
+	{
+		return $this->query->withTrashed()->restore();
+	}
+
+	/**
 	 * Run a raw update against the base query.
 	 *
 	 * @param  array  $attributes
@@ -143,7 +153,7 @@ abstract class Relation {
 	}
 
 	/**
-	 * Run a callback with constraints disabled on the relation.
+	 * Run a callback with constrains disabled on the relation.
 	 *
 	 * @param  \Closure  $callback
 	 * @return mixed
@@ -171,11 +181,11 @@ abstract class Relation {
 	 */
 	protected function getKeys(array $models, $key = null)
 	{
-		return array_unique(array_values(array_map(function($value) use ($key)
+		return array_values(array_map(function($value) use ($key)
 		{
 			return $key ? $value->getAttribute($key) : $value->getKey();
 
-		}, $models)));
+		}, $models));
 	}
 
 	/**
@@ -209,7 +219,7 @@ abstract class Relation {
 	}
 
 	/**
-	 * Get the fully qualified parent key name.
+	 * Get the fully qualified parent key naem.
 	 *
 	 * @return string
 	 */

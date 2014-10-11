@@ -11,6 +11,8 @@
 /**
  * This interface intercepts calls to the mail() function.
  *
+ * @package    Swift
+ * @subpackage Transport
  * @author     Chris Corbyn
  */
 interface Swift_Transport_MailInvoker
@@ -26,7 +28,7 @@ interface Swift_Transport_MailInvoker
      * @param string $headers
      * @param string $extraParams
      *
-     * @return bool
+     * @return boolean
      */
     public function mail($to, $subject, $body, $headers = null, $extraParams = null);
 }

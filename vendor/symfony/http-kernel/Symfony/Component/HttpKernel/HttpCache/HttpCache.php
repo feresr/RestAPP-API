@@ -152,6 +152,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         return $this->kernel;
     }
 
+
     /**
      * Gets the Esi instance
      *
@@ -427,6 +428,12 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
         $response = $this->forward($subRequest, $catch);
 
+        if ($this->isPrivateRequest($request) && !$response->headers->hasCacheControlDirective('public')) {
+            $response->setPrivate(true);
+        } elseif ($this->options['default_ttl'] > 0 && null === $response->getTtl() && !$response->headers->getCacheControlDirective('must-revalidate')) {
+            $response->setTtl($this->options['default_ttl']);
+        }
+
         if ($response->isCacheable()) {
             $this->store($request, $response);
         }
@@ -461,12 +468,6 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         // is always called from the same process as the backend.
         $request->server->set('REMOTE_ADDR', '127.0.0.1');
 
-        // make sure HttpCache is a trusted proxy
-        if (!in_array('127.0.0.1', $trustedProxies = Request::getTrustedProxies())) {
-            $trustedProxies[] = '127.0.0.1';
-            Request::setTrustedProxies($trustedProxies);
-        }
-
         // always a "master" request (as the real master request can be in cache)
         $response = $this->kernel->handle($request, HttpKernelInterface::MASTER_REQUEST, $catch);
         // FIXME: we probably need to also catch exceptions if raw === true
@@ -485,12 +486,6 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         }
 
         $this->processResponseBody($request, $response);
-
-        if ($this->isPrivateRequest($request) && !$response->headers->hasCacheControlDirective('public')) {
-            $response->setPrivate(true);
-        } elseif ($this->options['default_ttl'] > 0 && null === $response->getTtl() && !$response->headers->getCacheControlDirective('must-revalidate')) {
-            $response->setTtl($this->options['default_ttl']);
-        }
 
         return $response;
     }
@@ -527,7 +522,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     protected function lock(Request $request, Response $entry)
     {
         // try to acquire a lock to call the backend
-        $lock = $this->store->lock($request);
+        $lock = $this->store->lock($request, $entry);
 
         // there is already another process calling the backend
         if (true !== $lock) {
@@ -607,6 +602,8 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @param Request  $request  A Request instance
      * @param Response $response A Response instance
+     *
+     * @return Response A Response instance
      */
     private function restoreResponseBody(Request $request, Response $response)
     {

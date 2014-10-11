@@ -41,6 +41,7 @@
  *
  * @package File_ANSI
  * @author  Jim Wigginton <terrafrost@php.net>
+ * @version 0.3.0
  * @access  public
  */
 class File_ANSI

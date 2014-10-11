@@ -17,8 +17,10 @@ class EnvironmentDetector {
 		{
 			return $this->detectConsoleEnvironment($environments, $consoleArgs);
 		}
-
-		return $this->detectWebEnvironment($environments);
+		else
+		{
+			return $this->detectWebEnvironment($environments);
+		}
 	}
 
 	/**
@@ -67,12 +69,14 @@ class EnvironmentDetector {
 		{
 			return head(array_slice(explode('=', $value), 1));
 		}
-
-		return $this->detectWebEnvironment($environments);
+		else
+		{
+			return $this->detectWebEnvironment($environments);
+		}
 	}
 
 	/**
-	 * Get the environment argument from the console.
+	 * Get the enviornment argument from the console.
 	 *
 	 * @param  array  $args
 	 * @return string|null

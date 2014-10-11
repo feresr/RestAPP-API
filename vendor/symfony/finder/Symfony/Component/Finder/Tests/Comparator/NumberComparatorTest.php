@@ -15,6 +15,7 @@ use Symfony\Component\Finder\Comparator\NumberComparator;
 
 class NumberComparatorTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @dataProvider getConstructorTestData
      */
@@ -100,8 +101,9 @@ class NumberComparatorTest extends \PHPUnit_Framework_TestCase
                     '=1', '===1',
                     '0 . 1', '123 .45', '234. 567',
                     '..', '.0.', '0.1.2',
-                ),
+                )
             ),
         );
     }
+
 }

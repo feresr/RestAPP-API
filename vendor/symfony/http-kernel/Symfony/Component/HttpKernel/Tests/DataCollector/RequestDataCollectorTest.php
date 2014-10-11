@@ -22,19 +22,20 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCollect()
+    /**
+     * @dataProvider provider
+     */
+    public function testCollect(Request $request, Response $response)
     {
         $c = new RequestDataCollector();
 
-        $c->collect($this->createRequest(), $this->createResponse());
-
-        $attributes = $c->getRequestAttributes();
+        $c->collect($request, $response);
 
         $this->assertSame('request', $c->getName());
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\HeaderBag', $c->getRequestHeaders());
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $c->getRequestServer());
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $c->getRequestCookies());
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $attributes);
+        $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $c->getRequestAttributes());
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $c->getRequestRequest());
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $c->getRequestQuery());
         $this->assertSame('html', $c->getFormat());
@@ -42,8 +43,6 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('name' => 'foo'), $c->getRouteParams());
         $this->assertSame(array(), $c->getSessionAttributes());
         $this->assertSame('en', $c->getLocale());
-        $this->assertRegExp('/Resource\(stream#\d+\)/', $attributes->get('resource'));
-        $this->assertSame('Object(stdClass)', $attributes->get('object'));
 
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\HeaderBag', $c->getResponseHeaders());
         $this->assertSame('OK', $c->getStatusText());
@@ -53,8 +52,10 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test various types of controller callables.
+     *
+     * @dataProvider provider
      */
-    public function testControllerInspection()
+    public function testControllerInspection(Request $request, Response $response)
     {
         // make sure we always match the line number
         $r1 = new \ReflectionMethod($this, 'testControllerInspection');
@@ -68,7 +69,7 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
                     'class' => 'Symfony\Component\HttpKernel\Tests\DataCollector\RequestDataCollectorTest',
                     'method' => 'testControllerInspection',
                     'file' => __FILE__,
-                    'line' => $r1->getStartLine(),
+                    'line' => $r1->getStartLine()
                 ),
             ),
 
@@ -96,7 +97,7 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
                     'class' => 'Symfony\Component\HttpKernel\Tests\DataCollector\RequestDataCollectorTest',
                     'method' => 'staticControllerMethod',
                     'file' => __FILE__,
-                    'line' => $r2->getStartLine(),
+                    'line' => $r2->getStartLine()
                 ),
             ),
 
@@ -107,7 +108,7 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
                     'class' => 'Symfony\Component\HttpKernel\Tests\DataCollector\RequestDataCollectorTest',
                     'method' => 'staticControllerMethod',
                     'file' => __FILE__,
-                    'line' => $r2->getStartLine(),
+                    'line' => $r2->getStartLine()
                 ),
             ),
 
@@ -118,7 +119,7 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
                     'class' => 'Symfony\Component\HttpKernel\Tests\DataCollector\RequestDataCollectorTest',
                     'method' => 'magicMethod',
                     'file' => 'n/a',
-                    'line' => 'n/a',
+                    'line' => 'n/a'
                 ),
             ),
 
@@ -129,14 +130,13 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
                     'class' => 'Symfony\Component\HttpKernel\Tests\DataCollector\RequestDataCollectorTest',
                     'method' => 'magicMethod',
                     'file' => 'n/a',
-                    'line' => 'n/a',
+                    'line' => 'n/a'
                 ),
             ),
         );
 
         $c = new RequestDataCollector();
-        $request = $this->createRequest();
-        $response = $this->createResponse();
+
         foreach ($controllerTests as $controllerTest) {
             $this->injectController($c, $controllerTest[1], $request);
             $c->collect($request, $response);
@@ -144,20 +144,17 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    protected function createRequest()
+    public function provider()
     {
+        if (!class_exists('Symfony\Component\HttpFoundation\Request')) {
+            return array(array(null, null));
+        }
+
         $request = Request::create('http://test.com/foo?bar=baz');
         $request->attributes->set('foo', 'bar');
         $request->attributes->set('_route', 'foobar');
         $request->attributes->set('_route_params', array('name' => 'foo'));
-        $request->attributes->set('resource', fopen(__FILE__, 'r'));
-        $request->attributes->set('object', new \stdClass());
 
-        return $request;
-    }
-
-    protected function createResponse()
-    {
         $response = new Response();
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', 'application/json');
@@ -165,7 +162,9 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
         $response->headers->setCookie(new Cookie('bar','foo',new \DateTime('@946684800')));
         $response->headers->setCookie(new Cookie('bazz','foo','2000-12-12'));
 
-        return $response;
+        return array(
+            array($request, $response)
+        );
     }
 
     /**
@@ -202,4 +201,5 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
     {
         throw new \LogicException('Unexpected method call');
     }
+
 }

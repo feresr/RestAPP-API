@@ -11,6 +11,8 @@
 /**
  * Contains a list of redundant Transports so when one fails, the next is used.
  *
+ * @package    Swift
+ * @subpackage Transport
  * @author     Chris Corbyn
  */
 class Swift_FailoverTransport extends Swift_Transport_FailoverTransport

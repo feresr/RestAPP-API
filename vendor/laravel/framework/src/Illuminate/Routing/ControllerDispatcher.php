@@ -144,7 +144,7 @@ class ControllerDispatcher {
 	/**
 	 * Get the assignable after filter for the route.
 	 *
-	 * @param  \Closure|string  $filter
+	 * @param  Closure|string  $filter
 	 * @return string
 	 */
 	protected function getAssignableAfter($filter)
@@ -174,7 +174,7 @@ class ControllerDispatcher {
 	}
 
 	/**
-	 * Determine if the filter fails the "only" constraint.
+	 * Determine if the filter fails the "only" cosntraint.
 	 *
 	 * @param  array  $filter
 	 * @param  \Illuminate\Http\Request  $request
@@ -189,7 +189,7 @@ class ControllerDispatcher {
 	}
 
 	/**
-	 * Determine if the filter fails the "except" constraint.
+	 * Determine if the filter fails the "except" cosntraint.
 	 *
 	 * @param  array  $filter
 	 * @param  \Illuminate\Http\Request  $request
@@ -204,7 +204,7 @@ class ControllerDispatcher {
 	}
 
 	/**
-	 * Determine if the filter fails the "on" constraint.
+	 * Determine if the filter fails the "on" cosntraint.
 	 *
 	 * @param  array  $filter
 	 * @param  \Illuminate\Http\Request  $request
@@ -213,7 +213,7 @@ class ControllerDispatcher {
 	 */
 	protected function filterFailsOn($filter, $request, $method)
 	{
-		$on = array_get($filter, 'options.on');
+		$on = array_get($filter, 'options.on', null);
 
 		if (is_null($on)) return false;
 

@@ -26,30 +26,23 @@ class StreamHandler extends AbstractProcessingHandler
     protected $url;
     private $errorMessage;
     protected $filePermission;
-    protected $useLocking;
 
     /**
-     * @param resource|string $stream
-     * @param integer         $level          The minimum logging level at which this handler will be triggered
-     * @param Boolean         $bubble         Whether the messages that are handled can bubble up the stack or not
-     * @param int|null        $filePermission Optional file permissions (default (0644) are only for owner read/write)
-     * @param Boolean         $useLocking     Try to lock log file before doing any writes
-     *
-     * @throws InvalidArgumentException If stream is not a resource or string
+     * @param string  $stream
+     * @param integer $level           The minimum logging level at which this handler will be triggered
+     * @param Boolean $bubble          Whether the messages that are handled can bubble up the stack or not
+     * @param int     $filePermissions Optional file permissions (default (0644) are only for owner read/write)
      */
-    public function __construct($stream, $level = Logger::DEBUG, $bubble = true, $filePermission = null, $useLocking = false)
+    public function __construct($stream, $level = Logger::DEBUG, $bubble = true, $filePermission = null)
     {
         parent::__construct($level, $bubble);
         if (is_resource($stream)) {
             $this->stream = $stream;
-        } elseif (is_string($stream)) {
-            $this->url = $stream;
         } else {
-            throw new \InvalidArgumentException('A stream must either be a resource or a string.');
+            $this->url = $stream;
         }
 
         $this->filePermission = $filePermission;
-        $this->useLocking = $useLocking;
     }
 
     /**
@@ -84,17 +77,7 @@ class StreamHandler extends AbstractProcessingHandler
                 throw new \UnexpectedValueException(sprintf('The stream or file "%s" could not be opened: '.$this->errorMessage, $this->url));
             }
         }
-
-        if ($this->useLocking) {
-            // ignoring errors here, there's not much we can do about them
-            flock($this->stream, LOCK_EX);
-        }
-
         fwrite($this->stream, (string) $record['formatted']);
-
-        if ($this->useLocking) {
-            flock($this->stream, LOCK_UN);
-        }
     }
 
     private function customErrorHandler($code, $msg)

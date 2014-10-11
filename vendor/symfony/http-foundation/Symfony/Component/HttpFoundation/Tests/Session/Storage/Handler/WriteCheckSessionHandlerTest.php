@@ -30,7 +30,7 @@ class WriteCheckSessionHandlerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true))
         ;
 
-        $this->assertTrue($writeCheckSessionHandler->close());
+        $this->assertEquals(true, $writeCheckSessionHandler->close());
     }
 
     public function testWrite()
@@ -45,7 +45,7 @@ class WriteCheckSessionHandlerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true))
         ;
 
-        $this->assertTrue($writeCheckSessionHandler->write('foo', 'bar'));
+        $this->assertEquals(true, $writeCheckSessionHandler->write('foo', 'bar'));
     }
 
     public function testSkippedWrite()
@@ -66,7 +66,7 @@ class WriteCheckSessionHandlerTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->assertEquals('bar', $writeCheckSessionHandler->read('foo'));
-        $this->assertTrue($writeCheckSessionHandler->write('foo', 'bar'));
+        $this->assertEquals(true, $writeCheckSessionHandler->write('foo', 'bar'));
     }
 
     public function testNonSkippedWrite()
@@ -89,6 +89,6 @@ class WriteCheckSessionHandlerTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->assertEquals('bar', $writeCheckSessionHandler->read('foo'));
-        $this->assertTrue($writeCheckSessionHandler->write('foo', 'baZZZ'));
+        $this->assertEquals(true, $writeCheckSessionHandler->write('foo', 'baZZZ'));
     }
 }

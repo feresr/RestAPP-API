@@ -11,6 +11,8 @@
 /**
  * Generated when a message is being sent.
  *
+ * @package    Swift
+ * @subpackage Events
  * @author     Chris Corbyn
  */
 class Swift_Events_SendEvent extends Swift_Events_EventObject
@@ -44,7 +46,7 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
     /**
      * The overall result as a bitmask from the class constants.
      *
-     * @var int
+     * @var integer
      */
     private $_result;
 
@@ -104,7 +106,7 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
     /**
      * Set the result of sending.
      *
-     * @param int     $result
+     * @param integer $result
      */
     public function setResult($result)
     {
@@ -117,7 +119,7 @@ class Swift_Events_SendEvent extends Swift_Events_EventObject
      * The return value is a bitmask from
      * {@see RESULT_PENDING, RESULT_SUCCESS, RESULT_TENTATIVE, RESULT_FAILED}
      *
-     * @return int
+     * @return integer
      */
     public function getResult()
     {

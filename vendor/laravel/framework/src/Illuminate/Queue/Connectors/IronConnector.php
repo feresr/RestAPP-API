@@ -17,7 +17,7 @@ class IronConnector implements ConnectorInterface {
 	/**
 	 * The current request instance.
 	 *
-	 * @var \Illuminate\Http\Request
+	 * @var \Illuminate\Http\Request;
 	 */
 	protected $request;
 
@@ -46,14 +46,7 @@ class IronConnector implements ConnectorInterface {
 
 		if (isset($config['host'])) $ironConfig['host'] = $config['host'];
 
-		$iron = new IronMQ($ironConfig);
-
-		if (isset($config['ssl_verifypeer']))
-		{
-			$iron->ssl_verifypeer = $config['ssl_verifypeer'];
-		}
-
-		return new IronQueue($iron, $this->request, $config['queue'], $config['encrypt']);
+		return new IronQueue(new IronMQ($ironConfig), $this->crypt, $this->request, $config['queue']);
 	}
 
 }

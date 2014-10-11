@@ -130,4 +130,5 @@ class CompiledRoute
     {
         return $this->hostVariables;
     }
+
 }

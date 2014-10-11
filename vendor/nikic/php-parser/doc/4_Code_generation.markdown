@@ -63,8 +63,6 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, Interfaces
 Templates
 ---------
 
-> **DEPRECATED**: This feature is deprecated and will be removed in PHP-Parser 1.0.
-
 Additionally it is possible to generate code from reusable templates.
 
 As an example consider the following template, which defines a general getter/setter skeleton in terms of a property

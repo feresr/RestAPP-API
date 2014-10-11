@@ -74,7 +74,7 @@ class EventDispatcher implements EventDispatcherInterface
             }
         }
 
-        return array_filter($this->sorted);
+        return $this->sorted;
     }
 
     /**

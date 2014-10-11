@@ -59,13 +59,11 @@ class Translator implements TranslatorInterface
      * @param string               $locale   The locale
      * @param MessageSelector|null $selector The message selector for pluralization
      *
-     * @throws \InvalidArgumentException If a locale contains invalid characters
-     *
      * @api
      */
     public function __construct($locale, MessageSelector $selector = null)
     {
-        $this->setLocale($locale);
+        $this->locale = $locale;
         $this->selector = $selector ?: new MessageSelector();
     }
 
@@ -90,8 +88,6 @@ class Translator implements TranslatorInterface
      * @param string $locale   The locale
      * @param string $domain   The domain
      *
-     * @throws \InvalidArgumentException If the locale contains invalid characters
-     *
      * @api
      */
     public function addResource($format, $resource, $locale, $domain = null)
@@ -99,8 +95,6 @@ class Translator implements TranslatorInterface
         if (null === $domain) {
             $domain = 'messages';
         }
-
-        $this->assertValidLocale($locale);
 
         $this->resources[$locale][] = array($format, $resource, $domain);
 
@@ -118,7 +112,6 @@ class Translator implements TranslatorInterface
      */
     public function setLocale($locale)
     {
-        $this->assertValidLocale($locale);
         $this->locale = $locale;
     }
 
@@ -137,8 +130,6 @@ class Translator implements TranslatorInterface
      *
      * @param string|array $locales The fallback locale(s)
      *
-     * @throws \InvalidArgumentException If a locale contains invalid characters
-     *
      * @deprecated since 2.3, to be removed in 3.0. Use setFallbackLocales() instead.
      *
      * @api
@@ -153,18 +144,12 @@ class Translator implements TranslatorInterface
      *
      * @param array $locales The fallback locales
      *
-     * @throws \InvalidArgumentException If a locale contains invalid characters
-     *
      * @api
      */
     public function setFallbackLocales(array $locales)
     {
         // needed as the fallback locales are linked to the already loaded catalogues
         $this->catalogues = array();
-
-        foreach ($locales as $locale) {
-            $this->assertValidLocale($locale);
-        }
 
         $this->fallbackLocales = $locales;
     }
@@ -190,8 +175,6 @@ class Translator implements TranslatorInterface
     {
         if (null === $locale) {
             $locale = $this->getLocale();
-        } else {
-            $this->assertValidLocale($locale);
         }
 
         if (null === $domain) {
@@ -214,8 +197,6 @@ class Translator implements TranslatorInterface
     {
         if (null === $locale) {
             $locale = $this->getLocale();
-        } else {
-            $this->assertValidLocale($locale);
         }
 
         if (null === $domain) {
@@ -307,19 +288,5 @@ class Translator implements TranslatorInterface
         }
 
         return array_unique($locales);
-    }
-
-    /**
-     * Asserts that the locale is valid, throws an Exception if not.
-     *
-     * @param string $locale Locale to tests
-     *
-     * @throws \InvalidArgumentException If the locale contains invalid characters
-     */
-    protected function assertValidLocale($locale)
-    {
-        if (1 !== preg_match('/^[a-z0-9@_\\.\\-]*$/i', $locale)) {
-            throw new \InvalidArgumentException(sprintf('Invalid "%s" locale.', $locale));
-        }
     }
 }

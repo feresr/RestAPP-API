@@ -13,6 +13,8 @@
  *
  * Possibly the most accurate RFC 2045 QP implementation found in PHP.
  *
+ * @package    Swift
+ * @subpackage Encoder
  * @author     Chris Corbyn
  */
 class Swift_Encoder_QpEncoder implements Swift_Encoder
@@ -88,7 +90,7 @@ class Swift_Encoder_QpEncoder implements Swift_Encoder
         240 => '=F0', 241 => '=F1', 242 => '=F2', 243 => '=F3', 244 => '=F4',
         245 => '=F5', 246 => '=F6', 247 => '=F7', 248 => '=F8', 249 => '=F9',
         250 => '=FA', 251 => '=FB', 252 => '=FC', 253 => '=FD', 254 => '=FE',
-        255 => '=FF',
+        255 => '=FF'
         );
 
     protected static $_safeMapShare = array();
@@ -141,7 +143,8 @@ class Swift_Encoder_QpEncoder implements Swift_Encoder
     protected function initSafeMap()
     {
         foreach (array_merge(
-            array(0x09, 0x20), range(0x21, 0x3C), range(0x3E, 0x7E)) as $byte) {
+            array(0x09, 0x20), range(0x21, 0x3C), range(0x3E, 0x7E)) as $byte)
+        {
             $this->_safeMap[$byte] = chr($byte);
         }
     }
@@ -154,8 +157,8 @@ class Swift_Encoder_QpEncoder implements Swift_Encoder
      * $firstLineOffset.
      *
      * @param string  $string to encode
-     * @param int     $firstLineOffset, optional
-     * @param int     $maxLineLength,   optional 0 indicates the default of 76 chars
+     * @param integer $firstLineOffset, optional
+     * @param integer $maxLineLength,   optional 0 indicates the default of 76 chars
      *
      * @return string
      */
@@ -170,8 +173,8 @@ class Swift_Encoder_QpEncoder implements Swift_Encoder
         $lines = array();
         $lNo = 0;
         $lines[$lNo] = '';
-        $currentLine = & $lines[$lNo++];
-        $size = $lineLen = 0;
+        $currentLine =& $lines[$lNo++];
+        $size=$lineLen=0;
 
         $this->_charStream->flushContents();
         $this->_charStream->importString($string);
@@ -200,11 +203,11 @@ class Swift_Encoder_QpEncoder implements Swift_Encoder
             $enc = $this->_encodeByteSequence($bytes, $size);
             if ($currentLine && $lineLen+$size >= $thisLineLength) {
                 $lines[$lNo] = '';
-                $currentLine = & $lines[$lNo++];
+                $currentLine =& $lines[$lNo++];
                 $thisLineLength = $maxLineLength;
-                $lineLen = 0;
+                $lineLen=0;
             }
-            $lineLen += $size;
+            $lineLen+=$size;
             $currentLine .= $enc;
         }
 
@@ -221,25 +224,27 @@ class Swift_Encoder_QpEncoder implements Swift_Encoder
         $this->_charStream->setCharacterSet($charset);
     }
 
+    // -- Protected methods
+
     /**
      * Encode the given byte array into a verbatim QP form.
      *
      * @param integer[] $bytes
-     * @param int       $size
+     * @param integer   $size
      *
      * @return string
      */
     protected function _encodeByteSequence(array $bytes, &$size)
     {
         $ret = '';
-        $size = 0;
+        $size=0;
         foreach ($bytes as $b) {
             if (isset($this->_safeMap[$b])) {
                 $ret .= $this->_safeMap[$b];
                 ++$size;
             } else {
                 $ret .= self::$_qpMap[$b];
-                $size += 3;
+                $size+=3;
             }
         }
 
@@ -249,7 +254,7 @@ class Swift_Encoder_QpEncoder implements Swift_Encoder
     /**
      * Get the next sequence of bytes to read from the char stream.
      *
-     * @param int     $size number of bytes to read
+     * @param integer $size number of bytes to read
      *
      * @return integer[]
      */
@@ -277,13 +282,5 @@ class Swift_Encoder_QpEncoder implements Swift_Encoder
         }
 
         return $string;
-    }
-
-    /**
-    * Make a deep copy of object
-    */
-    public function __clone()
-    {
-        $this->_charStream = clone $this->_charStream;
     }
 }

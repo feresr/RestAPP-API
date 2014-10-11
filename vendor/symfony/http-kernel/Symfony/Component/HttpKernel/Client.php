@@ -143,9 +143,7 @@ EOF;
     {
         $httpRequest = Request::create($request->getUri(), $request->getMethod(), $request->getParameters(), $request->getCookies(), $request->getFiles(), $request->getServer(), $request->getContent());
 
-        foreach ($this->filterFiles($httpRequest->files->all()) as $key => $value) {
-            $httpRequest->files->set($key, $value);
-        }
+        $httpRequest->files->replace($this->filterFiles($httpRequest->files->all()));
 
         return $httpRequest;
     }
@@ -191,6 +189,8 @@ EOF;
                         true
                     );
                 }
+            } else {
+                $filtered[$key] = $value;
             }
         }
 

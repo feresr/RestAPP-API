@@ -25,7 +25,7 @@ class MySqlBuilder extends Builder {
 	 * @param  string  $table
 	 * @return array
 	 */
-	public function getColumnListing($table)
+	protected function getColumnListing($table)
 	{
 		$sql = $this->grammar->compileColumnExists();
 

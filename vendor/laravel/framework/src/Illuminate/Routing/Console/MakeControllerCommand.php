@@ -78,7 +78,7 @@ class MakeControllerCommand extends Command {
 
 		// Finally, we're ready to generate the actual controller file on disk and let
 		// the developer start using it. The controller will be stored in the right
-		// place based on the namespace of this controller specified by commands.
+		// place based on the naemspace of this controller specified by commands.
 		$this->generator->make($controller, $path, $options);
 
 		$this->info('Controller created successfully!');
@@ -159,6 +159,7 @@ class MakeControllerCommand extends Command {
 			array('name', InputArgument::REQUIRED, 'The name of the controller class'),
 		);
 	}
+
 
 	/**
 	 * Get the console command options.

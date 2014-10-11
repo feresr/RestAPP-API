@@ -37,7 +37,7 @@ abstract class AbstractHandler implements HandlerInterface
      */
     public function __construct($level = Logger::DEBUG, $bubble = true)
     {
-        $this->setLevel($level);
+        $this->level = $level;
         $this->bubble = $bubble;
     }
 
@@ -123,7 +123,7 @@ abstract class AbstractHandler implements HandlerInterface
      */
     public function setLevel($level)
     {
-        $this->level = Logger::toMonologLevel($level);
+        $this->level = $level;
 
         return $this;
     }

@@ -49,7 +49,7 @@ class Frame implements Serializable
         // @todo: This can be made more reliable by checking if we've entered
         // eval() in a previous trace, but will need some more work on the upper
         // trace collector(s).
-        if(preg_match('/^(.*)\((\d+)\) : (?:eval\(\)\'d|assert) code$/', $file, $matches)) {
+        if(preg_match('/^(.*)\((\d+)\) : eval\(\)\'d code$/', $file, $matches)) {
             $file = $this->frame['file'] = $matches[1];
             $this->frame['line'] = (int) $matches[2];
         }
@@ -105,14 +105,9 @@ class Frame implements Serializable
     {
         if($this->fileContentsCache === null && $filePath = $this->getFile()) {
 
-            // Leave the stage early when 'Unknown' is passed
-            // this would otherwise raise an exception when
-            // open_basedir is enabled.
-            if($filePath === "Unknown") {
-                return null;
-            }
-
-            // Return null if the file doesn't actually exist.
+            // Return null if the file doesn't actually exist - this may
+            // happen in cases where the filename is provided as, for
+            // example, 'Unknown'
             if(!is_file($filePath)) {
                 return null;
             }
@@ -166,7 +161,7 @@ class Frame implements Serializable
     /**
      * Returns the array containing the raw frame data from which
      * this Frame object was built
-     *
+     * 
      * @return array
      */
     public function getRawFrame()
@@ -222,7 +217,7 @@ class Frame implements Serializable
     /**
      * Implements the Serializable interface, with special
      * steps to also save the existing comments.
-     *
+     * 
      * @see Serializable::serialize
      * @return string
      */
@@ -239,7 +234,7 @@ class Frame implements Serializable
     /**
      * Unserializes the frame data, while also preserving
      * any existing comment data.
-     *
+     * 
      * @see Serializable::unserialize
      * @param string $serializedFrame
      */
@@ -253,18 +248,5 @@ class Frame implements Serializable
         }
 
         $this->frame = $frame;
-    }
-
-    /**
-     * Compares Frame against one another
-     * @param Frame $frame
-     * @return bool
-     */
-    public function equals(Frame $frame)
-    {
-        if (!$this->getFile() || $this->getFile() === 'Unknown' || !$this->getLine()) {
-            return false;
-        }
-        return $frame->getFile() === $this->getFile() && $frame->getLine() === $this->getLine();
     }
 }

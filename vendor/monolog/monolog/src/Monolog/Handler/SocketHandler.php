@@ -49,7 +49,7 @@ class SocketHandler extends AbstractProcessingHandler
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
-    protected function write(array $record)
+    public function write(array $record)
     {
         $this->connectIfNotConnected();
         $data = $this->generateDataStream($record);

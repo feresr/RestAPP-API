@@ -11,6 +11,8 @@
 /**
  * Handles Quoted Printable (Q) Header Encoding in Swift Mailer.
  *
+ * @package    Swift
+ * @subpackage Mime
  * @author     Chris Corbyn
  */
 class Swift_Mime_HeaderEncoder_QpHeaderEncoder extends Swift_Encoder_QpEncoder implements Swift_Mime_HeaderEncoder
@@ -51,8 +53,8 @@ class Swift_Mime_HeaderEncoder_QpHeaderEncoder extends Swift_Encoder_QpEncoder i
      * Takes an unencoded string and produces a QP encoded string from it.
      *
      * @param string  $string          string to encode
-     * @param int     $firstLineOffset optional
-     * @param int     $maxLineLength   optional, 0 indicates the default of 76 chars
+     * @param integer $firstLineOffset optional
+     * @param integer $maxLineLength   optional, 0 indicates the default of 76 chars
      *
      * @return string
      */

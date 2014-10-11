@@ -11,6 +11,8 @@
 /**
  * Logs events in the Transport system.
  *
+ * @package    Swift
+ * @subpackage Transport
  * @author     Chris Corbyn
  */
 interface Swift_Plugins_Logger

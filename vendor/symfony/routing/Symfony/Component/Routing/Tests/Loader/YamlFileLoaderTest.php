@@ -103,4 +103,5 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
             $this->assertSame('context.getMethod() == "POST"', $route->getCondition());
         }
     }
+
 }

@@ -4,11 +4,8 @@
          colors="true"
 >
     <testsuites>
-        <testsuite name="phpseclib Unit Test Suite">
-            <directory>./tests/Unit/</directory>
-        </testsuite>
-        <testsuite name="phpseclib Functional Test Suite">
-            <directory>./tests/Functional/</directory>
+        <testsuite name="phpseclib Test Suite">
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
 

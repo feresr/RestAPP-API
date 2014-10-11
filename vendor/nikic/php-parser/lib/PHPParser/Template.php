@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @deprecated
- */
 class PHPParser_Template
 {
     protected $parser;

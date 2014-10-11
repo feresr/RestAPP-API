@@ -96,8 +96,6 @@ class FilesystemTestCase extends \PHPUnit_Framework_TestCase
         if ($datas = posix_getgrgid($infos['gid'])) {
             return $datas['name'];
         }
-
-        $this->markTestSkipped('Unable to retrieve file group name');
     }
 
     protected function markAsSkippedIfSymlinkIsMissing()

@@ -11,6 +11,7 @@
 /**
  * Stores Messages on the filesystem.
  *
+ * @package Swift
  * @author  Fabien Potencier
  * @author  Xavier De Cock <xdecock@gmail.com>
  */
@@ -24,7 +25,7 @@ class Swift_FileSpool extends Swift_ConfigurableSpool
      *
      * @var int
      */
-    private $_retryLimit = 10;
+    private $_retryLimit=10;
 
     /**
      * Create a new FileSpool.
@@ -47,7 +48,7 @@ class Swift_FileSpool extends Swift_ConfigurableSpool
     /**
      * Tests if this Spool mechanism has started.
      *
-     * @return bool
+     * @return boolean
      */
     public function isStarted()
     {
@@ -73,11 +74,11 @@ class Swift_FileSpool extends Swift_ConfigurableSpool
      *
      * Default, is ten and allows over 64^20 different fileNames
      *
-     * @param int     $limit
+     * @param integer $limit
      */
     public function setRetryLimit($limit)
     {
-        $this->_retryLimit = $limit;
+        $this->_retryLimit=$limit;
     }
 
     /**
@@ -85,17 +86,17 @@ class Swift_FileSpool extends Swift_ConfigurableSpool
      *
      * @param Swift_Mime_Message $message The message to store
      *
-     * @return bool
+     * @return boolean
      *
      * @throws Swift_IoException
      */
     public function queueMessage(Swift_Mime_Message $message)
     {
         $ser = serialize($message);
-        $fileName = $this->_path.'/'.$this->getRandomString(10);
+        $fileName = $this->_path . '/' . $this->getRandomString(10);
         for ($i = 0; $i < $this->_retryLimit; ++$i) {
             /* We try an exclusive creation of the file. This is an atomic operation, it avoid locking mechanism */
-            $fp = @fopen($fileName.'.message', 'x');
+            $fp = @fopen($fileName . '.message', 'x');
             if (false !== $fp) {
                 if (false === fwrite($fp, $ser)) {
                     return false;
@@ -114,7 +115,7 @@ class Swift_FileSpool extends Swift_ConfigurableSpool
     /**
      * Execute a recovery if for any reason a process is sending for too long.
      *
-     * @param int     $timeout in second Defaults is for very slow smtp responses
+     * @param integer $timeout in second Defaults is for very slow smtp responses
      */
     public function recover($timeout = 900)
     {
@@ -136,7 +137,7 @@ class Swift_FileSpool extends Swift_ConfigurableSpool
      * @param Swift_Transport $transport        A transport instance
      * @param string[]        $failedRecipients An array of failures by-reference
      *
-     * @return int     The number of sent e-mail's
+     * @return integer The number of sent e-mail's
      */
     public function flushQueue(Swift_Transport $transport, &$failedRecipients = null)
     {
@@ -189,7 +190,7 @@ class Swift_FileSpool extends Swift_ConfigurableSpool
     /**
      * Returns a random string needed to generate a fileName for the queue.
      *
-     * @param int     $count
+     * @param integer $count
      *
      * @return string
      */

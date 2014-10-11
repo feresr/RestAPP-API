@@ -11,6 +11,8 @@
 /**
  * Does real time reporting of pass/fail for each recipient.
  *
+ * @package    Swift
+ * @subpackage Plugins
  * @author     Chris Corbyn
  */
 class Swift_Plugins_ReporterPlugin implements Swift_Events_SendListener
@@ -18,7 +20,7 @@ class Swift_Plugins_ReporterPlugin implements Swift_Events_SendListener
     /**
      * The reporter backend which takes notifications.
      *
-     * @var Swift_Plugins_Reporter
+     * @var Swift_Plugin_Reporter
      */
     private $_reporter;
 

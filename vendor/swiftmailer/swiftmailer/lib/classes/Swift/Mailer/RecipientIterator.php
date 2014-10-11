@@ -11,6 +11,8 @@
 /**
  * Provides an abstract way of specifying recipients for batch sending.
  *
+ * @package    Swift
+ * @subpackage Mailer
  * @author     Chris Corbyn
  */
 interface Swift_Mailer_RecipientIterator
@@ -18,7 +20,7 @@ interface Swift_Mailer_RecipientIterator
     /**
      * Returns true only if there are more recipients to send to.
      *
-     * @return bool
+     * @return boolean
      */
     public function hasNext();
 

@@ -11,6 +11,8 @@
 /**
  * Listens for Messages being sent from within the Transport system.
  *
+ * @package    Swift
+ * @subpackage Events
  * @author     Chris Corbyn
  */
 interface Swift_Events_SendListener extends Swift_Events_EventListener

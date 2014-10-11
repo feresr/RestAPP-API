@@ -723,7 +723,6 @@ class MimeTypeExtensionGuesser implements ExtensionGuesserInterface
         'text/plain' => 'txt',
         'text/prs.lines.tag' => 'dsc',
         'text/richtext' => 'rtx',
-        'text/rtf' => 'rtf',
         'text/sgml' => 'sgml',
         'text/tab-separated-values' => 'tsv',
         'text/troff' => 't',

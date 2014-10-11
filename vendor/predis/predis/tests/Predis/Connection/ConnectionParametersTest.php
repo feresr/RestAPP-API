@@ -16,7 +16,7 @@ use PredisTestCase;
  * @todo ConnectionParameters::define();
  * @todo ConnectionParameters::undefine();
  */
-class ConnectionParametersTest extends PredisTestCase
+class ParametersTest extends PredisTestCase
 {
     /**
      * @group disconnected

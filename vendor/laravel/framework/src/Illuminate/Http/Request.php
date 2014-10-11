@@ -1,6 +1,5 @@
 <?php namespace Illuminate\Http;
 
-use SplFileInfo;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
@@ -23,7 +22,7 @@ class Request extends SymfonyRequest {
 	/**
 	 * Return the Request instance.
 	 *
-	 * @return $this
+	 * @return \Illuminate\Http\Request
 	 */
 	public function instance()
 	{
@@ -115,13 +114,13 @@ class Request extends SymfonyRequest {
 	{
 		$segments = explode('/', $this->path());
 
-		return array_values(array_filter($segments, function($v) { return $v != ''; }));
+		return array_values(array_filter($segments));
 	}
 
 	/**
 	 * Determine if the current request URI matches a pattern.
 	 *
-	 * @param  mixed  string
+	 * @param  dynamic  string
 	 * @return bool
 	 */
 	public function is()
@@ -158,26 +157,6 @@ class Request extends SymfonyRequest {
 	}
 
 	/**
-	 * Returns the client IP address.
-	 *
-	 * @return string
-	 */
-	public function ip()
-	{
-		return $this->getClientIp();
-	}
-
-	/**
-	 * Returns the client IP addresses.
-	 *
-	 * @return array
-	 */
-	public function ips()
-	{
-		return $this->getClientIps();
-	}
-
-	/**
 	 * Determine if the request contains a given input item key.
 	 *
 	 * @param  string|array  $key
@@ -198,34 +177,29 @@ class Request extends SymfonyRequest {
 	}
 
 	/**
-	 * Determine if the request contains a non-empty value for an input item.
+	 * Determine if the request contains a non-emtpy value for an  input item.
 	 *
 	 * @param  string|array  $key
 	 * @return bool
 	 */
 	public function has($key)
 	{
-		$keys = is_array($key) ? $key : func_get_args();
-
-		foreach ($keys as $value)
+		if (count(func_get_args()) > 1)
 		{
-			if ($this->isEmptyString($value)) return false;
+			foreach (func_get_args() as $value)
+			{
+				if ( ! $this->has($value)) return false;
+			}
+
+			return true;
 		}
 
-		return true;
-	}
+		if (is_bool($this->input($key)) || is_array($this->input($key)))
+		{
+			return true;
+		}
 
-	/**
-	 * Determine if the given input key is an empty string for "has".
-	 *
-	 * @param  string  $key
-	 * @return bool
-	 */
-	protected function isEmptyString($key)
-	{
-		$boolOrArray = is_bool($this->input($key)) || is_array($this->input($key));
-
-		return ! $boolOrArray && trim((string) $this->input($key)) === '';
+		return trim((string) $this->input($key)) !== '';
 	}
 
 	/**
@@ -235,7 +209,7 @@ class Request extends SymfonyRequest {
 	 */
 	public function all()
 	{
-		return array_replace_recursive($this->input(), $this->files->all());
+		return array_merge_recursive($this->input(), $this->files->all());
 	}
 
 	/**
@@ -262,16 +236,7 @@ class Request extends SymfonyRequest {
 	{
 		$keys = is_array($keys) ? $keys : func_get_args();
 
-		$results = [];
-
-		$input = $this->all();
-
-		foreach ($keys as $key)
-		{
-			array_set($results, $key, array_get($input, $key));
-		}
-
-		return $results;
+		return array_only($this->input(), $keys) + array_fill_keys($keys, null);
 	}
 
 	/**
@@ -284,9 +249,9 @@ class Request extends SymfonyRequest {
 	{
 		$keys = is_array($keys) ? $keys : func_get_args();
 
-		$results = $this->all();
+		$results = $this->input();
 
-		array_forget($results, $keys);
+		foreach ($keys as $key) array_forget($results, $key);
 
 		return $results;
 	}
@@ -346,25 +311,9 @@ class Request extends SymfonyRequest {
 	 */
 	public function hasFile($key)
 	{
-		if ( ! is_array($files = $this->file($key))) $files = array($files);
+		if (is_array($file = $this->file($key))) $file = head($file);
 
-		foreach ($files as $file)
-		{
-			if ($this->isValidFile($file)) return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Check that the given file is a valid file instance.
-	 *
-	 * @param  mixed  $file
-	 * @return bool
-	 */
-	protected function isValidFile($file)
-	{
-		return $file instanceof SplFileInfo && $file->getPath() != '';
+		return $file instanceof \SplFileInfo && $file->getPath() != '';
 	}
 
 	/**
@@ -420,7 +369,7 @@ class Request extends SymfonyRequest {
 	/**
 	 * Flash only some of the input to the session.
 	 *
-	 * @param  mixed  string
+	 * @param  dynamic  string
 	 * @return void
 	 */
 	public function flashOnly($keys)
@@ -433,7 +382,7 @@ class Request extends SymfonyRequest {
 	/**
 	 * Flash only some of the input to the session.
 	 *
-	 * @param  mixed  string
+	 * @param  dynamic  string
 	 * @return void
 	 */
 	public function flashExcept($keys)
@@ -467,8 +416,10 @@ class Request extends SymfonyRequest {
 		{
 			return $this->$source->all();
 		}
-
-		return $this->$source->get($key, $default, true);
+		else
+		{
+			return $this->$source->get($key, $default, true);
+		}
 	}
 
 	/**
@@ -549,7 +500,6 @@ class Request extends SymfonyRequest {
 	/**
 	 * Get the data format expected in the response.
 	 *
-	 * @param  string  $default
 	 * @return string
 	 */
 	public function format($default = 'html')
@@ -572,7 +522,7 @@ class Request extends SymfonyRequest {
 	{
 		if ($request instanceof static) return $request;
 
-		return (new static)->duplicate(
+		return with($self = new static)->duplicate(
 
 			$request->query->all(), $request->request->all(), $request->attributes->all(),
 

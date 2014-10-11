@@ -26,7 +26,7 @@ class GitProcessor
 
     public function __construct($level = Logger::DEBUG)
     {
-        $this->level = Logger::toMonologLevel($level);
+        $this->level = $level;
     }
 
     /**

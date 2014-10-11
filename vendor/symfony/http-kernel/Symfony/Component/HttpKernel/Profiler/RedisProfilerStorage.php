@@ -171,6 +171,7 @@ class RedisProfilerStorage implements ProfilerStorageInterface
         $profileIndexed = false !== $this->getValue($this->getItemName($profile->getToken()));
 
         if ($this->setValue($this->getItemName($profile->getToken()), $data, $this->lifetime, self::REDIS_SERIALIZER_PHP)) {
+
             if (!$profileIndexed) {
                 // Add to index
                 $indexName = $this->getIndexName();

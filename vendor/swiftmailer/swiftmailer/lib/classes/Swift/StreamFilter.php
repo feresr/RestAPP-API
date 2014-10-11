@@ -11,6 +11,7 @@
 /**
  * Processes bytes as they pass through a stream and performs filtering.
  *
+ * @package Swift
  * @author  Chris Corbyn
  */
 interface Swift_StreamFilter
@@ -20,7 +21,7 @@ interface Swift_StreamFilter
      *
      * @param mixed $buffer
      *
-     * @return bool
+     * @return boolean
      */
     public function shouldBuffer($buffer);
 

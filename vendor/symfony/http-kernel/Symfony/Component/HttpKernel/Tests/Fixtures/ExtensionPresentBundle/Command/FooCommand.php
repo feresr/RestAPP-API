@@ -19,4 +19,5 @@ class FooCommand extends Command
     {
         $this->setName('foo');
     }
+
 }

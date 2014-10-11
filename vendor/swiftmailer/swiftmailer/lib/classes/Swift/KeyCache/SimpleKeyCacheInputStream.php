@@ -11,6 +11,8 @@
 /**
  * Writes data to a KeyCache using a stream.
  *
+ * @package    Swift
+ * @subpackage KeyCache
  * @author     Chris Corbyn
  */
 class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCacheInputStream

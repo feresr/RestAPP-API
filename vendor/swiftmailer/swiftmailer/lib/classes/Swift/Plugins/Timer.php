@@ -11,6 +11,8 @@
 /**
  * Provides timestamp data.
  *
+ * @package    Swift
+ * @subpackage Plugins
  * @author     Chris Corbyn
  */
 interface Swift_Plugins_Timer

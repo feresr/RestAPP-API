@@ -14,21 +14,19 @@ namespace Symfony\Component\HttpFoundation\Tests;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\Tests\File\FakeFile;
 
 class BinaryFileResponseTest extends ResponseTestCase
 {
     public function testConstruction()
     {
-        $file = __DIR__.'/../README.md';
-        $response = new BinaryFileResponse($file, 404, array('X-Header' => 'Foo'), true, null, true, true);
+        $response = new BinaryFileResponse('README.md', 404, array('X-Header' => 'Foo'), true, null, true, true);
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('Foo', $response->headers->get('X-Header'));
         $this->assertTrue($response->headers->has('ETag'));
         $this->assertTrue($response->headers->has('Last-Modified'));
         $this->assertFalse($response->headers->has('Content-Disposition'));
 
-        $response = BinaryFileResponse::create($file, 404, array(), true, ResponseHeaderBag::DISPOSITION_INLINE);
+        $response = BinaryFileResponse::create('README.md', 404, array(), true, ResponseHeaderBag::DISPOSITION_INLINE);
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertFalse($response->headers->has('ETag'));
         $this->assertEquals('inline; filename="README.md"', $response->headers->get('Content-Disposition'));
@@ -39,13 +37,13 @@ class BinaryFileResponseTest extends ResponseTestCase
      */
     public function testSetContent()
     {
-        $response = new BinaryFileResponse(__FILE__);
+        $response = new BinaryFileResponse('README.md');
         $response->setContent('foo');
     }
 
     public function testGetContent()
     {
-        $response = new BinaryFileResponse(__FILE__);
+        $response = new BinaryFileResponse('README.md');
         $this->assertFalse($response->getContent());
     }
 
@@ -152,7 +150,7 @@ class BinaryFileResponseTest extends ResponseTestCase
     {
         return array(
             array('bytes=-40'),
-            array('bytes=30-40'),
+            array('bytes=30-40')
         );
     }
 
@@ -162,7 +160,7 @@ class BinaryFileResponseTest extends ResponseTestCase
         $request->headers->set('X-Sendfile-Type', 'X-Sendfile');
 
         BinaryFileResponse::trustXSendfileTypeHeader();
-        $response = BinaryFileResponse::create(__DIR__.'/../README.md');
+        $response = BinaryFileResponse::create('README.md');
         $response->prepare($request);
 
         $this->expectOutputString('');
@@ -180,10 +178,18 @@ class BinaryFileResponseTest extends ResponseTestCase
         $request->headers->set('X-Sendfile-Type', 'X-Accel-Redirect');
         $request->headers->set('X-Accel-Mapping', $mapping);
 
-        $file = new FakeFile($realpath, __DIR__.'/File/Fixtures/test');
+        $file = $this->getMockBuilder('Symfony\Component\HttpFoundation\File\File')
+                     ->disableOriginalConstructor()
+                     ->getMock();
+        $file->expects($this->any())
+             ->method('getRealPath')
+             ->will($this->returnValue($realpath));
+        $file->expects($this->any())
+             ->method('isReadable')
+             ->will($this->returnValue(true));
 
         BinaryFileResponse::trustXSendFileTypeHeader();
-        $response = new BinaryFileResponse($file);
+        $response = new BinaryFileResponse('README.md');
         $reflection = new \ReflectionObject($response);
         $property = $reflection->getProperty('file');
         $property->setAccessible(true);
@@ -191,16 +197,6 @@ class BinaryFileResponseTest extends ResponseTestCase
 
         $response->prepare($request);
         $this->assertEquals($virtual, $response->headers->get('X-Accel-Redirect'));
-    }
-
-    public function testSplFileObject()
-    {
-        $filePath = __DIR__.'/File/Fixtures/test';
-        $file = new \SplFileObject($filePath);
-
-        $response = new BinaryFileResponse($file);
-
-        $this->assertEquals(realpath($response->getFile()->getPathname()), realpath($filePath));
     }
 
     public function getSampleXAccelMappings()
@@ -213,6 +209,6 @@ class BinaryFileResponseTest extends ResponseTestCase
 
     protected function provideResponse()
     {
-        return new BinaryFileResponse(__DIR__.'/../README.md');
+        return new BinaryFileResponse('README.md');
     }
 }

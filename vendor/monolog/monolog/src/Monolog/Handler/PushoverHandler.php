@@ -65,8 +65,8 @@ class PushoverHandler extends SocketHandler
         $this->token = $token;
         $this->users = (array) $users;
         $this->title = $title ?: gethostname();
-        $this->highPriorityLevel = Logger::toMonologLevel($highPriorityLevel);
-        $this->emergencyLevel = Logger::toMonologLevel($emergencyLevel);
+        $this->highPriorityLevel = $highPriorityLevel;
+        $this->emergencyLevel = $emergencyLevel;
         $this->retry = $retry;
         $this->expire = $expire;
     }
@@ -93,11 +93,11 @@ class PushoverHandler extends SocketHandler
             'timestamp' => $timestamp
         );
 
-        if (isset($record['level']) && $record['level'] >= $this->emergencyLevel) {
+        if ($record['level'] >= $this->emergencyLevel) {
             $dataArray['priority'] = 2;
             $dataArray['retry'] = $this->retry;
             $dataArray['expire'] = $this->expire;
-        } elseif (isset($record['level']) && $record['level'] >= $this->highPriorityLevel) {
+        } elseif ($record['level'] >= $this->highPriorityLevel) {
             $dataArray['priority'] = 1;
         }
 
@@ -121,7 +121,7 @@ class PushoverHandler extends SocketHandler
         return $header;
     }
 
-    protected function write(array $record)
+    public function write(array $record)
     {
         foreach ($this->users as $user) {
             $this->user = $user;

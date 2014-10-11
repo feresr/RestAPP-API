@@ -19,6 +19,7 @@ namespace Symfony\Component\Finder\Iterator;
  */
 class PathFilterIterator extends MultiplePcreFilterIterator
 {
+
     /**
      * Filters the iterator values.
      *

@@ -11,6 +11,8 @@
 /**
  * Makes sure a connection to a POP3 host has been established prior to connecting to SMTP.
  *
+ * @package    Swift
+ * @subpackage Plugins
  * @author     Chris Corbyn
  */
 class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeListener, Swift_Plugins_Pop_Pop3Connection
@@ -46,7 +48,7 @@ class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeL
      * Create a new PopBeforeSmtpPlugin for $host and $port.
      *
      * @param string  $host
-     * @param int     $port
+     * @param integer $port
      * @param string  $crypto as "tls" or "ssl"
      */
     public function __construct($host, $port = 110, $crypto = null)
@@ -60,7 +62,7 @@ class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeL
      * Create a new PopBeforeSmtpPlugin for $host and $port.
      *
      * @param string  $host
-     * @param int     $port
+     * @param integer $port
      * @param string  $crypto as "tls" or "ssl"
      *
      * @return Swift_Plugins_PopBeforeSmtpPlugin
@@ -97,7 +99,7 @@ class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeL
     /**
      * Set the connection timeout in seconds (default 10).
      *
-     * @param int     $timeout
+     * @param integer $timeout
      *
      * @return Swift_Plugins_PopBeforeSmtpPlugin
      */
@@ -148,7 +150,8 @@ class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeL
         } else {
             if (!isset($this->_socket)) {
                 if (!$socket = fsockopen(
-                    $this->_getHostString(), $this->_port, $errno, $errstr, $this->_timeout)) {
+                    $this->_getHostString(), $this->_port, $errno, $errstr, $this->_timeout))
+                {
                     throw new Swift_Plugins_Pop_Pop3Exception(
                         sprintf('Failed to connect to POP3 host [%s]: %s', $this->_host, $errstr)
                     );
@@ -227,6 +230,8 @@ class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeL
     {
     }
 
+    // -- Private Methods
+
     private function _command($command)
     {
         if (!fwrite($this->_socket, $command)) {
@@ -260,11 +265,11 @@ class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeL
         $host = $this->_host;
         switch (strtolower($this->_crypto)) {
             case 'ssl':
-                $host = 'ssl://'.$host;
+                $host = 'ssl://' . $host;
                 break;
 
             case 'tls':
-                $host = 'tls://'.$host;
+                $host = 'tls://' . $host;
                 break;
         }
 

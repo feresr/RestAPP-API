@@ -11,6 +11,8 @@
 /**
  * Creates MIME headers.
  *
+ * @package    Swift
+ * @subpackage Mime
  * @author     Chris Corbyn
  */
 class Swift_Mime_SimpleHeaderFactory implements Swift_Mime_HeaderFactory
@@ -65,7 +67,7 @@ class Swift_Mime_SimpleHeaderFactory implements Swift_Mime_HeaderFactory
     /**
      * Create a new Date header using $timestamp (UNIX time).
      * @param string       $name
-     * @param int|null     $timestamp
+     * @param integer|null $timestamp
      *
      * @return Swift_Mime_Header
      */
@@ -178,14 +180,7 @@ class Swift_Mime_SimpleHeaderFactory implements Swift_Mime_HeaderFactory
         $this->_paramEncoder->charsetChanged($charset);
     }
 
-    /**
-    * Make a deep copy of object
-    */
-    public function __clone()
-    {
-        $this->_encoder = clone $this->_encoder;
-        $this->_paramEncoder = clone $this->_paramEncoder;
-    }
+    // -- Private methods
 
     /** Apply the charset to the Header */
     private function _setHeaderCharset(Swift_Mime_Header $header)
