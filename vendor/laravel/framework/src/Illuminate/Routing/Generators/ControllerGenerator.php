@@ -115,7 +115,7 @@ class ControllerGenerator {
 	{
 		$stub = $this->files->get(__DIR__.'/stubs/controller.stub');
 
-		// We will explode out the controller name on the naemspace delimiter so we
+		// We will explode out the controller name on the namespace delimiter so we
 		// are able to replace a namespace in this stub file. If no namespace is
 		// provided we'll just clear out the namespace place-holder locations.
 		$segments = explode('\\', $controller);
@@ -140,10 +140,8 @@ class ControllerGenerator {
 
 			return str_replace('{{namespace}}', ' namespace '.$namespace.';', $stub);
 		}
-		else
-		{
-			return str_replace('{{namespace}}', '', $stub);
-		}
+
+		return str_replace('{{namespace}}', '', $stub);
 	}
 
 	/**

@@ -34,7 +34,7 @@ abstract class Facade {
 	/**
 	 * Initiate a mock expectation on the facade.
 	 *
-	 * @param  dynamic
+	 * @param  mixed
 	 * @return \Mockery\Expectation
 	 */
 	public static function shouldReceive()
@@ -197,7 +197,7 @@ abstract class Facade {
 	 */
 	public static function __callStatic($method, $args)
 	{
-		$instance = static::resolveFacadeInstance(static::getFacadeAccessor());
+		$instance = static::getFacadeRoot();
 
 		switch (count($args))
 		{

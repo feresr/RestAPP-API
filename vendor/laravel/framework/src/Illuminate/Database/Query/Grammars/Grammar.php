@@ -6,13 +6,6 @@ use Illuminate\Database\Grammar as BaseGrammar;
 class Grammar extends BaseGrammar {
 
 	/**
-	 * The keyword identifier wrapper format.
-	 *
-	 * @var string
-	 */
-	protected $wrapper = '"%s"';
-
-	/**
 	 * The components that make up a select clause.
 	 *
 	 * @var array
@@ -147,6 +140,11 @@ class Grammar extends BaseGrammar {
 			foreach ($join->clauses as $clause)
 			{
 				$clauses[] = $this->compileJoinConstraint($clause);
+			}
+
+			foreach ($join->bindings as $binding)
+			{
+				$query->addBinding($binding, 'join');
 			}
 
 			// Once we have constructed the clauses, we'll need to take the boolean connector
@@ -497,7 +495,7 @@ class Grammar extends BaseGrammar {
 
 		$parameter = $this->parameter($having['value']);
 
-		return 'and '.$column.' '.$having['operator'].' '.$parameter;
+		return $having['boolean'].' '.$column.' '.$having['operator'].' '.$parameter;
 	}
 
 	/**
@@ -509,13 +507,11 @@ class Grammar extends BaseGrammar {
 	 */
 	protected function compileOrders(Builder $query, $orders)
 	{
-		$me = $this;
-
-		return 'order by '.implode(', ', array_map(function($order) use ($me)
+		return 'order by '.implode(', ', array_map(function($order)
 		{
 			if (isset($order['sql'])) return $order['sql'];
 
-			return $me->wrap($order['column']).' '.$order['direction'];
+			return $this->wrap($order['column']).' '.$order['direction'];
 		}
 		, $orders));
 	}
@@ -668,7 +664,6 @@ class Grammar extends BaseGrammar {
 	 * Compile a delete statement into SQL.
 	 *
 	 * @param  \Illuminate\Database\Query\Builder  $query
-	 * @param  array  $values
 	 * @return string
 	 */
 	public function compileDelete(Builder $query)

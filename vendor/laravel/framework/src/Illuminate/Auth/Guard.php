@@ -72,10 +72,18 @@ class Guard {
 	protected $loggedOut = false;
 
 	/**
+	 * Indicates if a token user retrieval has been attempted.
+	 *
+	 * @var bool
+	 */
+	protected $tokenRetrievalAttempted = false;
+
+	/**
 	 * Create a new authentication guard.
 	 *
 	 * @param  \Illuminate\Auth\UserProviderInterface  $provider
 	 * @param  \Illuminate\Session\Store  $session
+	 * @param  \Symfony\Component\HttpFoundation\Request  $request
 	 * @return void
 	 */
 	public function __construct(UserProviderInterface $provider,
@@ -158,7 +166,7 @@ class Guard {
 	{
 		if ($this->loggedOut) return;
 
-		return $this->session->get($this->getName()) ?: $this->getRecallerId();
+		return $this->session->get($this->getName(), $this->getRecallerId());
 	}
 
 	/**
@@ -169,8 +177,10 @@ class Guard {
 	 */
 	protected function getUserByRecaller($recaller)
 	{
-		if ($this->validRecaller($recaller))
+		if ($this->validRecaller($recaller) && ! $this->tokenRetrievalAttempted)
 		{
+			$this->tokenRetrievalAttempted = true;
+
 			list($id, $token) = explode('|', $recaller, 2);
 
 			$this->viaRemember = ! is_null($user = $this->provider->retrieveByToken($id, $token));
@@ -203,7 +213,7 @@ class Guard {
 	}
 
 	/**
-	 * Deteremine if the recaller cookie is in a valid format.
+	 * Determine if the recaller cookie is in a valid format.
 	 *
 	 * @param  string  $recaller
 	 * @return bool
@@ -402,7 +412,7 @@ class Guard {
 	 */
 	public function login(UserInterface $user, $remember = false)
 	{
-		$this->updateSession($id = $user->getAuthIdentifier());
+		$this->updateSession($user->getAuthIdentifier());
 
 		// If the user should be permanently "remembered" by the application we will
 		// queue a permanent cookie that contains the encrypted copy of the user
@@ -551,14 +561,16 @@ class Guard {
 	}
 
 	/**
-	 * Create a new remember token for the user if one doens't already exist.
+	 * Create a new remember token for the user if one doesn't already exist.
 	 *
 	 * @param  \Illuminate\Auth\UserInterface  $user
 	 * @return void
 	 */
 	protected function createRememberTokenIfDoesntExist(UserInterface $user)
 	{
-		if (is_null($user->getRememberToken()))
+		$rememberToken = $user->getRememberToken();
+
+		if (empty($rememberToken))
 		{
 			$this->refreshRememberToken($user);
 		}
@@ -606,6 +618,7 @@ class Guard {
 	 * Set the event dispatcher instance.
 	 *
 	 * @param  \Illuminate\Events\Dispatcher
+	 * @return void
 	 */
 	public function setDispatcher(Dispatcher $events)
 	{
@@ -680,7 +693,7 @@ class Guard {
 	 * Set the current request instance.
 	 *
 	 * @param  \Symfony\Component\HttpFoundation\Request
-	 * @return \Illuminate\Auth\Guard
+	 * @return $this
 	 */
 	public function setRequest(Request $request)
 	{

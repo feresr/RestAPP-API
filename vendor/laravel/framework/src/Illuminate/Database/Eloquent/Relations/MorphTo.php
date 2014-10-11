@@ -28,6 +28,13 @@ class MorphTo extends BelongsTo {
 	 */
 	protected $dictionary = array();
 
+	/*
+	 * Indicates if soft-deleted model instances should be fetched.
+	 *
+	 * @var bool
+	 */
+	protected $withTrashed = false;
+
 	/**
 	 * Create a new belongs to relationship instance.
 	 *
@@ -58,9 +65,9 @@ class MorphTo extends BelongsTo {
 	}
 
 	/**
-	 * Buiild a dictionary with the models.
+	 * Build a dictionary with the models.
 	 *
-	 * @param  \Illuminate\Database\Eloquent\Models  $models
+	 * @param  \Illuminate\Database\Eloquent\Collection  $models
 	 * @return void
 	 */
 	protected function buildDictionary(Collection $models)
@@ -85,6 +92,21 @@ class MorphTo extends BelongsTo {
 	public function match(array $models, Collection $results, $relation)
 	{
 		return $models;
+	}
+
+	/**
+	 * Associate the model instance to the given parent.
+	 *
+	 * @param  \Illuminate\Database\Eloquent\Model  $model
+	 * @return \Illuminate\Database\Eloquent\Model
+	 */
+	public function associate(Model $model)
+	{
+		$this->parent->setAttribute($this->foreignKey, $model->getKey());
+
+		$this->parent->setAttribute($this->morphType, $model->getMorphClass());
+
+		return $this->parent->setRelation($this->relation, $model);
 	}
 
 	/**
@@ -137,7 +159,11 @@ class MorphTo extends BelongsTo {
 
 		$key = $instance->getKeyName();
 
-		return $instance->whereIn($key, $this->gatherKeysByType($type)->all())->get();
+		$query = $instance->newQuery();
+
+		$query = $this->useWithTrashed($query);
+
+		return $query->whereIn($key, $this->gatherKeysByType($type)->all())->get();
 	}
 
 	/**
@@ -176,6 +202,35 @@ class MorphTo extends BelongsTo {
 	public function getDictionary()
 	{
 		return $this->dictionary;
+	}
+
+	/**
+	 * Fetch soft-deleted model instances with query
+	 *
+	 * @return $this
+	 */
+	public function withTrashed()
+	{
+		$this->withTrashed = true;
+
+		$this->query = $this->useWithTrashed($this->query);
+
+		return $this;
+	}
+
+	/**
+	 * Return trashed models with query if told so
+	 *
+	 * @param  \Illuminate\Database\Eloquent\Builder  $query
+	 * @return \Illuminate\Database\Eloquent\Builder
+	 */
+	protected function useWithTrashed(Builder $query)
+	{
+		if ($this->withTrashed && $query->getMacro('withTrashed') !== null)
+		{
+			return $query->withTrashed();
+		}
+		return $query;
 	}
 
 }
