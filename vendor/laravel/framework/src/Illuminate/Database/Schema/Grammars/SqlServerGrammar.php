@@ -6,13 +6,6 @@ use Illuminate\Database\Schema\Blueprint;
 class SqlServerGrammar extends Grammar {
 
 	/**
-	 * The keyword identifier wrapper format.
-	 *
-	 * @var string
-	 */
-	protected $wrapper = '"%s"';
-
-	/**
 	 * The possible column modifiers.
 	 *
 	 * @var array
@@ -164,8 +157,6 @@ class SqlServerGrammar extends Grammar {
 	 */
 	public function compileDropPrimary(Blueprint $blueprint, Fluent $command)
 	{
-		$table = $blueprint->getTable();
-
 		$table = $this->wrapTable($blueprint);
 
 		return "alter table {$table} drop constraint {$command->index}";
@@ -237,7 +228,6 @@ class SqlServerGrammar extends Grammar {
 	{
 		return "nchar({$column->length})";
 	}
-
 
 	/**
 	 * Create the column definition for a string type.

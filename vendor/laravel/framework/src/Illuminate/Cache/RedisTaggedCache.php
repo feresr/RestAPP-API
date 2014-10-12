@@ -13,7 +13,7 @@ class RedisTaggedCache extends TaggedCache {
 	{
 		$this->pushForeverKeys($namespace = $this->tags->getNamespace(), $key);
 
-		$this->store->forever($this->getPrefix().sha1($namespace).':'.$key, $value);
+		$this->store->forever(sha1($namespace).':'.$key, $value);
 	}
 
 	/**
@@ -77,7 +77,7 @@ class RedisTaggedCache extends TaggedCache {
 	}
 
 	/**
-	 * Get the forever reference key for hte segment.
+	 * Get the forever reference key for the segment.
 	 *
 	 * @param  string  $segment
 	 * @return string

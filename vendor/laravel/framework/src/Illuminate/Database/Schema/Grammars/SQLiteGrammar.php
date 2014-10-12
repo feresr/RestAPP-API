@@ -7,13 +7,6 @@ use Illuminate\Database\Schema\Blueprint;
 class SQLiteGrammar extends Grammar {
 
 	/**
-	 * The keyword identifier wrapper format.
-	 *
-	 * @var string
-	 */
-	protected $wrapper = '"%s"';
-
-	/**
 	 * The possible column modifiers.
 	 *
 	 * @var array
@@ -154,6 +147,8 @@ class SQLiteGrammar extends Grammar {
 		$table = $this->wrapTable($blueprint);
 
 		$columns = $this->prefixArray('add column', $this->getColumns($blueprint));
+
+		$statements = array();
 
 		foreach ($columns as $column)
 		{

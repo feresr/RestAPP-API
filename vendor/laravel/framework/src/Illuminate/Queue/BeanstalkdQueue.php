@@ -9,7 +9,7 @@ class BeanstalkdQueue extends Queue implements QueueInterface {
 	/**
 	 * The Pheanstalk instance.
 	 *
-	 * @var Pheanstalk
+	 * @var \Pheanstalk_Pheanstalk
 	 */
 	protected $pheanstalk;
 
@@ -30,7 +30,7 @@ class BeanstalkdQueue extends Queue implements QueueInterface {
 	/**
 	 * Create a new Beanstalkd queue instance.
 	 *
-	 * @param  Pheanstalk  $pheanstalk
+	 * @param  \Pheanstalk_Pheanstalk  $pheanstalk
 	 * @param  string  $default
 	 * @param  int  $timeToRun
 	 * @return void
@@ -85,7 +85,7 @@ class BeanstalkdQueue extends Queue implements QueueInterface {
 
 		$pheanstalk = $this->pheanstalk->useTube($this->getQueue($queue));
 
-		return $pheanstalk->put($payload, Pheanstalk::DEFAULT_PRIORITY, $this->getSeconds($delay));
+		return $pheanstalk->put($payload, Pheanstalk::DEFAULT_PRIORITY, $this->getSeconds($delay), $this->timeToRun);
 	}
 
 	/**
@@ -107,6 +107,18 @@ class BeanstalkdQueue extends Queue implements QueueInterface {
 	}
 
 	/**
+	 * Delete a message from the Beanstalk queue.
+	 *
+	 * @param  string  $queue
+	 * @param  string  $id
+	 * @return void
+	 */
+	public function deleteMessage($queue, $id)
+	{
+		$this->pheanstalk->useTube($this->getQueue($queue))->delete($id);
+	}
+
+	/**
 	 * Get the queue or return the default.
 	 *
 	 * @param  string|null  $queue
@@ -120,7 +132,7 @@ class BeanstalkdQueue extends Queue implements QueueInterface {
 	/**
 	 * Get the underlying Pheanstalk instance.
 	 *
-	 * @return Pheanstalk
+	 * @return \Pheanstalk_Pheanstalk
 	 */
 	public function getPheanstalk()
 	{
