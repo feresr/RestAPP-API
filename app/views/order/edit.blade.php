@@ -55,7 +55,7 @@ $.getJSON("edi/"+ idtable,
               $.each(data, function(i,order){
                     // si la respuesta fue exitosa entonces eliminamos la fila de la tabla 
                     //$('#result').html("");
-                    $('#result').load('http://localhost/restapp-rest/public/index.php/orders/list/'+order.id);
+                    $('#result').load('http://localhost/restapp-rest/public/index.php/orders/edit/'+order.id);
                     //$("#tabla").load('list/'+idorder);
               })
             });                         

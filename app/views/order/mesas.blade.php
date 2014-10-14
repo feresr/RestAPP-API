@@ -29,15 +29,16 @@
 @endforeach
 </div>
 
- 
  <script>
-  $(function() {
-    $( "#draggable1" ).draggable
+  $(document).ready(function() {
+  $.getJSON("/restapp-rest/public/index.php/orders/coords", function (datos) {
+    $.each(datos, function(id, item){
+    $( "#draggable"+item.id ).draggable
     ({ containment: "#containment-wrapper", scroll: true }).mouseup(
     				function(){
 						var coord = $(this).position();		
             var id =  $("#draggable1").val();			
-						$.post("savepos/" + coord.left + "/" + coord.top+"/"+1, 
+						$.post("savepos/" + coord.left + "/" + coord.top+"/"+item.id, 
             				function(data){
                 			if (data.success != true){
                   				alert('Error');
@@ -46,62 +47,8 @@
                 }
             });  
 					});
-        $( "#draggable2" ).draggable
-    ({ containment: "#containment-wrapper", scroll: false }).mouseup(
-            function(){
-            var coord = $(this).position();   
-            var id =  $("#draggable2").val();  
-            $.post("savepos/" + coord.left + "/" + coord.top + "/" + 2, 
-                    function(data){
-                      if (data.success != true){
-                          alert('Error');
-                      }else{
-                        alert(data.message);
-                }
-            });  
-          });
-        $( "#draggable9" ).draggable
-    ({ containment: "#containment-wrapper", scroll: false }).mouseup(
-            function(){
-            var coord = $(this).position();   
-            var id =  $("#draggable2").val();  
-            $.post("savepos/" + coord.left + "/" + coord.top + "/" + 9, 
-                    function(data){
-                      if (data.success != true){
-                          alert('Error');
-                      }else{
-                        alert(data.message);
-                }
-            });  
-          });
-        $( "#draggable4" ).draggable
-    ({ containment: "#containment-wrapper", scroll: false }).mouseup(
-            function(){
-            var coord = $(this).position();   
-            var id =  $("#draggable2").val();  
-            $.post("savepos/" + coord.left + "/" + coord.top + "/" + 4, 
-                    function(data){
-                      if (data.success != true){
-                          alert('Error');
-                      }else{
-                        alert(data.message);
-                }
-            });  
-          });
-        $( "#draggable10" ).draggable
-    ({ containment: "#containment-wrapper", scroll: true }).mouseup(
-            function(){
-            var coord = $(this).position();   
-            var id =  $("#draggable1").val();     
-            $.post("savepos/" + coord.left + "/" + coord.top+"/"+10, 
-                    function(data){
-                      if (data.success != true){
-                          alert('Error');
-                      }else{
-                        alert(data.message);
-                }
-            });  
-          });
+  });
+  });
   });
   </script>
 @stop

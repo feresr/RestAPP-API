@@ -183,6 +183,12 @@ public function mesas()
 	return View::make('order.mesas', array('coords' => $coords));
 	}
 
+public function coords()
+	{
+	$coords = Coord::all();
+	return Response::json($coords);
+	}
+
 public function editar()
 	{
 	$coords = Coord::all();
