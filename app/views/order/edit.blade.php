@@ -3,6 +3,7 @@
 @section('content')
 @section('head')
   <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+{{HTML::script('js/chosen.jquery.js')}}
   <style>
   .draggable
   { 	
@@ -32,7 +33,6 @@
 <div id='table_select' value='{{$coord->table_id}}' onclick="editar({{ $coord->table_id}})" class="draggable" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;">
 {{ HTML::image('images/table.png') }}
   <div class='indicators'><h3><span class="label label-success">{{$coord->table_id}}</span></h3>
-
   </div>
 </div>
 @endforeach
@@ -41,10 +41,7 @@
 </div>
 
 <script>
-/*$('#table_select').click(function() {
-    $('#table_select').removeClass('active');
-    $(this).addClass('active');
-  });*/
+
 function editar(idtable){          
 $.getJSON("edi/"+ idtable, 
             function(data){

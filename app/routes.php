@@ -101,6 +101,7 @@ Route::get('orders/list/{id}', 'OrderItemsController@items');
 Route::get('orders/edit/{id}', 'OrderItemsController@edit');
 Route::post('orders/edit', 'OrderItemsController@store');
 Route::post('orders/edit/{iditem}', 'OrderItemsController@destroy');
+Route::post('orders/{iditem}', 'OrderItemsController@destroy');//ver si lo dejo
 Route::get('orders/edi/{id}', 'OrdersController@edi');
 
 Route::get('items', 'ItemsController@index');

@@ -1,28 +1,40 @@
-@extends('layouts.master')
- 
-@section('content')
-@section('head')
-{{HTML::script('js/chosen.jquery.js')}}
-<script type="text/javascript">
-$(document).ready(function(){
-    $(".chosen-select").chosen({no_results_text:'No hay resultados para '});
-});
-</script>
-@stop
-<div class="widget">
-<div class="widget-content-white glossed">
-  <div class="padded">
-
-<h1> Mesa Nro: <span class="badge"><h2>{{ $order->table['number'] }}</h2></span></h1>
-    <ul>
-       <li> Mozo: {{ $order->user['firstname'].' '.$order->user['lastname']}} </li>
-       <li> Estado: @if($order->active==true)
-            <span class="label label-success">Abierta</span>
-              @else
-            <span class="label label-danger">Cerrada</span>
-              @endif
-        </li>
-      </ul>
+<h3>Modifique los datos de la orden</h1>
+<div class="jumbotron">
+<div id='errors_form'></div>
+<div class="row">
+{{ Form::open(array('url' => 'orders/create/' . $order->id, 'id'=>'form_edit')) }}
+<div class="col-lg-4">
+{{ Form::label ('ordertable', 'Mesa') }}
+<select class="form-control" id="table_id" name="table_id">
+@foreach($tables as $table)
+@if($table->id == $order->table_id)
+<option value="{{$table->id}}" selected>Mesa #{{$table->number}} - Seats: ${{$table->seats}}</option>
+@else
+@if($table->taken == 'true')
+<option value="{{$table->id}}">{{$table->number}} Seats: ${{$table->seats}}</option>
+@endif
+@endif
+@endforeach
+</select>
+</div>
+<div class="col-lg-5">
+{{ Form::label ('orderuser', 'Mozo') }}<br>
+<select class="form-control" id="user_id" name="user_id">
+  @foreach($users as $user)
+  @if($user->id == $order->user_id)
+  <option value="{{$user->id}}" selected>{{$user->firstname}} - {{$user->lastname}}</option>
+  @else
+  <option value="{{$user->id}}">{{$user->firstname}} - {{$user->lastname}}</option>
+  @endif  
+  @endforeach
+</select>
+</div>
+<div class="col-lg-3">
+  {{ Form::submit('Guardar cambios',array('class'=>'btn btn-primary')) }}
+</div>
+{{ Form::close() }}
+</div>
+</div>
 @if($order->active==true)
 <h3>Seleccione los items que desea agregar</h1>
   <div class="jumbotron">
@@ -61,13 +73,12 @@ $(document).ready(function(){
 <div id="tabla">
 </div>
     <p> {{ link_to('orders', 'Volver') }} </p>
-</div>
-</div>
-</div>
+
 <script type="text/javascript">
 
 $(document).ready(function ()
 {
+$(".chosen-select").chosen({no_results_text:'No hay resultados para '});
 var id=$("#order_id").val();
 $("#tabla").load('list/'+id);
 var form = $('#formulario_busqueda');
@@ -98,6 +109,32 @@ form.on('submit', function () {
          }); 
   return false;
 });
+var form_edit = $('#form_edit');
+form_edit.on('submit', function () {
+  $.ajax({
+           type: form_edit.attr('method'),
+           dataType: "json",
+           url: form_edit.attr('action'),
+           data: form_edit.serialize(),
+           success: function (data)
+                  {
+                  if(data.success == false){
+                        var errores = '';
+                        for(datos in data.message){
+                            errores +=  data.message[datos]+'<br>';
+                        }
+                        $('#errors_form').addClass("alert alert-danger");
+                        $('#errors_form').html(errores);
+                    }else{
+                        $('#errors_form').removeClass("alert alert-danger");
+                        mensaje = "Los datos de la orden se modificaron correctamente";
+                        $('#errors_form').addClass("alert alert-success");
+                        $('#errors_form').html(mensaje);
+                        $("#tabla").load('list/'+id);
+                    }
+                  }
+         }); 
+  return false;
+});
 });
 </script>
-@stop

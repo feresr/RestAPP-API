@@ -65,8 +65,8 @@ class OrderItemsController extends BaseController {
 		else {
 			return Response::json(array(
 				'success' => false,
-				//'errors' => $validator->getMessageBag()->toArray()
-				'message' => 'Not valid'
+				//'message' => 'Not valid'
+				'message' => $validator->getMessageBag()->toArray()
 			));
 		}
 	}
@@ -98,8 +98,10 @@ class OrderItemsController extends BaseController {
 
 	public function edit($id) { 
 		$order = Order::find($id);
+		$tables = Table::all(array('id','number', 'taken', 'seats'));
+		$users = User::all();
 		$categories = Category::all(array('id','name'));
-		return View::make('order.agregar', array('order' => $order,'categories'=>$categories));
+		return View::make('order.agregar', array('order' => $order,'categories'=>$categories, 'tables'=>$tables, 'users'=>$users));
 	}
 
 	public function items($id) {
