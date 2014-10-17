@@ -197,19 +197,17 @@ public function editar()
 	return View::make('order.edit', array('coords' => $coords, 'orders' => $orders));
 	}
 
-public function edi($id)
+public function getOrder($id)
 	{
 		$order = Order::where('table_id', '=', $id)->where('active', '=', true)->get();
 			if($order != null)
 			{
 				return Response::json($order);
 			}
-		//$order = Order::find(2);
-			return Response::json(array(
-				'success' => false
-			));
-		//return View::make('order.agregar', array('categories' => $categories, 'order' => $order));
-		//return Redirect::to('orders/edit/'.$order->id);	
+		else{
+			$order= null;
+				return Response::json($order);
+			}
 	}
 
 public function savepos($left, $top, $id)

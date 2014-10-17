@@ -13,8 +13,8 @@ class Table extends Eloquent{
 	public function orders(){
 		return $this->hasMany('Order');
 	}
-public function coord(){
-		return $this->hasOne('Coord');
+public function coords(){
+		return $this->hasMany('Coord');
 	}
 	//VALIDACIONES
 	public static $rules = array(

@@ -11,7 +11,9 @@
 	width:130px;
   position: absolute;
 }
-
+.label-false {
+background-color: red;
+}
   .draggable.active
   {   
   background-color: #2980b9;
@@ -19,7 +21,6 @@
 }
 
   #containment-wrapper { 
-  border:1px solid #000;
   height:700px;
   position:relative;
   width:800px;
@@ -28,32 +29,41 @@
 }
   </style>
 @stop
+  <div class="widget">
+     <div class="widget-content-white glossed">
+     <div class="padded">
 <div id="containment-wrapper">
 @foreach($coords as $coord)
 <div id='table_select' value='{{$coord->table_id}}' onclick="editar({{ $coord->table_id}})" class="draggable" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;">
 {{ HTML::image('images/table.png') }}
-  <div class='indicators'><h3><span class="label label-success">{{$coord->table_id}}</span></h3>
+@if($coord->table['taken'] == true)
+  <div class='indicators'><h3><span class="label label-success">{{$coord->table['number']}}</span></h3>
   </div>
+@else
+  <div class='indicators'><h3><span class="label label-false">{{$coord->table['number']}}</span></h3>
+  </div>
+@endif
 </div>
 @endforeach
 </div>
+<hr>
 <div id="result">
 </div>
-
+</div>
+</div>
+</div>
 <script>
 
 function editar(idtable){          
-$.getJSON("edi/"+ idtable, 
+$.post("edi/"+ idtable, 
             function(data){
               $('#result').html("");
-                if (data.success == false){
-                  $('#result').html("No existen ordenes en esta mesa");
+                if (data.order == ""){
+                  alert("no existe orden");
+                  $('#result').html(data.error);
                 }
               $.each(data, function(i,order){
-                    // si la respuesta fue exitosa entonces eliminamos la fila de la tabla 
-                    //$('#result').html("");
                     $('#result').load('http://localhost/restapp-rest/public/index.php/orders/edit/'+order.id);
-                    //$("#tabla").load('list/'+idorder);
               })
             });                         
 }
