@@ -33,6 +33,14 @@ class OrdersController extends BaseController {
 		return View::make('order.save', array('order' => $order, 'users'=> $users,'tables'=>$tables, 'title' => $title)); 
 	}
 
+	public function crear($id)
+	{
+		$order = new Order();
+		$users = User::all(array('id','firstname','lastname'));
+		$table = Table::find($id);
+		return View::make('order.sav', array('order' => $order, 'users'=> $users,'table'=>$table)); 
+	}
+
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -65,11 +73,13 @@ class OrdersController extends BaseController {
 			$order->table->taken = true;
 			
 			$order->push();
-
+		if(Request::wantsJson())
+			{
 			return Response::json(array('success' => true, 
 				'message' => 'Se agrego la orden correctamente',
 				'id' => $order->id));
-
+			}
+		return Redirect::to('orders/edit')->with('notice', 'Se agrego la orden correctamente.');
 
 		}else{
 
@@ -200,13 +210,14 @@ public function editar()
 public function getOrder($id)
 	{
 		$order = Order::where('table_id', '=', $id)->where('active', '=', true)->get();
-			if($order != null)
+			if($order != "[]")
 			{
 				return Response::json($order);
 			}
 		else{
-			$order= null;
-				return Response::json($order);
+				return Response::json(array(
+				'success' => false
+			));	
 			}
 	}
 

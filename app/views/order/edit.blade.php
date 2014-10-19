@@ -32,6 +32,12 @@ background-color: red;
   <div class="widget">
      <div class="widget-content-white glossed">
      <div class="padded">
+@if(Session::has('notice'))
+<div class="alert alert-success fade in" role="alert">
+  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  <h4>{{ Session::get('notice') }}</h4>
+</div>
+@endif
 <div id="containment-wrapper">
 @foreach($coords as $coord)
 <div id='table_select' value='{{$coord->table_id}}' onclick="editar({{ $coord->table_id}})" class="draggable" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;">
@@ -54,13 +60,12 @@ background-color: red;
 </div>
 <script>
 
-function editar(idtable){          
-$.post("edi/"+ idtable, 
+function editar(idtable){      
+$.get("edi/"+ idtable, 
             function(data){
               $('#result').html("");
-                if (data.order == ""){
-                  alert("no existe orden");
-                  $('#result').html(data.error);
+                if (data.success == false){
+                  $('#result').load('http://localhost/restapp-rest/public/index.php/orders/crear/'+idtable);
                 }
               $.each(data, function(i,order){
                     $('#result').load('http://localhost/restapp-rest/public/index.php/orders/edit/'+order.id);

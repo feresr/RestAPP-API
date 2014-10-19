@@ -86,7 +86,8 @@ Route::get('orders/edit', 'OrdersController@editar');
 Route::post('orders/savepos/{left}/{top}/{id}', 'OrdersController@savepos');
 Route::get('orders','OrdersController@index');
 Route::get('orders/create', 'OrdersController@create');
-Route::post('orders/create', 'OrdersController@store');
+Route::get('orders/crear/{id}', 'OrdersController@crear'); //ver
+Route::post('orders/crear', 'OrdersController@store');
 Route::get('orders/editar/{id}', 'OrdersController@edit');
 Route::post('orders/create/{id}', 'OrdersController@update');
 Route::get('orders/cobrar/{id}', 'OrdersController@cobrar');
@@ -102,7 +103,7 @@ Route::get('orders/edit/{id}', 'OrderItemsController@edit');
 Route::post('orders/edit', 'OrderItemsController@store');
 Route::post('orders/edit/{iditem}', 'OrderItemsController@destroy');
 Route::post('orders/{iditem}', 'OrderItemsController@destroy');//ver si lo dejo
-Route::post('orders/edi/{id}', 'OrdersController@getOrder');
+Route::get('orders/edi/{id}', 'OrdersController@getOrder');
 
 Route::get('items', 'ItemsController@index');
 Route::get('items/create', 'ItemsController@create');
