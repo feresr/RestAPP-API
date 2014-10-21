@@ -15,7 +15,8 @@ class OrdersController extends BaseController {
 			return Response::json($orders);
 		}else{
 			$orders = Order::where('active', true)->get();
-			return View::make('order.index', array('orders' => $orders));
+			$coords = Coord::all();
+			return View::make('order.index', array('coords' => $coords, 'orders' => $orders));
 		}
 	}
 
@@ -24,21 +25,12 @@ class OrdersController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create()
-	{
-		$order = new Order();
-		$users = User::all(array('id','firstname','lastname'));
-		$tables = Table::where('taken',false)->get();
-		$title = 'NUEVA';
-		return View::make('order.save', array('order' => $order, 'users'=> $users,'tables'=>$tables, 'title' => $title)); 
-	}
-
-	public function crear($id)
+	public function create($id)
 	{
 		$order = new Order();
 		$users = User::all(array('id','firstname','lastname'));
 		$table = Table::find($id);
-		return View::make('order.sav', array('order' => $order, 'users'=> $users,'table'=>$table)); 
+		return View::make('order.save', array('order' => $order, 'users'=> $users,'table'=>$table)); 
 	}
 
 	/**
@@ -79,7 +71,7 @@ class OrdersController extends BaseController {
 				'message' => 'Se agrego la orden correctamente',
 				'id' => $order->id));
 			}
-		return Redirect::to('orders/edit')->with('notice', 'Se agrego la orden correctamente.');
+		return Redirect::to('orders')->with('notice', 'Se agrego la orden correctamente.');
 
 		}else{
 
@@ -186,12 +178,7 @@ class OrdersController extends BaseController {
 			));	
 		}
 	}
-public function mesas()
-	{
-	$coords = Coord::all();
-	//$orders = Order::where('active', true)->get();
-	return View::make('order.mesas', array('coords' => $coords));
-	}
+
 
 public function coords()
 	{
@@ -199,13 +186,6 @@ public function coords()
 	return Response::json($coords);
 	}
 
-public function editar()
-	{
-	$coords = Coord::all();
-	$orders = Order::where('active', true)->get();
-	//$orders = Order::where('active', true)->get();
-	return View::make('order.edit', array('coords' => $coords, 'orders' => $orders));
-	}
 
 public function getOrder($id)
 	{

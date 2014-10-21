@@ -18,6 +18,7 @@
 }
   </style>
 @stop
+<p> <a id="form" class="btn btn-primary"><i class="icon-plus"></i> Crear mesa</a> </p>
   <div class="widget">
      <div class="widget-content-white glossed">
      <div class="padded">
@@ -30,7 +31,12 @@
 </div>
 @endforeach
 </div>
-</div></div></div>
+<hr>
+<div id="create">
+</div>
+</div>
+</div>
+</div>
 
  <script>
   $(document).ready(function() {
@@ -51,6 +57,10 @@
             });  
 					});
   });
+  });
+
+  $("#form").click(function(){
+    $("#create").load("/restapp-rest/public/index.php/tables/create");
   });
   });
   </script>

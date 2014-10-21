@@ -95,11 +95,7 @@
   </div>
   <h1><i class="icon-bar-chart"></i> RestApp - Admin</h1>
 </div>
-<ol class="breadcrumb">
-  <li><a href="#">Home</a></li>
-  <li><a href="#">Bread</a></li>
-  <li><a href="#">Crumbs</a></li>
-</ol>
+
           <div class="main-content">
 @yield('content')
           </div>

@@ -9,12 +9,13 @@ class TablesController extends BaseController {
 	 */
 	public function index()
 	{
-		$tables = Table::all();
 		if (Request::wantsJson())
 		{
+			$tables = Table::all();
 			return Response::json($tables);
 		}else{
-			return View::make('table.index', array('tables' => $tables));
+		$coords = Coord::all();
+		return View::make('table.mesas', array('coords' => $coords));
 		}
 	}
 

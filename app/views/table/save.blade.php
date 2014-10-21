@@ -1,6 +1,3 @@
-@extends('layouts.master')
-
-@section('content')
 @section('head')
 {{HTML::script('js/functions.js')}}
 @stop
@@ -35,4 +32,3 @@
 <div class="col-md-4">
 </div>
 </div>
-@stop

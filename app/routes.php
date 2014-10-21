@@ -80,14 +80,13 @@ Route::get('listOrders', 'CocinaController@items');
 Route::post('listOrders/{cant}/{items}', 'CocinaController@itemsOrders');
 Route::post('orders/view/{id}', 'CocinaController@orderview');
 
-Route::get('orders/mesas', 'OrdersController@mesas');
+
 Route::get('orders/coords', 'OrdersController@coords');
-Route::get('orders/edit', 'OrdersController@editar');
-Route::post('orders/savepos/{left}/{top}/{id}', 'OrdersController@savepos');
+//Route::get('orders/edit', 'OrdersController@editar');
+Route::post('savepos/{left}/{top}/{id}', 'OrdersController@savepos');
 Route::get('orders','OrdersController@index');
-Route::get('orders/create', 'OrdersController@create');
-Route::get('orders/crear/{id}', 'OrdersController@crear'); //ver
-Route::post('orders/crear', 'OrdersController@store');
+Route::get('orders/create/{id}', 'OrdersController@create');
+Route::post('orders/create', 'OrdersController@store');
 Route::get('orders/editar/{id}', 'OrdersController@edit');
 Route::post('orders/create/{id}', 'OrdersController@update');
 Route::get('orders/cobrar/{id}', 'OrdersController@cobrar');
@@ -101,9 +100,9 @@ Route::get('list/{id}', 'OrderItemsController@items');
 Route::get('orders/list/{id}', 'OrderItemsController@items');
 Route::get('orders/edit/{id}', 'OrderItemsController@edit');
 Route::post('orders/edit', 'OrderItemsController@store');
-Route::post('orders/edit/{iditem}', 'OrderItemsController@destroy');
-Route::post('orders/{iditem}', 'OrderItemsController@destroy');//ver si lo dejo
-Route::get('orders/edi/{id}', 'OrdersController@getOrder');
+Route::post('orders/{iditem}', 'OrderItemsController@destroy');
+//Route::post('orders/{iditem}', 'OrderItemsController@destroy');//ver si lo dejo
+Route::get('edi/{id}', 'OrdersController@getOrder');
 
 Route::get('items', 'ItemsController@index');
 Route::get('items/create', 'ItemsController@create');
