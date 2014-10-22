@@ -10,6 +10,9 @@
 	width:0px;
   cursor:move;
 }
+.label-false {
+background-color: red;
+}
 
   #containment-wrapper { 
   height:700px;
@@ -18,16 +21,24 @@
 }
   </style>
 @stop
-<p> <a id="form" class="btn btn-primary"><i class="icon-plus"></i> Crear mesa</a> </p>
+<div class="btn-group">
+<a href="/restapp-rest/public/index.php/tables" class="btn btn-primary"><i class="icon-plus"></i> Crear mesa</a>
+<a id="edit" class="btn btn-primary"><i class="icon-pencil"></i> Editar posicion</a>
+</div>
   <div class="widget">
      <div class="widget-content-white glossed">
      <div class="padded">
 <div id="containment-wrapper">
 @foreach($coords as $coord)
-<div id="draggable{{$coord->id}}" value="{{$coord->table_id}}" class="draggable ui-widget-content" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;" >
+<div id="draggable{{$coord->id}}" value="{{$coord->table_id}}" class="draggable" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;" >
 {{ HTML::image('images/table.png') }}
+@if($coord->table['taken'] == true)
   <div class='indicators'><h3><span class="label label-success">{{$coord->table['number']}}</span></h3>
   </div>
+@else
+  <div class='indicators'><h3><span class="label label-false">{{$coord->table['number']}}</span></h3>
+  </div>
+@endif
 </div>
 @endforeach
 </div>
@@ -61,6 +72,9 @@
 
   $("#form").click(function(){
     $("#create").load("/restapp-rest/public/index.php/tables/create");
+  });
+  $("#edit").click(function(){
+    $(".widget").load("/restapp-rest/public/index.php/tables/edit");
   });
   });
   </script>

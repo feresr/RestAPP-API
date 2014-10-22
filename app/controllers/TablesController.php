@@ -15,16 +15,48 @@ class TablesController extends BaseController {
 			return Response::json($tables);
 		}else{
 		$coords = Coord::all();
-		return View::make('table.mesas', array('coords' => $coords));
+		return View::make('table.index', array('coords' => $coords));
 		}
 	}
 
-
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function editPosition()
+	{
+		if (Request::wantsJson())
+		{
+			$tables = Table::all();
+			return Response::json($tables);
+		}else{
+		$coords = Coord::all();
+		return View::make('table.mesas', array('coords' => $coords));
+		}
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response
 	 */
+	public function savepos($left, $top, $id)
+		{
+		$coord = Coord::find($id);
+		$coord->x_pos = $left;
+		$coord->y_pos = $top;
+		$coord->save();
+
+		return Response::json(array(
+		'success' => true,
+		'message' => 'cambio pos'
+		));	
+		}
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */	
 	public function create()
 	{
 		$table = new Table();
@@ -121,8 +153,7 @@ class TablesController extends BaseController {
 			$table->description = $input['description'];
 			$table->save();
 			return Response::json(array(
-				'success' => true,
-				'types' => 'edit'
+				'success' => true
 		  	));
 		}
 	}

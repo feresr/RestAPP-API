@@ -83,7 +83,6 @@ Route::post('orders/view/{id}', 'CocinaController@orderview');
 
 Route::get('orders/coords', 'OrdersController@coords');
 //Route::get('orders/edit', 'OrdersController@editar');
-Route::post('savepos/{left}/{top}/{id}', 'OrdersController@savepos');
 Route::get('orders','OrdersController@index');
 Route::get('orders/create/{id}', 'OrdersController@create');
 Route::post('orders/create', 'OrdersController@store');
@@ -125,11 +124,13 @@ Route::DELETE('categorias/{id}', 'CategoriesController@destroy');
 Route::get('tables', 'TablesController@index');
 Route::get('tables/create', 'TablesController@create');
 Route::post('tables/create', 'TablesController@store');
-Route::get('tables/{id}/edit', 'TablesController@edit');
+Route::get('tables/edit/{id}', 'TablesController@edit');
 Route::post('tables/create/{id}', 'TablesController@update');
 Route::get('tables/{id}/delete', 'TablesController@delete');
 Route::DELETE('tables/{id}', 'TablesController@destroy');
 Route::post('tables/{id}', 'TablesController@destroy');
+Route::get('tables/edit', 'TablesController@editPosition');
+Route::post('tables/savepos/{left}/{top}/{id}', 'TablesController@savepos');
 
 Route::get('reservas','ReservaController@index');
 Route::post('reservas', 'ReservaController@destroy');

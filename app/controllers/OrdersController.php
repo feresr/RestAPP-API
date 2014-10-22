@@ -201,16 +201,4 @@ public function getOrder($id)
 			}
 	}
 
-public function savepos($left, $top, $id)
-	{
-	$coord = Coord::find($id);
-	$coord->x_pos = $left;
-	$coord->y_pos = $top;
-	$coord->save();
-
-	return Response::json(array(
-	'success' => true,
-	'message' => 'cambio pos'
-	));	
-	}
 }
