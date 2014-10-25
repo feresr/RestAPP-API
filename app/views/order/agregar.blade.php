@@ -72,7 +72,7 @@
 @endif
 <div id="tabla">
 </div>
-    <p> {{ link_to('orders', 'Volver') }} </p>
+<a id="finish" class="btn btn-default">Cerrar</a>
 
 <script type="text/javascript">
 
@@ -137,4 +137,8 @@ form_edit.on('submit', function () {
   return false;
 });
 });
+
+$("#finish").click(function(){
+  $("#result").html("");
+})
 </script>
