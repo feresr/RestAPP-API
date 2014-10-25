@@ -25,7 +25,7 @@ background-color: red;
   </style>
 @stop
 <div class="btn-group">
-<a id="save" class="btn btn-primary"><i class="icon-plus"></i> Crear mesa</a>
+<a href="#new" id="save" class="btn btn-primary"><i class="icon-plus"></i> Crear mesa</a>
 <a href="tables/edit" class="btn btn-primary"><i class="icon-pencil"></i> Editar posicion</a>
 </div>
   <div class="widget">
@@ -52,7 +52,7 @@ background-color: red;
 @endforeach
 </div>
 <hr>
-<div id="result">
+<div id="new">
 </div>
 </div>
 </div>
@@ -60,11 +60,11 @@ background-color: red;
 <script>
 
 function edit(idtable){      
-$('#result').load("tables/edit/"+ idtable);                        
+$('#new').load("tables/edit/"+ idtable);                        
 };
 
 $('#save').click(function(){
- $('#result').load("tables/create"); 
+ $('#new').load("tables/create"); 
 })
 </script>
 @stop

@@ -60,7 +60,8 @@ class TablesController extends BaseController {
 	public function create()
 	{
 		$table = new Table();
-		return View::make('table.save', array('table' => $table));
+		$title = "Nueva";
+		return View::make('table.save', array('table' => $table, 'title' => $title));
 	}
 
 
@@ -126,7 +127,8 @@ class TablesController extends BaseController {
 	public function edit($id)
 	{
 		$table = Table::find($id);
-		return View::make('table.save')->with('table', $table);
+		$title = "Editar";
+		return View::make('table.save', array('table' => $table, 'title' => $title));
 	}
 
 

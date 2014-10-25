@@ -7,8 +7,11 @@
 <div class="col-lg-4">
 {{ Form::label ('ordertable', 'Mesa') }}
 <input type="hidden" class="form-control" id="table_id" name="table_id" value='{{$table->id}}'>
-<h3><span class="badge">{{$table->number}}</span></h3>
-
+<div id='table_select'>
+{{ HTML::image('images/table.png') }}
+  <div class='indicators'><h3><span class="label label-success">{{$table->number}}</span></h3>
+  </div>
+</div>
 </div>
 <div class="col-lg-5">
 {{ Form::label ('orderuser', 'Mozo') }}<br>

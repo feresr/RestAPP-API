@@ -3,7 +3,7 @@
   <div class="widget">
      <div class="widget-content-white glossed">
      <div class="padded">
-<h1> Mesas </h1>
+<h1> {{$title}} Mesa </h1>
 <div id='errors_form'></div>
     {{ Form::open(array('url' => 'tables/create/' . $table->id, 'id'=>'form')) }}
     <input type="hidden" class="form-control" id= 'link' value='tables'>
@@ -20,7 +20,7 @@
        {{ Form::text ('description', $table->description, array('class'=>'form-control','placeholder'=>'Descripcion', 'autocomplete'=>'of')) }} 
      </div>
        {{ Form::submit('Guardar mesa',array('class'=>'btn btn-success')) }}
-       {{ link_to('tables', 'Cancelar') }}
+       <a id="finish" class="btn btn-default">Cerrar</a>
     {{ Form::close() }}
 </div>
 </div>
@@ -50,10 +50,14 @@ form.on('submit', function () {
                       $('#errors_form').removeClass("alert alert-danger");
                       $('#errors_form').addClass("alert alert-success");
                       $('#errors_form').html("Los cambios se guardaron correctamente correctamente");
-                          location.href = "http://localhost/restapp-rest/public/index.php/tables";
+                          location.href = "http://localhost/restapp-rest/public/index.php/tables/edit";
                     }
                   }
          }); 
   return false;
 });
+
+$("#finish").click(function(){
+  $("#new").html("");
+})
 </script>

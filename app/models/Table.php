@@ -25,7 +25,7 @@ public function coords(){
 
 	public static $messages = array(
 		'number.required' => 'El numero es obligatorio.',
-		'number.numeric' => 'El debe ser un numerico.',
+		'number.numeric' => 'El numero de mesa debe ser un numerico.',
 		'number.unique' => 'El numero pertenece a otra mesa.',
 		'seats.required' => 'La cantidad es obligatorio.',
 		'seats.numeric' => 'La cantidad debe se un numero.',     
