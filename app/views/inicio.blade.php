@@ -85,6 +85,12 @@
 </div>
 </div>
 </div>
+<div class='widget'>
+<h3 class="section-title first-title"><i class="icon-table"></i> Balance</h3>
+<div class='widget-content-white padded glossed'>
+<div id="chart_div1" style="height: 400px;"></div>
+</div>
+</div>
 <h3 class="section-title first-title"><i class="icon-tasks"></i> Ordenes</h3>
 <div class="panel-group" id="accordion">
 @foreach($users as $user)

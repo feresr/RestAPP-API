@@ -74,6 +74,7 @@ Route::post('/', 'HomeController@store');
 Route::get('admin', 'HomeController@indexAdmin');
 Route::get('admin/cargagraficos', 'StatisticsController@index');
 Route::get('admin/colum', 'StatisticsController@barrasChart');
+Route::get('admin/colum1', 'StatisticsController@barrasChart1');
 
 Route::get('cocina','CocinaController@index');
 Route::get('listOrders', 'CocinaController@items');
