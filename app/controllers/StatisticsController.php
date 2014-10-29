@@ -25,4 +25,12 @@ group by Month(created_at)');
 	return Response::json($orders);
  }
 
+  public function mesasXmozo(){
+
+   $orders = DB::table('orders')
+   ->join('users', 'orders.user_id', '=', 'users.id')->where('orders.active', '=', true)
+   ->select('users.firstname',  DB::raw('COUNT(orders.id) AS total'))->groupBy('user_id')
+   ->orderBy('users.firstname', 'asc')->get();
+	return Response::json($orders);
+ }
 }
