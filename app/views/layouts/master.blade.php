@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Dashboard - RestApp Admin</title>
+    <title>RestApp Admin</title>
     {{HTML::style('http://fonts.googleapis.com/css?family=Oswald:300,400,700|Open+Sans:400,700,300')}}    
     {{HTML::style('css/style.css')}}
     {{HTML::style('css/bootstrap.css')}} 

@@ -5,11 +5,14 @@
   <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 {{HTML::script('js/chosen.jquery.js')}}
   <style>
-  .draggable
+  #draggable
   {   
   height:110px;
   width:130px;
   position: absolute;
+}
+.active{
+  background-color: #357ebd;
 }
 .label-false {
 background-color: red;
@@ -39,7 +42,7 @@ background-color: red;
 @endif
 <div id="containment-wrapper">
 @foreach($coords as $coord)
-<div id='table_select' value='{{$coord->table_id}}' onclick="edit({{ $coord->table_id}})" class="draggable" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;">
+<div id='draggable' value='{{$coord->table_id}}' onclick="edit({{ $coord->table_id}})" class="img-circle" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;">
 {{ HTML::image('images/table.png') }}
 @if($coord->table['taken'] == true)
   <div class='indicators'><h3><span class="label label-success">{{$coord->table['number']}}</span></h3>
@@ -66,5 +69,10 @@ $('#new').load("tables/edit/"+ idtable);
 $('#save').click(function(){
  $('#new').load("tables/create"); 
 })
+
+$('.img-circle').on('click', function() {
+$('.img-circle').removeClass('active');
+    $(this).addClass('active');
+});
 </script>
 @stop
