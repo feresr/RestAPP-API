@@ -158,8 +158,8 @@ class OrdersController extends BaseController {
 		$order = Order::find($id);
 		if($order != null){
 
-			$order->active = false;
-			$order->table->taken = false;
+			$order->active = 0;
+			$order->table->taken = 0;
 
 			$order->push();
 
