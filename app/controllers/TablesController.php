@@ -49,7 +49,7 @@ class TablesController extends BaseController {
 
 		return Response::json(array(
 		'success' => true,
-		'message' => 'cambio pos'
+		'message' => 'Ha cambiado la posicion'
 		));	
 		}
 	/**

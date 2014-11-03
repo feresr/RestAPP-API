@@ -21,6 +21,7 @@ background-color: red;
 }
   </style>
 @stop
+<h2>Editar posicion de mesas</h2>
 <div class="btn-group">
 <a href="/restapp-rest/public/index.php/tables" class="btn btn-primary"><i class="icon-plus"></i> Crear mesa</a>
 <a id="edit" class="btn btn-primary"><i class="icon-pencil"></i> Editar posicion</a>

@@ -27,7 +27,7 @@
      </div>
       <br>
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
-      {{ Form::submit('Guardar reserva',array('class'=>'btn btn-success')) }}
+      {{ Form::submit('Guardar reserva',array('class'=>'btn btn-primary')) }}
        {{ link_to('reservas', 'Volver') }}
 {{ Form::close() }}
 </div>

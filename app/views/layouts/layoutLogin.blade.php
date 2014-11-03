@@ -32,7 +32,7 @@ form.on('submit', function () {
                         $('.errors_form').html(errores);
                     }else{
                         $(form)[0].reset();//limpiamos el formulario
-                                location.href = "http://localhost/restappadmin/public/index.php/admin";
+                                location.href = "http://localhost/restapp-rest/public/index.php/admin";
                               }                      
                   }
          }); 

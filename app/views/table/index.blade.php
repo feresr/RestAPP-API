@@ -27,6 +27,8 @@ background-color: red;
 }
   </style>
 @stop
+
+<h2>MESAS</h2>
 <div class="btn-group">
 <a href="#new" id="save" class="btn btn-primary"><i class="icon-plus"></i> Crear mesa</a>
 <a href="tables/edit" class="btn btn-primary"><i class="icon-pencil"></i> Editar posicion</a>

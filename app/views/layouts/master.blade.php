@@ -74,7 +74,7 @@
         </a>
       </li>
       <li>
-        <a href="http://localhost/restapp-rest/public/index.php/auth/login">
+        <a href="http://localhost/restapp-rest/public/index.php/login">
           <span class="badge pull-right"></span>
           <i class="icon-signin"></i> Login Page
         </a>

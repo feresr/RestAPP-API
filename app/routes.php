@@ -58,7 +58,7 @@ UPDATE => PUT / PATCH
 DELETE => DELETE
 
 */
-Route::group(array('before' => 'guest'), function()
+Route::group(array('before' => 'auth'), function()
 {
 Route::get('users', 'UsersController@index');
 Route::get('users/create', 'UsersController@create');
@@ -93,7 +93,7 @@ Route::post('orders/create/{id}', 'OrdersController@update');
 Route::get('orders/cobrar/{id}', 'OrdersController@cobrar');
 Route::post('orders/cobrar/{id}', 'OrdersController@save');
 Route::get('orders/{id}', 'OrdersController@show');
-Route::get('orders/{id}/delete', 'OrdersController@delete');
+Route::get('orders/delete/{id}', 'OrdersController@delete');
 Route::DELETE('orders/{id}', 'OrdersController@destroy');
 
 Route::get('orders/edit/list/{id}', 'OrderItemsController@items');
@@ -128,7 +128,7 @@ Route::get('tables/create', 'TablesController@create');
 Route::post('tables/create', 'TablesController@store');
 Route::get('tables/edit/{id}', 'TablesController@edit');
 Route::post('tables/create/{id}', 'TablesController@update');
-Route::get('tables/{id}/delete', 'TablesController@delete');
+Route::get('tables/delete/{id}', 'TablesController@delete');
 Route::DELETE('tables/{id}', 'TablesController@destroy');
 Route::post('tables/{id}', 'TablesController@destroy');
 Route::get('tables/edit', 'TablesController@editPosition');

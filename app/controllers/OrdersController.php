@@ -146,7 +146,22 @@ class OrdersController extends BaseController {
 			));
 		}
 	}
-
+	/**
+	* Display the specified resource.
+	*
+	* @param  int  $id
+	* @return Response
+	*/
+	public function delete($id)
+	{
+		$order = Order::find($id);
+		if (Request::wantsJson())
+		{
+			return Response::json($order);
+		}else{
+			return View::make('order.delete', array('order' => $order));
+		}
+	}
 	/**
 	 * Remove the specified resource from storage.
 	 *

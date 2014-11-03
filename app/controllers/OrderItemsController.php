@@ -101,7 +101,7 @@ class OrderItemsController extends BaseController {
 		$tables = Table::all(array('id','number', 'taken', 'seats'));
 		$users = User::all();
 		$categories = Category::all(array('id','name'));
-		return View::make('order.agregar', array('order' => $order,'categories'=>$categories, 'tables'=>$tables, 'users'=>$users));
+		return View::make('order.edit', array('order' => $order,'categories'=>$categories, 'tables'=>$tables, 'users'=>$users));
 	}
 
 	public function items($id) {

@@ -16,7 +16,7 @@
       {{ Form::hidden("_method", "DELETE") }}
       {{ Form::submit("Eliminar",array('class'=>'btn btn-danger')) }}
    {{ Form::close() }}</p><p>
-<a href="/restappadmin/public/index.php/tables" class="btn btn-default" role="button">Cancelar</a> </p>
+<a href="/restapp-rest/public/index.php/tables" class="btn btn-default" role="button">Cancelar</a> </p>
 </div>
 </div>
 </div>

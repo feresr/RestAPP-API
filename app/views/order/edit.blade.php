@@ -73,6 +73,7 @@
 <div id="tabla">
 </div>
 <a id="finish" class="btn btn-default">Cerrar</a>
+<a href="orders/delete/{{$order->id}}" class="btn btn-danger">Eliminar</a>
 
 <script type="text/javascript">
 
@@ -140,5 +141,5 @@ form_edit.on('submit', function () {
 
 $("#finish").click(function(){
   $("#result").html("");
-})
+});
 </script>

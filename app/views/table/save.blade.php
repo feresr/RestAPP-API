@@ -1,4 +1,6 @@
 <div class="row">
+<div class="col-md-2">
+</div>
 <div class="col-md-8">
   <div class="widget">
      <div class="widget-content-white glossed">
@@ -19,14 +21,17 @@
        {{ Form::label ('description', 'Descripcion') }}
        {{ Form::text ('description', $table->description, array('class'=>'form-control','placeholder'=>'Descripcion', 'autocomplete'=>'of')) }} 
      </div>
-       {{ Form::submit('Guardar mesa',array('class'=>'btn btn-success')) }}
+       {{ Form::submit('Guardar mesa',array('class'=>'btn btn-primary pull-right')) }}
+       @if ($table->id != null)
+       <a href="tables/delete/{{$table->id}}" class="btn btn-danger">Eliminar</a>
+       @endif
        <a id="finish" class="btn btn-default">Cerrar</a>
     {{ Form::close() }}
 </div>
 </div>
 </div>
 </div>
-<div class="col-md-4">
+<div class="col-md-2">
 </div>
 </div>
 <script type="text/javascript">
@@ -50,7 +55,8 @@ form.on('submit', function () {
                       $('#errors_form').removeClass("alert alert-danger");
                       $('#errors_form').addClass("alert alert-success");
                       $('#errors_form').html("Los cambios se guardaron correctamente correctamente");
-                          location.href = "http://localhost/restapp-rest/public/index.php/tables/edit";
+                      $(form)[0].reset();//limpiamos el formulario
+                        //  location.href = "http://localhost/restapp-rest/public/index.php/tables";
                     }
                   }
          }); 

@@ -28,6 +28,7 @@ background-color: red;
 }
   </style>
 @stop
+<h2>ORDENES</h2>
   <div class="widget">
      <div class="widget-content-white glossed">
      <div class="padded">
