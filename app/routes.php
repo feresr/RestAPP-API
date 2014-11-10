@@ -142,4 +142,7 @@ Route::get('reservas/{id}/edit', 'ReservaController@edit');
 Route::post('reservas/create/{id}', 'ReservaController@update');
 Route::get('reservas/{id}/delete', 'ReservaController@delete');
 Route::DELETE('reservas/{id}', 'ReservaController@destroy');
+
+Route::post('cocina/check/{id}', 'CocinaController@chkItem');
+
 });
