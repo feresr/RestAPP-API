@@ -27,7 +27,7 @@
                 <div class="panel-footer announcement-bottom" style="height:300px;">
                   <button id= 'enviar' onclick="send({{$order->id}})" type="button" class="btn btn-primary pull-right">Enviar <i class="fa fa-arrow-circle-right"></i></button>
                   <h3>Items de la orden</h3>
-          <table class="table table-striped table-bordered table-hover datatable">
+          <table class="table table-striped table-bordered">
            <tr>
              <th> Item </th>
              <th> Descripcion </th>
@@ -40,9 +40,9 @@
                 <td> {{ $item->description }} </td>
                 <td> {{ $item->pivot->quantity }} </td>
                 @if($item->pivot->view == false)
-                <td> <div class="checkbox" value="{{ $item->pivot->id }}">{{ Form::checkbox('view['.$item->pivot->id.']', $item->pivot->id) }}</div></td>
+                <td> <div class="checkbox"><input type="checkbox" value="{{$item->pivot->id}}" class="chk"/></div></td>
                 @else
-                <td> <div class="checkbox" value="{{ $item->pivot->id }}">{{ Form::checkbox('view['.$item->pivot->id.']', $item->pivot->id, true) }}</div></td>
+                <td> <div class="checkbox"><input type="checkbox" value="{{$item->pivot->id}}" class="chk" checked="checked"/></div></td>
                 @endif
           </tr>
       @endforeach
@@ -100,7 +100,7 @@ $.post("orders/view/"+id,
             });                         
 });
 
-$('.checkbox').click(function() {
+$('.chk').click(function() {
 var value = $( this ).val();
 $.post("cocina/check/"+value, 
             function(data){
