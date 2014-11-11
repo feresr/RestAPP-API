@@ -4,28 +4,6 @@
 @section('head')
   <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 {{HTML::script('js/chosen.jquery.js')}}
-  <style>
-  #draggable
-  {   
-  height:110px;
-  width:130px;
-  position: absolute;
-}
-.active{
-  background-color: #357ebd;
-}
-.label-false {
-background-color: red;
-}
-
-  #containment-wrapper { 
-  height:700px;
-  position:relative;
-  width:800px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-}
-  </style>
 @stop
 
 <h2>MESAS</h2>
@@ -47,10 +25,10 @@ background-color: red;
 <div id='draggable' value='{{$coord->table_id}}' onclick="edit({{ $coord->table_id}})" class="img-circle" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;">
 {{ HTML::image('images/table.png') }}
 @if($coord->table['taken'] == true)
-  <div class='indicators'><h3><span class="label label-success">{{$coord->table['number']}}</span></h3>
+  <div class='indicators'><h3><span class="label label-false">{{$coord->table['number']}}</span></h3>
   </div>
 @else
-  <div class='indicators'><h3><span class="label label-false">{{$coord->table['number']}}</span></h3>
+  <div class='indicators'><h3><span class="label label-success">{{$coord->table['number']}}</span></h3>
   </div>
 @endif
 </div>

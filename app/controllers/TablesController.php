@@ -32,7 +32,7 @@ class TablesController extends BaseController {
 			return Response::json($tables);
 		}else{
 		$coords = Coord::all();
-		return View::make('table.mesas', array('coords' => $coords));
+		return View::make('table.edit', array('coords' => $coords));
 		}
 	}
 	/**

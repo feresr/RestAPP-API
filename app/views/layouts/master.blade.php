@@ -23,14 +23,7 @@
 <div class="all-wrapper">
   <div class="row">
     <div class="col-md-3">
-      <div class="text-center">
-  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-    <span class="sr-only">Toggle navigation</span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-  </button>
-</div>
+
 <div class="side-bar-wrapper collapse navbar-collapse navbar-ex1-collapse">
   <a href="http://localhost/restapp-rest/public/index.php/admin" class="logo hidden-sm hidden-xs">
     <i class="icon-laptop"></i>

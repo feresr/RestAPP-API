@@ -4,30 +4,8 @@
 @section('head')
   <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 {{HTML::script('js/chosen.jquery.js')}}
-  <style>
-  #draggable
-  { 	
-  height:110px;
-	width:130px;
-  position: absolute;
-}
-.label-false {
-background-color: red;
-}
-.active{
-  background-color: #357ebd;
-  border-color: #2980b9;
-}
-
-  #containment-wrapper { 
-  height:700px;
-  position:relative;
-  width:800px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-}
-  </style>
 @stop
+
 <h2>ORDENES</h2>
   <div class="widget">
      <div class="widget-content-white glossed">
