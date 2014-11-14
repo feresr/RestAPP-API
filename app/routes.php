@@ -58,6 +58,10 @@ UPDATE => PUT / PATCH
 DELETE => DELETE
 
 */
+
+Route::get('/', 'HomeController@index');
+Route::post('/', 'HomeController@store');
+
 Route::group(array('before' => 'auth'), function()
 {
 Route::get('users', 'UsersController@index');
@@ -67,9 +71,6 @@ Route::post('users/create/{id}', 'UsersController@update');
 Route::get('users/{id}/edit', 'UsersController@edit');
 
 //Route::resource('users', 'UsersController');
-
-Route::get('/', 'HomeController@index');
-Route::post('/', 'HomeController@store');
 
 Route::get('admin', 'HomeController@indexAdmin');
 Route::get('admin/cargagraficos', 'StatisticsController@index');
