@@ -28,7 +28,15 @@ class SessionsController extends BaseController {
 		));
 
 		if($attempt){
+		if (Request::wantsJson())
+		{
 			return Auth::User();
+		}else{
+			return Response::json(array(
+			'success' => true,
+			));
+		}
+			
 		}else{
 			return null;
 		}

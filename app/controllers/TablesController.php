@@ -9,25 +9,59 @@ class TablesController extends BaseController {
 	 */
 	public function index()
 	{
-		$tables = Table::all();
 		if (Request::wantsJson())
 		{
+			$tables = Table::all();
 			return Response::json($tables);
 		}else{
-			return View::make('table.index', array('tables' => $tables));
+		$coords = Coord::all();
+		return View::make('table.index', array('coords' => $coords));
 		}
 	}
 
-
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function editPosition()
+	{
+		if (Request::wantsJson())
+		{
+			$tables = Table::all();
+			return Response::json($tables);
+		}else{
+		$coords = Coord::all();
+		return View::make('table.edit', array('coords' => $coords));
+		}
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response
 	 */
+	public function savepos($left, $top, $id)
+		{
+		$coord = Coord::find($id);
+		$coord->x_pos = $left;
+		$coord->y_pos = $top;
+		$coord->save();
+
+		return Response::json(array(
+		'success' => true,
+		'message' => 'Ha cambiado la posicion'
+		));	
+		}
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */	
 	public function create()
 	{
 		$table = new Table();
-		return View::make('table.save', array('table' => $table));
+		$title = "Nueva";
+		return View::make('table.save', array('table' => $table, 'title' => $title));
 	}
 
 
@@ -93,7 +127,8 @@ class TablesController extends BaseController {
 	public function edit($id)
 	{
 		$table = Table::find($id);
-		return View::make('table.save')->with('table', $table);
+		$title = "Editar";
+		return View::make('table.save', array('table' => $table, 'title' => $title));
 	}
 
 
@@ -120,8 +155,7 @@ class TablesController extends BaseController {
 			$table->description = $input['description'];
 			$table->save();
 			return Response::json(array(
-				'success' => true,
-				'types' => 'edit'
+				'success' => true
 		  	));
 		}
 	}

@@ -14,12 +14,23 @@ public function index() {
 $items = DB::select('SELECT Month(created_at) as fecha, SUM(total) as total FROM orders
 group by Month(created_at)');
 
-/*
-	$items = DB::table('orders')
-	->select('Month(created_at) AS fecha, SUM(total) AS total')
- 	->groupBy('Month(created_at)')
- 	->get();*/
 	return Response::json($items);
  }
+  public function barrasChart1(){
 
+   $orders = DB::table('orders')->where('orders.active', '=', true)
+   ->join('users', 'orders.user_id', '=', 'users.id')
+   ->select('users.firstname', DB::raw('SUM(total) AS total'))->groupBy('user_id')
+   ->orderBy('users.firstname', 'asc')->get();
+	return Response::json($orders);
+ }
+
+  public function mesasXmozo(){
+
+   $orders = DB::table('orders')
+   ->join('users', 'orders.user_id', '=', 'users.id')->where('orders.active', '=', true)
+   ->select('users.firstname',  DB::raw('COUNT(orders.id) AS total'))->groupBy('user_id')
+   ->orderBy('users.firstname', 'asc')->get();
+	return Response::json($orders);
+ }
 }

@@ -1,68 +1,59 @@
 @extends('layouts.master')
  
 @section('content')
+@section('head')
+  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+{{HTML::script('js/chosen.jquery.js')}}
+@stop
 
-<h1> ORDENES </h1>
-    @if(Session::has('notice'))
-<div class="alert alert-danger fade in" role="alert">
-      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-      <h4>{{ Session::get('notice') }}</h4>
-    </div>
-    @endif
-    <p> <a href='orders/create' class="btn btn-primary"><i class="icon-plus"></i> Crear nueva orden</a> </p>
-    @if($orders->count())
-    <div class="padded">
-        <div class="row">
-        @foreach($orders as $order)
-        <div class="col-lg-3">
-        @if($order->ready == true)
-            <div class="panel panel-success">
-            <span class="label label-success pull-right">Mozo: {{$order->user['firstname'].' '.$order->user['lastname']}}</span>
-        @else
-            <div class="panel panel-danger">
-              <span class="badge pull-right alert-animated">Mozo: {{$order->user['firstname'].' '.$order->user['lastname']}}</span>
-              <button id='check' value="{{$order->id}}" type="button" class="btn btn-primary pull-right">Vista </button>
-        @endif
-              <div class="panel-heading">
-                <div class="row">
-                  <div class="col-xs-6">
-                    {{ HTML::image('images/table.png', "Imagen no encontrada", array('class' => 'img-circle')) }}
-                    <h4><span class="label label-success">Mesa Nº {{$order->table['number']}}</span></h4>
-                  </div>
-                  <div class="col-xs-6 text-right">
-                    {{ HTML::image('images/waiter.png', "Imagen no encontrada", array('class' => 'img-circle')) }}
-                  </div>
-                </div>
-              </div>              
-                <div class="panel-footer announcement-bottom">
-                <td> {{ link_to('orders/'.$order->id, 'Ver') }} </td>               
-                <td>
-                @if($order->active==true) 
-                  {{ link_to('orders/edit/'.$order->id, 'Editar',array('class'=>'btn btn-default btn-xs')) }} 
-                  @endif
-                </td>
-          <td>
-        @if($order->active==true)
-        {{ link_to('orders/cobrar/'.$order->id, 'Cobrar',array('class'=>'btn btn-primary btn-xs')) }}
-        @endif
-                </td>
-        <td> 
-<td><a href='orders/{{$order->id}}/delete' class="btn btn-danger btn-xs"><i class="icon-remove"></i></a></td>
-        </td>
-        <td><a href='orders/editar/{{$order->id}}' class="btn btn-default btn-xs"><i class="icon-pencil"></i> edit</a></td>
-                </div>
-            </div>
-          </div>
-          @endforeach
-    </div>
+<h2>ORDENES</h2>
+  <div class="widget">
+     <div class="widget-content-white glossed">
+     <div class="padded">
+@if(Session::has('notice'))
+<div class="alert alert-success fade in" role="alert">
+  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  <h4>{{ Session::get('notice') }}</h4>
 </div>
-    @else
-    <div class="alert alert-danger">No existen ordenes a la fecha</div>
-    @endif
-<script type="text/javascript">
-$(document).ready(function (){ 
-  $('#order').addClass("active");
-});
+@endif
+<div id="containment-wrapper">
+@foreach($coords as $coord)
+<div id='draggable' value='{{$coord->table_id}}' onclick="editar({{ $coord->table_id}})" class="img-circle" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;">
+{{ HTML::image('images/table.png') }}
+@if($coord->table['taken'] == true)
+  <div class='indicators'><h3><span class="label label-success">{{$coord->table['number']}}</span></h3>
+  </div>
+@else
+  <div class='indicators'><h3><span class="label label-false">{{$coord->table['number']}}</span></h3>
+  </div>
+@endif
+</div>
+@endforeach
+</div>
+<hr>
+<div id="result">
+</div>
+</div>
+</div>
+</div>
+<script>
 
+function editar(idtable){      
+$.get("edi/"+ idtable, 
+            function(data){
+              $('#result').html("");
+                if (data.success == false){
+                  $('#result').load('http://localhost/restapp-rest/public/index.php/orders/create/'+idtable);
+                }
+                else
+              $.each(data, function(i,order){
+                    $('#result').load('http://localhost/restapp-rest/public/index.php/orders/edit/'+order.id);
+              });
+            });                         
+}
+$('.img-circle').on('click', function() {
+$('.img-circle').removeClass('active');
+    $(this).addClass('active');
+});
 </script>
 @stop

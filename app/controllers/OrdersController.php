@@ -15,7 +15,8 @@ class OrdersController extends BaseController {
 			return Response::json($orders);
 		}else{
 			$orders = Order::where('active', true)->get();
-			return View::make('order.index', array('orders' => $orders));
+			$coords = Coord::all();
+			return View::make('order.index', array('coords' => $coords, 'orders' => $orders));
 		}
 	}
 
@@ -24,13 +25,12 @@ class OrdersController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create($id)
 	{
 		$order = new Order();
 		$users = User::all(array('id','firstname','lastname'));
-		$tables = Table::where('taken',false)->get();
-		$title = 'NUEVA';
-		return View::make('order.save', array('order' => $order, 'users'=> $users,'tables'=>$tables, 'title' => $title)); 
+		$table = Table::find($id);
+		return View::make('order.save', array('order' => $order, 'users'=> $users,'table'=>$table)); 
 	}
 
 	/**
@@ -65,11 +65,13 @@ class OrdersController extends BaseController {
 			$order->table->taken = true;
 			
 			$order->push();
-
+		if(Request::wantsJson())
+			{
 			return Response::json(array('success' => true, 
 				'message' => 'Se agrego la orden correctamente',
 				'id' => $order->id));
-
+			}
+		return Redirect::to('orders')->with('notice', 'Se agrego la orden correctamente.');
 
 		}else{
 
@@ -144,7 +146,22 @@ class OrdersController extends BaseController {
 			));
 		}
 	}
-
+	/**
+	* Display the specified resource.
+	*
+	* @param  int  $id
+	* @return Response
+	*/
+	public function delete($id)
+	{
+		$order = Order::find($id);
+		if (Request::wantsJson())
+		{
+			return Response::json($order);
+		}else{
+			return View::make('order.delete', array('order' => $order));
+		}
+	}
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -156,8 +173,8 @@ class OrdersController extends BaseController {
 		$order = Order::find($id);
 		if($order != null){
 
-			$order->active = false;
-			$order->table->taken = false;
+			$order->active = 0;
+			$order->table->taken = 0;
 
 			$order->push();
 
@@ -176,46 +193,27 @@ class OrdersController extends BaseController {
 			));	
 		}
 	}
-public function mesas()
+
+
+public function coords()
 	{
 	$coords = Coord::all();
-	//$orders = Order::where('active', true)->get();
-	return View::make('order.mesas', array('coords' => $coords));
+	return Response::json($coords);
 	}
 
-public function editar()
-	{
-	$coords = Coord::all();
-	$orders = Order::where('active', true)->get();
-	//$orders = Order::where('active', true)->get();
-	return View::make('order.edit', array('coords' => $coords, 'orders' => $orders));
-	}
 
-public function edi($id)
+public function getOrder($id)
 	{
 		$order = Order::where('table_id', '=', $id)->where('active', '=', true)->get();
-			if($order != null)
+			if($order != "[]")
 			{
 				return Response::json($order);
 			}
-		//$order = Order::find(2);
-			return Response::json(array(
+		else{
+				return Response::json(array(
 				'success' => false
-			));
-		//return View::make('order.agregar', array('categories' => $categories, 'order' => $order));
-		//return Redirect::to('orders/edit/'.$order->id);	
+			));	
+			}
 	}
 
-public function savepos($left, $top, $id)
-	{
-	$coord = Coord::find($id);
-	$coord->x_pos = $left;
-	$coord->y_pos = $top;
-	$coord->save();
-
-	return Response::json(array(
-	'success' => true,
-	'message' => 'cambio pos'
-	));	
-	}
 }

@@ -23,6 +23,46 @@ $.getJSON("/restapp-rest/public/index.php/admin/colum", function (datos) {
         chart.draw(data, options);
   });
 //////
+$.getJSON("/restapp-rest/public/index.php/admin/colum1", function (datos) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'User');
+        data.addColumn('number', 'Total');
+          
+          $.each(datos, function(id, item){
+          data.addRows([
+            [item.firstname, item.total],
+            ])
+          })
+
+        var options = {
+          title: 'Company Employees',
+          hAxis: {title: 'Mozos', titleTextStyle: {color: 'red'}}
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div1'));
+        chart.draw(data, options);
+  });
+//////
+$.getJSON("/restapp-rest/public/index.php/admin/mesasXmozo", function (datos) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'User');
+        data.addColumn('number', 'Total');
+          
+          $.each(datos, function(id, item){
+          data.addRows([
+            [item.firstname, item.total],
+            ])
+          })
+
+        var options = {
+          title: 'Company Employees',
+          hAxis: {title: 'Mozos', titleTextStyle: {color: 'red'}}
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
+        chart.draw(data, options);
+  });
+//////
 $.getJSON("/restapp-rest/public/index.php/admin/cargagraficos", function (datos) {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Categories');

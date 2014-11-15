@@ -29,7 +29,7 @@
 <script type="text/javascript">
 function eliminar(iditem, idorder){          
 
-$.post(iditem, 
+$.post('orders/'+iditem, 
             function(data){
                 if (data.success != true){
                   alert('Error');

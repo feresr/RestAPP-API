@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Dashboard - RestApp Admin</title>
+    <title>RestApp Admin</title>
     {{HTML::style('http://fonts.googleapis.com/css?family=Oswald:300,400,700|Open+Sans:400,700,300')}}    
     {{HTML::style('css/style.css')}}
     {{HTML::style('css/bootstrap.css')}} 
@@ -23,14 +23,7 @@
 <div class="all-wrapper">
   <div class="row">
     <div class="col-md-3">
-      <div class="text-center">
-  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-    <span class="sr-only">Toggle navigation</span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-  </button>
-</div>
+
 <div class="side-bar-wrapper collapse navbar-collapse navbar-ex1-collapse">
   <a href="http://localhost/restapp-rest/public/index.php/admin" class="logo hidden-sm hidden-xs">
     <i class="icon-laptop"></i>
@@ -74,7 +67,7 @@
         </a>
       </li>
       <li>
-        <a href="http://localhost/restapp-rest/public/index.php/auth/login">
+        <a href="http://localhost/restapp-rest/public/index.php/login">
           <span class="badge pull-right"></span>
           <i class="icon-signin"></i> Login Page
         </a>
@@ -95,11 +88,7 @@
   </div>
   <h1><i class="icon-bar-chart"></i> RestApp - Admin</h1>
 </div>
-<ol class="breadcrumb">
-  <li><a href="#">Home</a></li>
-  <li><a href="#">Bread</a></li>
-  <li><a href="#">Crumbs</a></li>
-</ol>
+
           <div class="main-content">
 @yield('content')
           </div>

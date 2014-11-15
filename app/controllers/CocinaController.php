@@ -57,5 +57,14 @@ public function itemsOrders($cant, $items){
 			'success' => false
 		));
 		}
+
+		public function chkItem($id){
+			$itemOrder = OrderItem::find($id);
+			$itemOrder->view = 1;
+			$itemOrder->save();
+		return Response::json(array(
+			'success' => true,
+		));
+		}
 	}
 ?>

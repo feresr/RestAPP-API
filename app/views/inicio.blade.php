@@ -85,6 +85,20 @@
 </div>
 </div>
 </div>
+<div class="row">
+<div class='widget col-md-6'>
+<h3 class="section-title first-title"><i class="icon-table"></i> Cantidad facturada por mozo</h3>
+<div class='widget-content-white padded glossed'>
+<div id="chart_div1" style="height: 400px;"></div>
+</div>
+</div>
+<div class='widget col-md-6'>
+<h3 class="section-title first-title"><i class="icon-table"></i> Cantidad de mesas por mozo</h3>
+<div class='widget-content-white padded glossed'>
+<div id="chart_div2" style="height: 400px;"></div>
+</div>
+</div>
+</div>
 <h3 class="section-title first-title"><i class="icon-tasks"></i> Ordenes</h3>
 <div class="panel-group" id="accordion">
 @foreach($users as $user)
