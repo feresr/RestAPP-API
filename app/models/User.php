@@ -5,17 +5,17 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
-	protected $fillable = array('name', 'lastname', 'password');
+	protected $fillable = array('firstname', 'lastname', 'password');
 
 	public static $rules = array(
-		'name' => 'required|min:2',
+		'firstname' => 'required|min:2',
 		'lastname' => 'required|unique:users',
 		'password' => 'required'
 	);
 
 	public static $messages = array(
-		'name.required' => 'El nombre es obligatorio.',
-		'name.min' => 'El nombre debe contener al menos dos caracteres.',
+		'firstname.required' => 'El nombre es obligatorio.',
+		'firstname.min' => 'El nombre debe contener al menos dos caracteres.',
 		'lastname.required' => 'El apellido es obligatorio.',
 		'password.required' => 'El password es obligatorio.'
 	);

@@ -13,20 +13,22 @@ class Table extends Eloquent{
 	public function orders(){
 		return $this->hasMany('Order');
 	}
-
+public function coords(){
+		return $this->hasMany('Coord');
+	}
 	//VALIDACIONES
 	public static $rules = array(
 		'number' => 'required|numeric',
-		'quantity' => 'required|numeric'
+		'seats' => 'required|numeric'
 	);
 
 
 	public static $messages = array(
 		'number.required' => 'El numero es obligatorio.',
-		'number.numeric' => 'El debe ser un numerico.',
+		'number.numeric' => 'El numero de mesa debe ser un numerico.',
 		'number.unique' => 'El numero pertenece a otra mesa.',
-		'quantity.required' => 'La cantidad es obligatorio.',
-		'quantity.numeric' => 'La cantidad debe se un numero.',     
+		'seats.required' => 'La cantidad es obligatorio.',
+		'seats.numeric' => 'La cantidad debe se un numero.',     
 	);
 
 	public static function validate($data, $id=null){

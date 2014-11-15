@@ -25,7 +25,7 @@ class Order extends Eloquent{
 
     public function items()
     {
-        return $this->belongsToMany('Item')->withPivot(array('quantity','price'));
+        return $this->belongsToMany('Item')->withPivot(array('quantity','price','id','view'));
     }
 
      //VALIDACIONES

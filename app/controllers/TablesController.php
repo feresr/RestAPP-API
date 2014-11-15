@@ -9,25 +9,59 @@ class TablesController extends BaseController {
 	 */
 	public function index()
 	{
-		$tables = Table::all();
 		if (Request::wantsJson())
 		{
+			$tables = Table::all();
 			return Response::json($tables);
 		}else{
-			return View::make('table.index', array('tables' => $tables));
+		$coords = Coord::all();
+		return View::make('table.index', array('coords' => $coords));
 		}
 	}
 
-
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function editPosition()
+	{
+		if (Request::wantsJson())
+		{
+			$tables = Table::all();
+			return Response::json($tables);
+		}else{
+		$coords = Coord::all();
+		return View::make('table.edit', array('coords' => $coords));
+		}
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response
 	 */
+	public function savepos($left, $top, $id)
+		{
+		$coord = Coord::find($id);
+		$coord->x_pos = $left;
+		$coord->y_pos = $top;
+		$coord->save();
+
+		return Response::json(array(
+		'success' => true,
+		'message' => 'Ha cambiado la posicion'
+		));	
+		}
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */	
 	public function create()
 	{
 		$table = new Table();
-		return View::make('table.save', array('table' => $table));
+		$title = "Nueva";
+		return View::make('table.save', array('table' => $table, 'title' => $title));
 	}
 
 
@@ -49,9 +83,17 @@ class TablesController extends BaseController {
 		}
 		$table = new Table();
 		$table->number = $input['number'];
-		$table->quantity = $input['quantity'];
+		$table->seats = $input['seats'];
+		$table->description = $input['description'];
 		$table->taken = false;
 		$table->save();
+
+		$coord = new Coord();
+		$coord->table_id = $table->id;
+		$coord->x_pos = '10';
+		$coord->y_pos = '10';
+		$coord->save();
+
 		return Response::json(array(
 			'success' => true
 		));
@@ -85,7 +127,8 @@ class TablesController extends BaseController {
 	public function edit($id)
 	{
 		$table = Table::find($id);
-		return View::make('table.save')->with('table', $table);
+		$title = "Editar";
+		return View::make('table.save', array('table' => $table, 'title' => $title));
 	}
 
 
@@ -108,15 +151,30 @@ class TablesController extends BaseController {
 			));
 		}else{
 			$table->number = $input['number'];
-			$table->quantity = $input['quantity'];
+			$table->seats = $input['seats'];
+			$table->description = $input['description'];
 			$table->save();
 			return Response::json(array(
-				'success' => true,
-				'types' => 'edit'
+				'success' => true
 		  	));
 		}
 	}
-
+	/**
+	* Display the specified resource.
+	*
+	* @param  int  $id
+	* @return Response
+	*/
+	public function delete($id)
+	{
+		$table = Table::find($id);
+		if (Request::wantsJson())
+		{
+			return Response::json($table);
+		}else{
+			return View::make('table.delete', array('table' => $table));
+		}
+	}
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -127,8 +185,6 @@ class TablesController extends BaseController {
 	{
 		$table = Table::find($id);
 		$table->delete();
-		return Response::json(array(
-			'success' => true
-		));
+		return Redirect::to('tables')->with('notice', 'La mesa ha sido eliminada correctamente.');
 	}
 }
