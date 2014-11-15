@@ -9,17 +9,13 @@ class SessionsController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	
 	public function create(){
-
 		return View::make('sessions.create');
-
 	}
 
 	//POST api/v1/sessions
 	public function store()
 	{
-
 		$input = Input::all();
 
 		$attempt = Auth::attempt(array(
@@ -27,19 +23,18 @@ class SessionsController extends BaseController {
 			'password' => $input['password']
 		));
 
-		if($attempt){
-		if (Request::wantsJson())
-		{
-			return Auth::User();
-		}else{
-			return Response::json(array(
-			'success' => true,
-			));
+		if (!$attempt) {
+			//Por seguridad, en el caso que el usuario esté logeado
+			//pero de algun modo se re loggea
+			//con credenciales incorrectas, lo desloggeamos.
+			Auth::logout();
 		}
-			
-		}else{
-			return null;
-		}
+
+		return Response::json(array(
+			'success' => $attempt,
+			'message' => $attempt? 'Successful login' : 'Invalid credentials',
+			'user' => Auth::User()
+		));
 	}
 
 
