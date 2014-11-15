@@ -57,18 +57,6 @@
     version    : 'v2.1' // use version 2.1
   });
 
-  // Now that we've initialized the JavaScript SDK, we call 
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
-
   FB.getLoginStatus(function(response) {
     statusChangeCallback(response);
   });
@@ -92,9 +80,21 @@
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
         '<p>Gracias por ingresar a RestApp, ' + response.name + '!</p>'+
-        '<p>Presione el boton que aparece a continuacion y realice su reserva</p><button value="'+ response.name +'" id="reserva" class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">Reservar!</button>';
+        '<p>Presione el boton que aparece a continuacion y realice su reserva</p>'+
+        '<button value="'+ response.name +'" id="reserva" class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">Reservar!</button>';
     });
   }
+  /*
+$('#reserva').on('click',function(){
+
+        var value =$(this).val();
+
+        $('.modal-body').load('http://www.google.com.ar',function(){
+            $("#myModal").modal({show: 'false'});
+            $('#myModalLabel').text("Nueva Reserva");
+        });
+
+    }); */
 </script>    
   </head>
 
@@ -266,10 +266,10 @@
 @yield('content')
 </div>
         </div>
-    </div>
+    </div><!--
     <div id="contact" class="map">
       <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A"></a></small></iframe>
-    </div>
+    </div>   -->
 
         <!-- Call to Action -->
     <div id="reservas"class="call-to-action">
@@ -292,6 +292,7 @@
         <h4 class="modal-title" id="myModalLabel">Modal title</h4>
       </div>
       <div class="modal-body">
+        ...
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -327,18 +328,6 @@
     <!-- /Footer -->
     <!-- Custom JavaScript for the Side Menu and Smooth Scrolling -->
     <script>
-         $('#reserva').click(function(){
-        //this = es el elemento sobre el que se hizo click en este caso el link
-        //obtengo el id que guardamos en data-id
-        var value =$(this).val();
-        //preparo los parametros
-
-        $('.modal-body').load('http://localhost/restapp-rest/public/index.php/reservas',function(){
-            $("#myModal").modal('show');
-            $('#myModalLabel').text("Editar Mesa");
-        });
-
-    }); 
         $("#menu-close").click(function(e) {
             e.preventDefault();
             $("#sidebar-wrapper").toggleClass("active");
