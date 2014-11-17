@@ -43,11 +43,11 @@ $.get("edi/"+ idtable,
             function(data){
               $('#result').html("");
                 if (data.success == false){
-                  $('#result').load('http://localhost/restapp-rest/public/index.php/orders/create/'+idtable);
+                  $('#result').load('http://localhost/restapp-api/public/index.php/orders/create/'+idtable);
                 }
                 else
               $.each(data, function(i,order){
-                    $('#result').load('http://localhost/restapp-rest/public/index.php/orders/edit/'+order.id);
+                    $('#result').load('http://localhost/restapp-api/public/index.php/orders/edit/'+order.id);
               });
             });                         
 }

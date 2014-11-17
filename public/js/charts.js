@@ -3,7 +3,7 @@ google.load("visualization", "1", {packages:["corechart"]});
 
 function drawChart() {
 
-$.getJSON("/restapp-rest/public/index.php/admin/colum", function (datos) {
+$.getJSON("/restapp-api/public/index.php/admin/colum", function (datos) {
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'Meses');
         data.addColumn('number', 'Total');
@@ -23,7 +23,7 @@ $.getJSON("/restapp-rest/public/index.php/admin/colum", function (datos) {
         chart.draw(data, options);
   });
 //////
-$.getJSON("/restapp-rest/public/index.php/admin/colum1", function (datos) {
+$.getJSON("/restapp-api/public/index.php/admin/colum1", function (datos) {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'User');
         data.addColumn('number', 'Total');
@@ -43,7 +43,7 @@ $.getJSON("/restapp-rest/public/index.php/admin/colum1", function (datos) {
         chart.draw(data, options);
   });
 //////
-$.getJSON("/restapp-rest/public/index.php/admin/mesasXmozo", function (datos) {
+$.getJSON("/restapp-api/public/index.php/admin/mesasXmozo", function (datos) {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'User');
         data.addColumn('number', 'Total');
@@ -63,7 +63,7 @@ $.getJSON("/restapp-rest/public/index.php/admin/mesasXmozo", function (datos) {
         chart.draw(data, options);
   });
 //////
-$.getJSON("/restapp-rest/public/index.php/admin/cargagraficos", function (datos) {
+$.getJSON("/restapp-api/public/index.php/admin/cargagraficos", function (datos) {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Categories');
     data.addColumn('number', 'Cantidad');

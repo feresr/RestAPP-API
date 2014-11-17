@@ -15,7 +15,7 @@
                 <td> {{ $item->pivot->quantity }} </td>
                 <td> $ {{$item->pivot->price}}</td>
                 <td> $ {{$item->pivot->price * $item->pivot->quantity}}</td>
-                <td> <a href='http://localhost/restapp-rest/public/index.php/orders/editar/{{$item->id}}' class="btn btn-default btn-xs"><i class="icon-pencil"></i> edit</a></td>
+                <td> <a href='http://localhost/restapp-api/public/index.php/orders/editar/{{$item->id}}' class="btn btn-default btn-xs"><i class="icon-pencil"></i> edit</a></td>
               <td>
                 <button id="button" onclick="eliminar({{ $item->pivot->id }}, {{ $order->id }})" class="btn btn-danger btn-xs"><i class="icon-remove"></i></button>
               </td>
