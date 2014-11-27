@@ -10,13 +10,13 @@ class OrderItemsController extends BaseController {
 	public function index()
 	{
 		$orders = Auth::User()->orders(true)->get();
-
 		$response = array();
 		foreach ($orders as $order) {
-			$itemsInOrder = OrderItem::where('order_id', $order->id)->get()->toArray();
-			array_push($response,$itemsInOrder);
+			$itemsInOrder = OrderItem::where('order_id', $order->id)->get();
+			foreach ($itemsInOrder as $item) {
+				array_push($response,$item);
+			}
 		}
-
 		return Response::json($response);
 	}
 
