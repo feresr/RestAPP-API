@@ -180,7 +180,10 @@ class OrdersController extends BaseController {
 
 			if(Request::wantsJson())
 			{
-				return Response::json($order);
+				return Response::json(array(
+					'success' => true,
+					'errors' => 'La orden fue cerrada con éxito'
+				));
 			}
 			else{
 				return Redirect::to('orders')->with('notice', 'La Orden ha sido eliminada correctamente.');
@@ -189,8 +192,8 @@ class OrdersController extends BaseController {
 
 			return Response::json(array(
 				'success' => false,
-				'errors' => 'Order not found'
-			));	
+				'errors' => 'Orden no encontrada'
+			));
 		}
 	}
 
