@@ -86,7 +86,7 @@ class OrderItemsController extends BaseController {
 				$order->total -= $orderItem->price * $orderItem->quantity;
 				$order->save();
 				$orderItem->delete();
-				//CAMBIÉ ESTO
+				
 				return Response::json(array('success' => true, 'id' => $orderItem->id));
 
 			}else{
@@ -98,7 +98,7 @@ class OrderItemsController extends BaseController {
 
 	public function edit($id) { 
 		$order = Order::find($id);
-		$tables = Table::all(array('id','number', 'taken', 'seats'));
+		$tables = DB::table('tables')->select('id', 'number', 'seats', 'taken')->get();			
 		$users = User::all();
 		$categories = Category::all(array('id','name'));
 		return View::make('order.edit', array('order' => $order,'categories'=>$categories, 'tables'=>$tables, 'users'=>$users));

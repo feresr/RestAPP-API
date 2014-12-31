@@ -22,7 +22,8 @@
 </select>
 </div>
 <div class="col-lg-3">
-  {{ Form::submit('Guardar cambios',array('class'=>'btn btn-primary')) }}
+	<br>
+  {{ Form::submit('Crear',array('class'=>'btn btn-primary')) }}
 </div>
 {{ Form::close() }}
 </div>

@@ -20,13 +20,15 @@
 @foreach($coords as $coord)
 <div id='draggable' value='{{$coord->table_id}}' onclick="editar({{ $coord->table_id}})" class="img-circle" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;">
 {{ HTML::image('images/table.png') }}
+<div class='indicators'>
+  <h3>
 @if($coord->table['taken'] == true)
-  <div class='indicators'><h3><span class="label label-success">{{$coord->table['number']}}</span></h3>
-  </div>
+  <span class="label label-success">{{$coord->table['number']}}</span>
 @else
-  <div class='indicators'><h3><span class="label label-false">{{$coord->table['number']}}</span></h3>
-  </div>
+  <span class="label label-false">{{$coord->table['number']}}</span>
 @endif
+</h3>
+</div>
 </div>
 @endforeach
 </div>
@@ -45,7 +47,7 @@ $.get("edi/"+ idtable,
                 if (data.success == false){
                   $('#result').load('http://localhost/restapp-api/public/index.php/orders/create/'+idtable);
                 }
-                else
+                else                  
               $.each(data, function(i,order){
                     $('#result').load('http://localhost/restapp-api/public/index.php/orders/edit/'+order.id);
               });

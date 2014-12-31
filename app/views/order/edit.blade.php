@@ -8,10 +8,10 @@
 <select class="form-control" id="table_id" name="table_id">
 @foreach($tables as $table)
 @if($table->id == $order->table_id)
-<option value="{{$table->id}}" selected>Mesa #{{$table->number}} - Seats: ${{$table->seats}}</option>
+<option value="{{$table->id}}" selected>Mesa #{{$table->number}} - Seats: {{$table->seats}}</option>
 @else
 @if($table->taken == 'true')
-<option value="{{$table->id}}">{{$table->number}} Seats: ${{$table->seats}}</option>
+<option value="{{$table->id}}">Mesa #{{$table->number}} Seats: {{$table->seats}}</option>
 @endif
 @endif
 @endforeach
@@ -30,7 +30,8 @@
 </select>
 </div>
 <div class="col-lg-3">
-  {{ Form::submit('Guardar cambios',array('class'=>'btn btn-primary')) }}
+  <br>
+  {{ Form::submit('Guardar',array('class'=>'btn btn-primary')) }}
 </div>
 {{ Form::close() }}
 </div>
