@@ -70,7 +70,7 @@
 <script type="text/javascript">
 var cantOrders = $("#quantity").val();
 var cantItems = $("#quantitems").val();
-setInterval(
+setTimeout(
   function(){
 $.post('listOrders/' + cantOrders + '/'+cantItems, 
             function(data){

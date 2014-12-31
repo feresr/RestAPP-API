@@ -29,6 +29,15 @@ public function orderview($id){
 public function itemsOrders($cant, $items){
 	$quantOrders = DB::table('orders')->where('active', true)->count();
 	$quantItems = DB::table('item_order')->count();
+
+	//Con el While compruebo si hubo cambios en el Servidor. Tecnica de Long Polling
+	set_time_limit(0);
+	while ($quantOrders == $cant && $quantItems == $items) {
+		usleep(10000);
+		$quantOrders = DB::table('orders')->where('active', true)->count();
+		$quantItems = DB::table('item_order')->count();
+	};
+
 	if ($quantOrders > $cant) {
 		return Response::json(array(
 			'success' => true,
