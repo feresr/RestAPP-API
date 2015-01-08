@@ -83,7 +83,7 @@
           <div class="page-header">
   <div class="header-links hidden-xs">
     <a href="http://localhost/restapp-api/public/index.php/cocina"><i class="icon-comments"></i> Cocina</a>
-    <a href="#"><i class="icon-cog"></i> Settings</a>
+    <a href="http://localhost/restapp-api/public/index.php/cocina2"><i class="icon-cog"></i> Settings</a>
     {{ link_to('/logout', 'Cerrar sesión') }}
   </div>
   <h1><i class="icon-bar-chart"></i> RestApp - Admin</h1>

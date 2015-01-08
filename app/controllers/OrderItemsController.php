@@ -21,6 +21,26 @@ class OrderItemsController extends BaseController {
 	}
 
 	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function itemsOrders()
+	{
+		$orders = Order::where('active',true)->orderBy('id', 'desc')->get();
+
+		$response = array();
+		foreach ($orders as $order) {
+			$itemsInOrder = OrderItem::where('order_id', $order->id)->orderBy('id', 'desc')->get();
+			array_push($response,$itemsInOrder);
+		}
+		/*uasort($response, 'ordename');
+		function ordename ($a, $b, $c, $d, $e, $f, $g, $h) {
+    	return $a['id'] - $b['id'] - $c['id'] - $d['id'] - $e['id'] - $f['id'] - $g['id']- $h['id'];
+		}*/
+		return Response::json($response);
+	}
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response

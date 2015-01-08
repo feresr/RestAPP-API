@@ -63,7 +63,7 @@ var cantOrders = $("#quantity").val();
 var cantItems = $("#quantitems").val();
 setTimeout(
   function(){
-$.post('listOrders/' + cantOrders + '/'+cantItems, 
+$.post('cocina2/' + cantOrders + '/'+cantItems, 
             function(data){
                 if (data.success == true){
                     $('.errors_form').addClass( "alert alert-danger error" );
@@ -102,25 +102,5 @@ $.post("cocina/check/"+value,
                 }
             });  
 });
-/*
-function send(orderid){          
-$(":checkbox[name=view]").each(function(){
-if (this.checked)
-{
-alert($(this).val());
-}
-})*/
-/*
-$.post(orderid, 
-            function(data){
-                if (data.success != true){
-                  alert('Error');
-                }else{
-                    // si la respuesta fue exitosa entonces eliminamos la fila de la tabla 
-                    var mensaje = 'El item se elimino correctamente';
-                    $('#message').addClass("alert alert-danger");
-                    $('#message').html(mensaje);
-                    $("#tabla").load('list/'+idorder);
-                }
-            });    */   
+ 
 </script>
