@@ -6,7 +6,7 @@ public function index(){
 		}
 
 public function items(){
-	$orders = Order::where('active', true)->orderBy('id', 'desc')->get();
+	$orders = Order::where('active', true)->orderBy('updated_at', 'desc')->get();
 	$quantOrders = DB::table('orders')->where('active', true)->count();
 	$quantItems = DB::table('item_order')->count();
 	return View::make('cocina.orders', array('orders' => $orders, 'quantOrders' => $quantOrders, 'quantItems' => $quantItems));
@@ -74,14 +74,6 @@ public function itemsOrders($cant, $items){
 		return Response::json(array(
 			'success' => true,
 		));
-		}
-
-		//prueba
-		public function itemsOrdenados(){
-		$orders = Order::where('active', true)->orderBy('id', 'desc')->get();
-		$quantOrders = DB::table('orders')->where('active', true)->count();
-		$quantItems = DB::table('item_order')->count();
-		return View::make('cocina.ordersPrueba', array('orders' => $orders, 'quantOrders' => $quantOrders, 'quantItems' => $quantItems));	
 		}
 	}
 ?>

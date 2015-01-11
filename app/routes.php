@@ -146,8 +146,4 @@ Route::DELETE('reservas/{id}', 'ReservaController@destroy');
 
 Route::post('cocina/check/{id}', 'CocinaController@chkItem');
 
-//pruebas
-Route::get('cocina2', 'CocinaController@itemsOrdenados');
-Route::post('cocina2/{cant}/{items}', 'OrderItemsController@itemsOrders');
-
 });
