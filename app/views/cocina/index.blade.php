@@ -2,7 +2,7 @@
  
 @section('content')
 <h1> ORDENES </h1>
- <div class='errors_form'></div>
+ <div id='mensaje'></div>
 <div class="widget-content-white glossed" id="tableOrders">
 
 </div>

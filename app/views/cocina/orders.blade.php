@@ -66,8 +66,8 @@ setTimeout(
 $.post('listOrders/' + cantOrders + '/'+cantItems, 
             function(data){
                 if (data.success == true){
-                    $('.errors_form').addClass( "alert alert-danger error" );
-                    $('.errors_form').html(data.message);
+                    $('#mensaje').addClass( "alert alert-success" );
+                    $('#mensaje').html(data.message);
                     $("#tableOrders").load('listOrders');
                 }
                 else{

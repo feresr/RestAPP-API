@@ -34,6 +34,7 @@ public function itemsOrders($cant, $items){
 	set_time_limit(0);
 	while ($quantOrders == $cant && $quantItems == $items) {
 		usleep(10000);
+		//clearstatcache();
 		$quantOrders = DB::table('orders')->where('active', true)->count();
 		$quantItems = DB::table('item_order')->count();
 	};

@@ -26,7 +26,7 @@
 
 <div class="side-bar-wrapper collapse navbar-collapse navbar-ex1-collapse">
   <a href="http://localhost/restapp-api/public/index.php/admin" class="logo hidden-sm hidden-xs">
-    <i class="icon-laptop"></i>
+    {{ HTML::image('images/iconos/raster2.png', "Imagen", array('class' => 'img-circle')) }}
     <span>RestApp</span>
   </a>
   <div class="relative-w">
