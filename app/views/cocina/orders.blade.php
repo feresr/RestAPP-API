@@ -61,6 +61,38 @@
 <script type="text/javascript">
 var cantOrders = $("#quantity").val();
 var cantItems = $("#quantitems").val();
+
+/*
+function messages_longpolling( timestamp, lastId ){
+  $.ajax({
+           async:true,
+           type: 'POST',
+           dataType: 'json',
+           url: 'listOrders/' + cantOrders + '/'+cantItems,
+           data: 'timestamp=' + timestamp + '&lastId=' + lastId,          
+           success: function( data ){
+            clearInterval( t );
+            if(data.success == true){
+               t = setTimeout( function(){
+               messages_longpolling( data.timestamp, data.lastId                         );
+            }, 1000 );
+            if( data.success == true ){
+               
+            }
+         } else if( payload.status == 'error' ){
+            alert('We got confused, Please refresh the page!');
+         }
+      },
+      error: function(){
+         clearInterval( t );
+            t = setTimeout( function(){
+            messages_longpolling( data.timestamp, data.lastId );
+         }, 15000 );
+      }
+         }); 
+  return false;
+});*/
+
 setTimeout(
   function(){
 $.post('listOrders/' + cantOrders + '/'+cantItems, 
@@ -102,25 +134,5 @@ $.post("cocina/check/"+value,
                 }
             });  
 });
-/*
-function send(orderid){          
-$(":checkbox[name=view]").each(function(){
-if (this.checked)
-{
-alert($(this).val());
-}
-})*/
-/*
-$.post(orderid, 
-            function(data){
-                if (data.success != true){
-                  alert('Error');
-                }else{
-                    // si la respuesta fue exitosa entonces eliminamos la fila de la tabla 
-                    var mensaje = 'El item se elimino correctamente';
-                    $('#message').addClass("alert alert-danger");
-                    $('#message').html(mensaje);
-                    $("#tabla").load('list/'+idorder);
-                }
-            });    */   
+
 </script>

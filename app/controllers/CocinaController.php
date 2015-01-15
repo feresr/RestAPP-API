@@ -1,4 +1,5 @@
 <?php
+
  class CocinaController extends BaseController {
 
 public function index(){
@@ -30,11 +31,19 @@ public function itemsOrders($cant, $items){
 	$quantOrders = DB::table('orders')->where('active', true)->count();
 	$quantItems = DB::table('item_order')->count();
 
+/*
+	$timestamp = (int) trim( $_GET['timestamp'] );
+	$lastId = isset( $_GET['lastId'] ) && !empty( $_GET['lastId'] );
+
+	if( empty( $timestamp ) ){
+   		die( json_encode( array( 'status' => 'error' ) ) );
+	}*/
+
 	//Con el While compruebo si hubo cambios en el Servidor. Tecnica de Long Polling
 	set_time_limit(0);
 	while ($quantOrders == $cant && $quantItems == $items) {
 		usleep(10000);
-		//clearstatcache();
+		clearstatcache();
 		$quantOrders = DB::table('orders')->where('active', true)->count();
 		$quantItems = DB::table('item_order')->count();
 	};

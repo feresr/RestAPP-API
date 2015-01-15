@@ -9,16 +9,21 @@ position: absolute;
 left: 0;
 top: 25%;
 width: 100%;
-margin: -0.8em 0 0 0.1em;
+margin: -1.4em 0 0 -1.45em;
 text-align: center;
 vertical-align: middle;
 white-space: nowrap;
+}
+.indicatorsTable {
+margin: 0.6em 0 0 2em;
+
 }
  #draggable
   { 	
   height:110px;
 	width:130px;
   position: absolute;
+  vertical-align: middle;
 }
   .draggable
   { 	
@@ -32,6 +37,7 @@ background-color: red;
 .active{
   background-color: #357ebd;
   border-color: #2980b9;
+  display: inline;
 }
 
   #containment-wrapper { 
