@@ -62,37 +62,9 @@
 var cantOrders = $("#quantity").val();
 var cantItems = $("#quantitems").val();
 
-/*
-function messages_longpolling( timestamp, lastId ){
-  $.ajax({
-           async:true,
-           type: 'POST',
-           dataType: 'json',
-           url: 'listOrders/' + cantOrders + '/'+cantItems,
-           data: 'timestamp=' + timestamp + '&lastId=' + lastId,          
-           success: function( data ){
-            clearInterval( t );
-            if(data.success == true){
-               t = setTimeout( function(){
-               messages_longpolling( data.timestamp, data.lastId                         );
-            }, 1000 );
-            if( data.success == true ){
-               
-            }
-         } else if( payload.status == 'error' ){
-            alert('We got confused, Please refresh the page!');
-         }
-      },
-      error: function(){
-         clearInterval( t );
-            t = setTimeout( function(){
-            messages_longpolling( data.timestamp, data.lastId );
-         }, 15000 );
-      }
-         }); 
-  return false;
-});*/
+messages_longpolling();
 
+function messages_longpolling(){
 setTimeout(
   function(){
 $.post('listOrders/' + cantOrders + '/'+cantItems, 
@@ -103,13 +75,15 @@ $.post('listOrders/' + cantOrders + '/'+cantItems,
                     $("#tableOrders").load('listOrders');
                 }
                 else{
-                  $('.errors_form').removeClass( "alert alert-danger error" );
-                  $('.errors_form').html('');
-                  //$("#tableOrders").load('listOrders');
+                  $('#mensaje').removeClass( "alert alert-success");
+                  $('#mensaje').html('');
+                  messages_longpolling();
                 }
             });  
   },
 5000);
+}
+
 $("#check").click(function (){          
 
 var id = $( "#check" ).val();

@@ -31,22 +31,20 @@ public function itemsOrders($cant, $items){
 	$quantOrders = DB::table('orders')->where('active', true)->count();
 	$quantItems = DB::table('item_order')->count();
 
-/*
-	$timestamp = (int) trim( $_GET['timestamp'] );
-	$lastId = isset( $_GET['lastId'] ) && !empty( $_GET['lastId'] );
+	$time_wasted = 0;
 
-	if( empty( $timestamp ) ){
-   		die( json_encode( array( 'status' => 'error' ) ) );
-	}*/
-
-	//Con el While compruebo si hubo cambios en el Servidor. Tecnica de Long Polling
 	set_time_limit(0);
 	while ($quantOrders == $cant && $quantItems == $items) {
-		usleep(10000);
-		clearstatcache();
+		if( $time_wasted >= 60 ){
+            return Response::json(array(
+			'success' => false
+		));
+         }
+		sleep(1);
+		$time_wasted += 1;
 		$quantOrders = DB::table('orders')->where('active', true)->count();
 		$quantItems = DB::table('item_order')->count();
-	};
+	}
 
 	if ($quantOrders > $cant) {
 		return Response::json(array(
@@ -72,10 +70,8 @@ public function itemsOrders($cant, $items){
 			'message' => 'Se ha eliminado un item a una orden'
 		));
 	}
-		return Response::json(array(
-			'success' => false
-		));
-		}
+		
+}
 
 		public function chkItem($id){
 			$itemOrder = OrderItem::find($id);
