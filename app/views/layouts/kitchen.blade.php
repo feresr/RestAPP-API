@@ -13,7 +13,7 @@
     {{HTML::style('font-awesome/css/font-awesome.min.css')}}
         <!-- JavaScript -->    
     {{HTML::script('js/jquery-1.11.0.min.js')}}
-    {{HTML::script('js/bootstrap.min.js')}}
+
     @section ('head')
     @show
   </head>
@@ -55,5 +55,22 @@
       </div>      
   </div>
 </div><!-- /#wrapper -->
+    {{HTML::script('js/jquery.lazyload.js')}}
+    {{HTML::script('js/bootstrap.min.js')}}
+
+<script type="text/javascript">
+$(function() {
+    $("img").lazyload({
+      event : "sporty",
+      effect: "fadeIn"
+    });
+});
+
+$(window).bind("load", function() {
+    var timeout = setTimeout(function() {
+        $("img").trigger("sporty")
+    }, 5000);
+});
+</script>
   </body>
 </html>

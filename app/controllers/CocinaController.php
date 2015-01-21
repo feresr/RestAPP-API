@@ -35,7 +35,7 @@ public function itemsOrders($cant, $items){
 
 	set_time_limit(0);
 	while ($quantOrders == $cant && $quantItems == $items) {
-		if( $time_wasted >= 60 ){
+		if( $time_wasted >= 120 ){
             return Response::json(array(
 			'success' => false
 		));

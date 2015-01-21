@@ -126,14 +126,12 @@
           </thead>
         <tbody>
       @foreach($user->orders as $order)
+          @if($order->active==true)
               <tr>
                 <td> {{ $order->created_at }} </td>
-                <td> @if($order->active==true)
-                <span class="label label-success">Abierta</span>
-              @else
-                <span class="label label-danger">Cerrada</span>
-              @endif
-              </td>
+                <td> 
+                <span class="label label-success">Abierta</span>              
+                </td>
                 <td> {{$order->table['number']}}</td>
                 <td> {{ link_to('orders/'.$order->id, 'Ver') }} </td>               
                 <td>
@@ -148,6 +146,7 @@
         {{ Form::close() }}
                 </td>
              </tr>
+             @endif
       @endforeach
     </tbody>
      </table>

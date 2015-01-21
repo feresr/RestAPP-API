@@ -13,7 +13,7 @@
     {{HTML::style('font-awesome/css/font-awesome.min.css')}}
         <!-- JavaScript -->    
     {{HTML::script('js/jquery-1.11.0.min.js')}}
-    {{HTML::script('js/bootstrap.min.js')}}
+    <!-- {{HTML::script('js/jquery.lazyload.js')}} -->
     @section ('head')
     @show
   </head>
@@ -97,5 +97,7 @@
     </div>
   </div>
 </div><!-- /#wrapper -->
+{{HTML::script('js/bootstrap.min.js')}}
+
   </body>
 </html>

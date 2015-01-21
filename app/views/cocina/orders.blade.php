@@ -16,12 +16,12 @@
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-md-6 img-circle">
-                    {{ HTML::image('images/table.png') }}
+                    {{ HTML::image('images/table.png', "Imagen no encontrada", array('class' => 'lazy')) }}
                       <div class='indicators'><h3><span class="label label-success">{{$order->table['number']}}</span></h3>
   </div>
                   </div>
                   <div class="col-md-6 text-right">
-                    {{ HTML::image('images/waiter.png', "Imagen no encontrada", array('class' => 'img-circle')) }}
+                    {{ HTML::image('images/waiter.png', "Imagen no encontrada", array('class' => 'lazy')) }}
                   </div>
                 </div>
               </div>              
