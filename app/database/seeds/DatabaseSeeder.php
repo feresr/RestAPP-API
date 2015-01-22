@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder {
  		$this->call('TableTableSeeder');
  		$this->call('ItemTableSeeder');
  		$this->call('CategoryTableSeeder');
-
+ 		$this->call('CoordTableSeeder');
 	}
 
 }
