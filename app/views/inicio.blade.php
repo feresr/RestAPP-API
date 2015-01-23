@@ -62,6 +62,10 @@
 <div class='widget'>
 <h3 class="section-title first-title"><i class="icon-table"></i> Balance</h3>
 <div class='widget-content-white padded glossed'>
+Desde: <input class="" placeholder="Fecha" autocomplete="of" name="date1" type="date" id="date1">
+Hasta: <input class="" placeholder="Fecha" autocomplete="of" name="date2" type="date" id="date2">
+<button id='busqueda' type="button" style="margin-top:5px;" class="pull-right">Buscar</button>
+<hr>
 <div id="chart_div" style="height: 400px;"></div>
 </div>
 </div>
@@ -85,20 +89,25 @@
 </div>
 </div>
 </div>
-<div class="row">
-<div class='widget col-md-6'>
-<h3 class="section-title first-title"><i class="icon-table"></i> Cantidad facturada por mozo</h3>
+
+<div class='widget'>
+<h3 class="section-title first-title"><i class="icon-table"></i>Imformacion Mozos</h3>
 <div class='widget-content-white padded glossed'>
+Desde: <input class="" placeholder="Fecha" autocomplete="of" name="fechaMozo1" type="date" id="fechaMozo1">
+Hasta: <input class="" placeholder="Fecha" autocomplete="of" name="fechaMozo2" type="date" id="fechaMozo2">
+<button id='busquedaMozo' type="button" style="margin-top:5px;" class="">Buscar</button>
+<hr>
+<div class="row">
+<div class='col-md-6'>
 <div id="chart_div1" style="height: 400px;"></div>
 </div>
-</div>
-<div class='widget col-md-6'>
-<h3 class="section-title first-title"><i class="icon-table"></i> Cantidad de mesas por mozo</h3>
-<div class='widget-content-white padded glossed'>
+<div class='col-md-6'>
 <div id="chart_div2" style="height: 400px;"></div>
 </div>
 </div>
 </div>
+</div>
+
 <h3 class="section-title first-title"><i class="icon-tasks"></i> Ordenes</h3>
 <div class="panel-group" id="accordion">
 @foreach($users as $user)
@@ -160,4 +169,36 @@
   </div>
 @endforeach
 </div>
+<script type="text/javascript">
+$("#busqueda").click(function (){          
+
+var desde = $( "#date1" ).val();
+var hasta = $( "#date2" ).val();
+draw(desde, hasta);                       
+});
+
+function draw(desde, hasta) {
+
+$.getJSON("/restapp-api/public/index.php/admin/colum/"+desde+"/"+hasta,
+ function (datos) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Meses');
+        data.addColumn('number', 'Total');
+          
+          $.each(datos, function(id, item){
+          data.addRows([
+            [item.fecha, item.total],
+            ])
+          })
+
+        var options = {
+          title: 'Ventas Mensuales',
+          hAxis: {title: 'Meses', titleTextStyle: {color: 'red'}}
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+  });
+}
+</script>
 @stop

@@ -11,11 +11,29 @@ public function index() {
 
  public function barrasChart(){
 
-$items = DB::select('SELECT Month(created_at) as fecha, SUM(total) as total FROM orders
-group by Month(created_at)');
+  $items = DB::table('orders')
+                    ->select(DB::raw('SUM(total) as total, Month(created_at) as fecha'))
+                    ->groupBy(DB::raw('Month(created_at)'))
+                    ->get();
+
+ /* $items = DB::select('SELECT Month(created_at) as fecha, SUM(total) as total FROM orders
+                        
+                        group by Month(created_at)');*/
 
 	return Response::json($items);
  }
+
+ public function ventasMensuales($desde = null, $hasta=null){
+
+  $items = DB::table('orders')
+                    ->select(DB::raw('SUM(total) as total, Month(created_at) as fecha'))
+                    ->groupBy(DB::raw('Month(created_at)'))
+                    ->whereBetween('created_at', array($desde,$hasta))
+                    ->get();
+
+  return Response::json($items);
+ }
+
   public function barrasChart1(){
 
    $orders = DB::table('orders')->where('orders.active', '=', true)

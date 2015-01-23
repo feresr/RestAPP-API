@@ -15,7 +15,7 @@ $.getJSON("/restapp-api/public/index.php/admin/colum", function (datos) {
           })
 
         var options = {
-          title: 'Company Sales',
+          title: 'Ventas Mensuales',
           hAxis: {title: 'Meses', titleTextStyle: {color: 'red'}}
         };
 
@@ -35,7 +35,7 @@ $.getJSON("/restapp-api/public/index.php/admin/colum1", function (datos) {
           })
 
         var options = {
-          title: 'Company Employees',
+          title: 'Cantidad Facturada por mozo',
           hAxis: {title: 'Mozos', titleTextStyle: {color: 'red'}}
         };
 
@@ -55,7 +55,7 @@ $.getJSON("/restapp-api/public/index.php/admin/mesasXmozo", function (datos) {
           })
 
         var options = {
-          title: 'Company Employees',
+          title: 'Mesas Atendidas por mozo',
           hAxis: {title: 'Mozos', titleTextStyle: {color: 'red'}}
         };
 
