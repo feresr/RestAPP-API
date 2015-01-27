@@ -4,6 +4,11 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 {{HTML::script('js/charts.js')}}
 @stop
+<?php 
+$hasta = date('Y-m-d');
+$nuevafecha = strtotime ( '-1 month' , strtotime ( $hasta ) ) ;
+$desde = date ( 'Y-m-d' , $nuevafecha );
+?>
             <div class="widget">
               <div class="widget-controls pull-right">
                 <a href="#" class="widget-link-remove"><i class="icon-minus-sign"></i></a>
@@ -62,8 +67,8 @@
 <div class='widget'>
 <h3 class="section-title first-title"><i class="icon-table"></i> Balance</h3>
 <div class='widget-content-white padded glossed'>
-Desde: <input class="" placeholder="Fecha" autocomplete="of" name="date1" type="date" id="date1">
-Hasta: <input class="" placeholder="Fecha" autocomplete="of" name="date2" type="date" id="date2">
+Desde: <input class="" value="{{$desde}}" placeholder="Fecha" autocomplete="of" name="date1" type="date" id="date1">
+Hasta: <input class="" value="{{$hasta}}" placeholder="Fecha" autocomplete="of" name="date2" type="date" id="date2">
 <button id='busqueda' type="button" style="margin-top:5px;" class="pull-right">Buscar</button>
 <hr>
 <div id="chart_div" style="height: 400px;"></div>
@@ -93,8 +98,8 @@ Hasta: <input class="" placeholder="Fecha" autocomplete="of" name="date2" type="
 <div class='widget'>
 <h3 class="section-title first-title"><i class="icon-table"></i>Imformacion Mozos</h3>
 <div class='widget-content-white padded glossed'>
-Desde: <input class="" placeholder="Fecha" autocomplete="of" name="fechaMozo1" type="date" id="fechaMozo1">
-Hasta: <input class="" placeholder="Fecha" autocomplete="of" name="fechaMozo2" type="date" id="fechaMozo2">
+Desde: <input class="" value="{{$desde}}" placeholder="Fecha" autocomplete="of" name="fechaMozo1" type="date" id="fechaMozo1">
+Hasta: <input class="" value="{{$hasta}}" placeholder="Fecha" autocomplete="of" name="fechaMozo2" type="date" id="fechaMozo2">
 <button id='busquedaMozo' type="button" style="margin-top:5px;" class="">Buscar</button>
 <hr>
 <div class="row">
@@ -197,6 +202,62 @@ $.getJSON("/restapp-api/public/index.php/admin/colum/"+desde+"/"+hasta,
         };
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+  });
+}
+
+$("#busquedaMozo").click(function (){          
+var desdeM = $( "#fechaMozo1" ).val();
+var hastaM = $( "#fechaMozo2" ).val();
+
+drawMozos(desdeM, hastaM);
+drawMesas(desdeM, hastaM);                     
+});
+
+function drawMozos(desde, hasta) {
+
+$.getJSON("/restapp-api/public/index.php/admin/colum1/"+desde+"/"+hasta,
+ function (datos) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'User');
+        data.addColumn('number', 'Total');
+          
+          $.each(datos, function(id, item){
+          data.addRows([
+            [item.firstname, item.total],
+            ])
+          })
+
+        var options = {
+          title: 'Cantidad Facturada por mozo',
+          hAxis: {title: 'Mozos', titleTextStyle: {color: 'red'}}
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div1'));
+        chart.draw(data, options);
+  });
+}
+
+function drawMesas(desde, hasta) {
+
+$.getJSON("/restapp-api/public/index.php/admin/mesasXmozo/"+desde+"/"+hasta,
+ function (datos) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'User');
+        data.addColumn('number', 'Total');
+          
+          $.each(datos, function(id, item){
+          data.addRows([
+            [item.firstname, item.total],
+            ])
+          })
+
+        var options = {
+          title: 'Mesas Atendidas por mozo',
+          hAxis: {title: 'Mozos', titleTextStyle: {color: 'red'}}
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
         chart.draw(data, options);
   });
 }

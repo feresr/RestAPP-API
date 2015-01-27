@@ -75,9 +75,11 @@ Route::get('users/{id}/edit', 'UsersController@edit');
 Route::get('admin', 'HomeController@indexAdmin');
 Route::get('admin/cargagraficos', 'StatisticsController@index');
 Route::get('admin/colum', 'StatisticsController@barrasChart');
+Route::get('admin/colum1/{d}/{h}', 'StatisticsController@mozosMensuales');
 Route::get('admin/colum/{d}/{h}', 'StatisticsController@ventasMensuales');
 Route::get('admin/colum1', 'StatisticsController@barrasChart1');
 Route::get('admin/mesasXmozo', 'StatisticsController@mesasXmozo');
+Route::get('admin/mesasXmozo/{d}/{h}', 'StatisticsController@mesasXmozoFiltrado');
 
 Route::get('cocina','CocinaController@index');
 Route::get('listOrders', 'CocinaController@items');
