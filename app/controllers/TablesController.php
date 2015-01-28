@@ -95,7 +95,8 @@ class TablesController extends BaseController {
 		$coord->save();
 
 		return Response::json(array(
-			'success' => true
+			'success' => true,
+			'create' =>true
 		));
 	}
 
@@ -164,7 +165,7 @@ class TablesController extends BaseController {
 	*
 	* @param  int  $id
 	* @return Response
-	*/
+	*//*
 	public function delete($id)
 	{
 		$table = Table::find($id);
@@ -174,7 +175,7 @@ class TablesController extends BaseController {
 		}else{
 			return View::make('table.delete', array('table' => $table));
 		}
-	}
+	}*/
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -184,7 +185,13 @@ class TablesController extends BaseController {
 	public function destroy($id)
 	{
 		$table = Table::find($id);
+		$coord = Coord::where('table_id', '=', $id)->delete();
+		//$coord = DB::table('coords')->where('table_id', '=', $id)->get();
 		$table->delete();
-		return Redirect::to('tables')->with('notice', 'La mesa ha sido eliminada correctamente.');
+		//$coord->delete();
+		//return Redirect::to('tables')->with('notice', 'La mesa ha sido eliminada correctamente.');
+		return Response::json(array(
+				'success' => true
+		  	));
 	}
 }

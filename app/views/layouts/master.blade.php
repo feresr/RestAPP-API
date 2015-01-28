@@ -9,7 +9,7 @@
     <title>RestApp Admin</title>
     {{HTML::style('http://fonts.googleapis.com/css?family=Oswald:300,400,700|Open+Sans:400,700,300')}}    
     {{HTML::style('css/style.css')}}
-    {{HTML::style('css/bootstrap.css')}} 
+    <!--{{HTML::style('css/bootstrap.css')}} -->
     {{HTML::style('font-awesome/css/font-awesome.min.css')}}
         <!-- JavaScript -->    
     {{HTML::script('js/jquery-1.11.0.min.js')}}
@@ -98,6 +98,7 @@
   </div>
 </div><!-- /#wrapper -->
 {{HTML::script('js/bootstrap.min.js')}}
-
+@section ('script')
+    @show
   </body>
 </html>

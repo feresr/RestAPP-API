@@ -23,7 +23,7 @@
      </div>
        {{ Form::submit('Guardar mesa',array('class'=>'btn btn-primary pull-right')) }}
        @if ($table->id != null)
-       <a href="tables/delete/{{$table->id}}" class="btn btn-danger">Eliminar</a>
+       <a href="javascript:confirmar({{$table->id}})" class="btn btn-danger">Eliminar</a>
        @endif
        <a id="finish" class="btn btn-default">Cerrar</a>
     {{ Form::close() }}
@@ -55,13 +55,31 @@ form.on('submit', function () {
                       $('#errors_form').removeClass("alert alert-danger");
                       $('#errors_form').addClass("alert alert-success");
                       $('#errors_form').html("Los cambios se guardaron correctamente correctamente");
-                      $(form)[0].reset();//limpiamos el formulario
-                        //  location.href = "http://localhost/restapp-rest/public/index.php/tables";
+                      //$("#new").html("");
+                      if(data.create == true){
+                        $(form)[0].reset();//limpiamos el formulario
+                      }
+                      //  location.href = "http://localhost/restapp-rest/public/index.php/tables";
                     }
                   }
          }); 
   return false;
 });
+
+function confirmar(id){ 
+confirmar=confirm("¿Estas seguro que quieres elimar la mesa?"); 
+if (confirmar){ 
+// si pulsamos en aceptar
+$.post("tables/delete/"+ id, 
+            function(data){
+                if (data.success == true){
+                  alert('La mesa se elimino correctamente!');
+                  location.href = "http://localhost/restapp-api/public/index.php/tables";
+                }
+
+            });  
+} 
+}
 
 $("#finish").click(function(){
   $("#new").html("");

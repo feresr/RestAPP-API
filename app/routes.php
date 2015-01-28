@@ -98,7 +98,7 @@ Route::get('orders/cobrar/{id}', 'OrdersController@cobrar');
 Route::post('orders/cobrar/{id}', 'OrdersController@save');
 Route::get('orders/{id}', 'OrdersController@show');
 Route::get('orders/delete/{id}', 'OrdersController@delete');
-Route::DELETE('orders/{id}', 'OrdersController@destroy');
+Route::post('orders/delete/{id}', 'OrdersController@destroy');
 
 Route::get('orders/edit/list/{id}', 'OrderItemsController@items');
 Route::get('list/{id}', 'OrderItemsController@items');
@@ -133,7 +133,7 @@ Route::post('tables/create', 'TablesController@store');
 Route::get('tables/edit/{id}', 'TablesController@edit');
 Route::post('tables/create/{id}', 'TablesController@update');
 Route::get('tables/delete/{id}', 'TablesController@delete');
-Route::DELETE('tables/{id}', 'TablesController@destroy');
+Route::post('tables/delete/{id}', 'TablesController@destroy');
 Route::post('tables/{id}', 'TablesController@destroy');
 Route::get('tables/edit', 'TablesController@editPosition');
 Route::post('tables/savepos/{left}/{top}/{id}', 'TablesController@savepos');

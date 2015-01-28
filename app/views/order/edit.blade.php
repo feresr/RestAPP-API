@@ -74,7 +74,7 @@
 <div id="tabla">
 </div>
 <a id="finish" class="btn btn-default">Cerrar</a>
-<a href="orders/delete/{{$order->id}}" class="btn btn-danger">Eliminar</a>
+<a href="javascript:confirmar({{$order->id}})" class="btn btn-danger">Eliminar</a>
 
 <script type="text/javascript">
 
@@ -139,6 +139,21 @@ form_edit.on('submit', function () {
   return false;
 });
 });
+
+function confirmar(id){ 
+confirmar=confirm("¿Estas seguro que quieres elimar la orden?"); 
+if (confirmar){ 
+// si pulsamos en aceptar
+$.post("orders/delete/"+ id, 
+            function(data){
+                if (data.success == true){
+                  alert(data.message);
+                  location.href = "http://localhost/restapp-api/public/index.php/orders";
+                }
+
+            });  
+} 
+}
 
 $("#finish").click(function(){
   $("#result").html("");

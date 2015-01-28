@@ -178,16 +178,10 @@ class OrdersController extends BaseController {
 
 			$order->push();
 
-			if(Request::wantsJson())
-			{
 				return Response::json(array(
 					'success' => true,
 					'message' => 'La orden fue cerrada con éxito'
 				));
-			}
-			else{
-				return Redirect::to('orders')->with('notice', 'La Orden ha sido eliminada correctamente.');
-			}
 		}else{
 
 			return Response::json(array(
