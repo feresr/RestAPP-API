@@ -74,12 +74,7 @@ class ItemsController extends BaseController {
 	public function show($id)
 	{
 		$item = Item::find($id);
-		if (Request::wantsJson())
-		{
-			return Response::json($item);
-		}else{
-			return View::make('item.delete', array('item' => $item));
-		}
+		return Response::json($item);
 	}
 
 
@@ -141,7 +136,10 @@ class ItemsController extends BaseController {
 		//TODO: WILL BE UPDATED
 		$item = Item::find($id);
 		$item->delete();
-		return Redirect::to('items')->with('notice', 'El Item ha sido eliminado correctamente.');
+		return Response::json(array(
+        'success' => true,
+        'message' => 'El item fue eliminado con éxito'
+        ));
 	}
 
 

@@ -69,6 +69,7 @@ Route::get('users/create', 'UsersController@create');
 Route::post('users/create', 'UsersController@store');
 Route::post('users/create/{id}', 'UsersController@update');
 Route::get('users/{id}/edit', 'UsersController@edit');
+Route::post('users/delete/{id}', 'UsersController@destroy');
 
 //Route::resource('users', 'UsersController');
 
@@ -116,16 +117,14 @@ Route::get('item/create/{id}', 'ItemsController@crear');
 Route::post('item/create', 'ItemsController@store');
 Route::get('items/{id}/edit', 'ItemsController@edit');
 Route::post('items/create/{id}', 'ItemsController@update');
-Route::get('items/{id}/delete', 'ItemsController@show');
-Route::DELETE('items/{id}', 'ItemsController@destroy');
+Route::post('items/delete/{id}', 'ItemsController@destroy');
 
 Route::get('categorias', 'CategoriesController@index');
 Route::get('categorias/create', 'CategoriesController@create');
 Route::post('categorias/create', 'CategoriesController@store');
 Route::get('categorias/{id}/edit', 'CategoriesController@edit');
 Route::post('categorias/create/{id}', 'CategoriesController@update');
-Route::get('categorias/{id}/delete', 'CategoriesController@delete');
-Route::DELETE('categorias/{id}', 'CategoriesController@destroy');
+Route::post('categorias/delete/{id}', 'CategoriesController@destroy');
 
 Route::get('tables', 'TablesController@index');
 Route::get('tables/create', 'TablesController@create');
@@ -144,8 +143,7 @@ Route::get('reservas/create', 'ReservaController@create');
 Route::post('reservas/create', 'ReservaController@store');
 Route::get('reservas/{id}/edit', 'ReservaController@edit');
 Route::post('reservas/create/{id}', 'ReservaController@update');
-Route::get('reservas/{id}/delete', 'ReservaController@delete');
-Route::DELETE('reservas/{id}', 'ReservaController@destroy');
+Route::post('reservas/delete/{id}', 'ReservaController@destroy');
 
 Route::post('cocina/check/{id}', 'CocinaController@chkItem');
 

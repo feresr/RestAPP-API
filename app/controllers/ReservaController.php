@@ -40,6 +40,7 @@
     $title = 'Editar';
    return View::make('reservas.save', array('reserva'=>$reserva, 'title'=>$title));
      }
+     
    public function update($id) { 
    $reserva = Reserva::find($id);
    $reserva->date = Input::get('date');
@@ -61,20 +62,13 @@
    }
    }
 
-  public function delete($id)
-  {
-    $reserva = Reserva::find($id);
-    if (Request::wantsJson())
-    {
-      return Response::json($reserva);
-    }else{
-      return View::make('reservas.delete', array('reserva' => $reserva));
-    }
-  }
 
  public function destroy($id) { 
    $reserva = Reserva::find($id);
    $reserva->delete();
-return Redirect::to('reservas')->with('notice', 'La reserva fue eliminada correctamente.');
+   return Response::json(array(
+        'success' => true,
+        'message' => 'La reserva fue eliminada con éxito'
+        ));
    }
 }

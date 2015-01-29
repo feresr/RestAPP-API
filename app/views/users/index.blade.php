@@ -27,10 +27,8 @@
                 <td> {{ link_to('users/'.$item->id, 'Ver') }} </td>
                 <td><a href='users/{{$item->id}}/edit' class="btn btn-default btn-xs"><i class="icon-pencil"></i> edit</a> </td>
                 <td> 
-  			{{ Form::open(array('url' => 'users/'.$item->id)) }}
-     		 {{ Form::hidden("_method", "DELETE") }}
-        <input type="submit" value="Eliminar" class="btn btn-primary btn-xs">
-   			{{ Form::close() }}
+          <a href="javascript:confirmar({{$item->id}})" class="btn btn-danger btn-xs">
+          <i class="icon-remove"></i></a>
 </td>
              </tr>
           @endforeach
@@ -46,5 +44,20 @@ $(document).ready(function ()
 {
 $('#user').addClass("active");
 });
+
+function confirmar(id){ 
+confirmar=confirm("¿Estas seguro que quieres elimar el usuario?"); 
+if (confirmar){ 
+// si pulsamos en aceptar
+$.post("users/delete/"+ id, 
+            function(data){
+                if (data.success == true){
+                  alert(data.message);
+                  location.href = "http://localhost/restapp-api/public/index.php/users";
+                }
+
+            });  
+} 
+}
 </script>
 @stop

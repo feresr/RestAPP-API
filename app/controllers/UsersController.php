@@ -70,8 +70,11 @@ else{
 
    public function destroy($id) { 
    	$user = User::find($id);
-   $user->delete();
-   return Redirect::to('users')->with('notice', 'El usuario ha sido eliminado correctamente.');
+    $user->delete();
+    return Response::json(array(
+        'success' => true,
+        'message' => 'El usuario fue eliminado con éxito'
+        ));
    }
  }
 ?>

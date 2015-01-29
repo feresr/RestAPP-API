@@ -3,7 +3,6 @@
 @section('content')
 @section('head')
   <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-{{HTML::script('js/chosen.jquery.js')}}
 @stop
 
 <h2>MESAS</h2>

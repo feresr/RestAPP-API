@@ -23,12 +23,12 @@ form.on('submit', function () {
                         $('.errors_form').addClass( "alert alert-success" );
                           if(data.types == 'edit'){
                             $('.errors_form').html("El registro se modifico correctamente");
-                            location.href = "http://localhost/restapp-rest/public/index.php/"+tipo;                        
+                            location.href = "http://localhost/restapp-api/public/index.php/"+tipo;                        
                           }
                           else{
                             $('.errors_form').html("El registro se agrego correctamente");
                               if(tipo == 'orders'){
-                                location.href = "http://localhost/restapp-rest/public/index.php/orders/edit/"+ data.idorder;
+                                location.href = "http://localhost/restapp-api/public/index.php/orders/edit/"+ data.idorder;
                               }
                               }
                         

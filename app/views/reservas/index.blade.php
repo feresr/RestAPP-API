@@ -8,7 +8,7 @@
     </div>
     @endif
 <h1> RESERVAS </h1>
-<p> {{ link_to ('reservas/create', 'Crear nueva Reserva') }} </p>
+<p><a href='reservas/create' class="btn btn-primary"><i class="icon-plus"></i> Crear Reserva</a></p>
 <div class='errors_form'></div>
 <div class="widget-content-white glossed">
     <div class="padded">
@@ -26,8 +26,8 @@
                 <td> {{ $reserva->date }} </td>
                 <td> {{ $reserva->name }} </td>
                 <td> {{ $reserva->cantpersons }} </td>
-                <td> <a href = 'reservas/{{$reserva->id}}/edit' class="btn btn-default btn-xs">Editar</a> </td>
-                <td><a href='reservas/{{$reserva->id}}/delete' class="btn btn-danger btn-xs"><i class="icon-remove"></i></a></td>
+                <td> <a href = 'reservas/{{$reserva->id}}/edit' class="btn btn-default btn-xs"><i class="icon-pencil"></i>edit</a> </td>
+                <td><a href='javascript:confirmar({{$reserva->id}})' class="btn btn-danger btn-xs"><i class="icon-remove"></i></a></td>
              </tr>
           @endforeach
           </tbody>
@@ -39,5 +39,20 @@ $(document).ready(function ()
 {
 $('#res').addClass("active");
 });
+
+function confirmar(id){ 
+confirmar=confirm("¿Estas seguro que quieres elimar la reserva?"); 
+if (confirmar){ 
+// si pulsamos en aceptar
+$.post("reservas/delete/"+ id, 
+            function(data){
+                if (data.success == true){
+                  alert(data.message);
+                  location.href = "http://localhost/restapp-api/public/index.php/reservas";
+                }
+
+            });  
+} 
+}
 </script>
 @stop

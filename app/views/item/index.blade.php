@@ -45,7 +45,7 @@
                 <td> {{ $item->description }} </td>
                 <td> <h4><span class="label label-success">$ {{$item->price}}</span></h4></td>
                 <td> <a href='items/{{$item->id}}/edit' class="btn btn-default btn-xs"><i class="icon-pencil"></i> edit</a></td>
-                <td><a href='items/{{$item->id}}/delete' class="btn btn-danger btn-xs"><i class="icon-remove"></i></a></td>
+                <td><a href='javascript:confirmar({{$item->id}})' class="btn btn-danger btn-xs"><i class="icon-remove"></i></a></td>
              </tr>
           @endforeach
           </tbody>
@@ -63,5 +63,20 @@ $(document).ready(function ()
 {
 $('#item').addClass("active");
 });
+
+function confirmar(id){ 
+confirmar=confirm("¿Estas seguro que quieres elimar el item del menu?"); 
+if (confirmar){ 
+// si pulsamos en aceptar
+$.post("items/delete/"+ id, 
+            function(data){
+                if (data.success == true){
+                  alert(data.message);
+                  location.href = "http://localhost/restapp-api/public/index.php/items";
+                }
+
+            });  
+} 
+}
 </script>
 @stop

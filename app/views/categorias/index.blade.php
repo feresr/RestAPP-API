@@ -27,7 +27,7 @@
                 <td> {{ $category->name }} </td>
                 <td> {{ $category->description }} </td>
                 <td> <a href='categorias/{{$category->id}}/edit' class="btn btn-default btn-xs"><i class="icon-pencil"></i> edit</a> </td>
-                <td><a href='categorias/{{$category->id}}/delete' class="btn btn-danger btn-xs"><i class="icon-remove"></i></a></td>
+                <td><a href='javascript:confirmar({{$category->id}})' class="btn btn-danger btn-xs"><i class="icon-remove"></i></a></td>
              </tr>
           @endforeach
           </tbody>
@@ -42,5 +42,20 @@ $(document).ready(function ()
 {
 $('#cat').addClass("active");
 });
+
+function confirmar(id){ 
+confirmar=confirm("¿Estas seguro que quieres elimar la categoria?"); 
+if (confirmar){ 
+// si pulsamos en aceptar
+$.post("categorias/delete/"+ id, 
+            function(data){
+                if (data.success == true){
+                  alert(data.message);
+                  location.href = "http://localhost/restapp-api/public/index.php/categorias";
+                }
+
+            });  
+} 
+}
 </script>
 @stop
