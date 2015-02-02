@@ -3,7 +3,7 @@
     
     public function index(){
    		$reservas = Reserva::all(array('id','date','name','cantpersons'));
-        return View::make('reservas.index', array('reservas' => $reservas));
+      return View::make('reservas.index', array('reservas' => $reservas));
     }
      public function lista() {
       $reservas = Reserva::all();
@@ -71,4 +71,42 @@
         'message' => 'La reserva fue eliminada con éxito'
         ));
    }
+
+  public function getReservas($id,$name){
+    $reservas = DB::table('reservas_facebook')
+                ->where('id_facebook', $id)
+                ->orWhere('name', $name)
+                ->select('id','name', 'fecha', 'cantidad')
+                ->orderBy('fecha', 'desc')->get();
+
+   return View::make('web.reserva', array('reservas' => $reservas));
+ 
+  }
+
+  public function reservasListado($reservas){
+    return View::make('web.reserva', array('reservas' => $reservas));
+  }
+
+  public function storeFace() {
+   $reserva = new FaceReserva();
+   $reserva->fecha = Input::get('fecha');
+   $reserva->name = Input::get('name');
+   $reserva->id_facebook = Input::get('id_facebook');
+   $reserva->cantidad = Input::get('cantpersons');
+
+   $validator = FaceReserva::validate(Input::all());
+      if ($validator->fails())
+      {
+         return Response::json(array(
+          'success' => false,
+          'errors' => $validator->getMessageBag()->toArray()
+      ));
+      }else{
+          $reserva->save();
+          return Response::json(array(
+            'success'     =>  true
+        ));
+      }     
+}
+
 }

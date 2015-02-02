@@ -61,6 +61,8 @@ DELETE => DELETE
 
 Route::get('/', 'HomeController@index');
 Route::post('/', 'HomeController@store');
+Route::get('web/reservas/{reservas}','ReservaController@reservasListado');
+Route::post('reservasFace/create', 'ReservaController@storeFace');
 
 Route::group(array('before' => 'auth'), function()
 {
@@ -138,7 +140,7 @@ Route::get('tables/edit', 'TablesController@editPosition');
 Route::post('tables/savepos/{left}/{top}/{id}', 'TablesController@savepos');
 
 Route::get('reservas','ReservaController@index');
-Route::post('reservas', 'ReservaController@destroy');
+Route::get('reservas/{id}/{name}', 'ReservaController@getReservas');
 Route::get('reservas/create', 'ReservaController@create');
 Route::post('reservas/create', 'ReservaController@store');
 Route::get('reservas/{id}/edit', 'ReservaController@edit');

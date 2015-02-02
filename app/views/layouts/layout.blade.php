@@ -15,6 +15,10 @@
         <!-- JavaScript -->
     {{HTML::script('js/jquery-1.11.0.min.js')}}
     {{HTML::script('js/bootstrap.min.js')}}
+
+    @section ('head')
+    @show
+ 
 <script type="text/javascript">
 // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
@@ -78,23 +82,27 @@
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
+      mostrarReservas(response.name, response.id);
       document.getElementById('status').innerHTML =
         '<p>Gracias por ingresar a RestApp, ' + response.name + '!</p>'+
-        '<p>Presione el boton que aparece a continuacion y realice su reserva</p>'+
+        '<p>Presione el boton que aparece a continuacion y realice su reserva</p>'+ 
         '<button value="'+ response.name +'" id="reserva" class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">Reservar!</button>';
     });
   }
-  /*
-$('#reserva').on('click',function(){
 
-        var value =$(this).val();
+function mostrarReservas(name, id){
+  $('#name').val(name);
+  $('#id_facebook').val(id);
+  $('#reservasList').html("Buscando reservas a nombre de "+name+"...");
+  
+$.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name, 
+            function(data){
+              $('#reservasList').html(data);
+                                                
+              
+            })
+  }
 
-        $('.modal-body').load('http://www.google.com.ar',function(){
-            $("#myModal").modal({show: 'false'});
-            $('#myModalLabel').text("Nueva Reserva");
-        });
-
-    }); */
 </script>    
   </head>
 
@@ -283,20 +291,40 @@ $('#reserva').on('click',function(){
 <div id="status">
 
 </div>
+<div id="reservasList"></div>
+ 
+</div>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <h4 class="modal-title" style="color:black;" id="myModalLabel">Nueva Reserva</h4>
       </div>
       <div class="modal-body">
-        ...
-      </div>
+        <div class='errors_form'></div>
+{{ Form::open(array('url' => '/'.$reserva->id, 'id' => 'form')) }}
+<input type="hidden" name="id_facebook" id="id_facebook">
+    <div class="form-group">
+       <label style="color:black;" for="exampleInputPassword1">Fecha</label>
+       <input class="form-control" placeholder="Fecha" autocomplete="of" name="fecha" type="date" value="{{$reserva->date}}" id="fecha">
+    </div>
+    <div class="form-group">
+       <label style="color:black;">Nombre</label>
+       {{ Form::text ('name', $reserva->name, array('class'=>'form-control','placeholder'=>'Nombre', 'id'=>'name')) }} 
+     </div> 
+       <div class="form-group">
+       <label style="color:black;">Cantidad de Personas</label>
+       {{ Form::text ('cantpersons', $reserva->cantpersons, array('class'=>'form-control','placeholder'=>'Cantidad de personas', 'autocomplete'=>'of')) }} 
+     </div>
+      <br>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      {{ Form::submit('Guardar reserva',array('class'=>'btn btn-primary')) }}       
+      </div>
+{{ Form::close() }}    
       </div>
     </div>
   </div>
@@ -356,6 +384,34 @@ $('#reserva').on('click',function(){
           }
         });
       });
+
+var form = $('#form');
+form.on('submit', function () {
+  $.ajax({
+           type: form.attr('method'),
+           dataType: "json",
+           url: form.attr('action'),
+           data: form.serialize(),
+           success: function (data)
+                  {
+                  if(data.success == false){
+                        var errores = '';
+                        for(datos in data.errors){
+                            errores += data.errors[datos] + '<br>';
+                        }
+                        $('.errors_form').addClass( "alert alert-danger error" );
+                        $('.errors_form').html(errores);
+                    }else{
+                        $(form)[0].reset();//limpiamos el formulario
+                        $('.errors_form').removeClass( "alert alert-danger error" );
+                        $('.errors_form').addClass( "alert alert-success" );
+                        $('.errors_form').html("El registro se agrego correctamente");                        
+                        
+                    }
+                  }
+         }); 
+  return false;
+});
     </script>
 
   </body>
