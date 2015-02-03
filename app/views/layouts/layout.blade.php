@@ -303,8 +303,8 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
         <h4 class="modal-title" style="color:black;" id="myModalLabel">Nueva Reserva</h4>
       </div>
       <div class="modal-body">
-        <div class='errors_form'></div>
-{{ Form::open(array('url' => '/'.$reserva->id, 'id' => 'form')) }}
+        <div class='errors_form_reservas'></div>
+{{ Form::open(array('url' => 'reservasFace/create/'.$reserva->id, 'id' => 'formReserva')) }}
 <input type="hidden" name="id_facebook" id="id_facebook">
     <div class="form-group">
        <label style="color:black;" for="exampleInputPassword1">Fecha</label>
@@ -322,6 +322,7 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
       <div class="modal-footer">
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <button type="button" onclick="guardarReserva()" class="btn btn-primary">Guardar</button>
       {{ Form::submit('Guardar reserva',array('class'=>'btn btn-primary')) }}       
       </div>
 {{ Form::close() }}    
@@ -385,7 +386,54 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
         });
       });
 
-var form = $('#form');
+function guardarReserva(){
+
+var form = $('#formReserva');
+  $.ajax({
+           type: 'POST',
+           dataType: "json",
+           url: "http://localhost/restapp-api/public/index.php/reservasFace/create",
+           data: form.serialize(),
+           success: function (data)
+                  {
+                  if(data.success == false){
+                        var errores = '';
+                        for(datos in data.errors){
+                            errores += data.errors[datos] + '<br>';
+                        }
+                        $('.errors_form').addClass( "alert alert-danger error" );
+                        $('.errors_form').html(errores);
+                    }else{
+                        $(form)[0].reset();//limpiamos el formulario
+                        $('.errors_form').removeClass( "alert alert-danger error" );
+                        $('.errors_form').addClass( "alert alert-success" );
+                        $('.errors_form').html("El registro se agrego correctamente");                        
+                        
+                    }
+                  }
+         });
+//alert(form);
+/*
+$.post("http://localhost/restapp-api/public/index.php/reservasFace/create/"+form, 
+            function(data){
+              if(data.success == false){
+                        var errores = '';
+                        for(datos in data.errors){
+                            errores += data.errors[datos] + '<br>';
+                        }
+                        $('.errors_form_reservas').addClass( "alert alert-danger error" );
+                        $('.errors_form_reservas').html(errores);
+                    }else{
+                        $(form)[0].reset();//limpiamos el formulario
+                        $('.errors_form_reservas').removeClass( "alert alert-danger error" );
+                        $('.errors_form_reservas').addClass( "alert alert-success" );
+                        $('.errors_form_reservas').html("El registro se agrego correctamente");
+                        mostrarReservas(form['name'], form['id_facebook']);                        
+                        
+                    }
+            }); */
+}
+/*
 form.on('submit', function () {
   $.ajax({
            type: form.attr('method'),
@@ -411,7 +459,8 @@ form.on('submit', function () {
                   }
          }); 
   return false;
-});
+});*/
+
     </script>
 
   </body>
