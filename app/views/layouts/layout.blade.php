@@ -316,14 +316,13 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
      </div> 
        <div class="form-group">
        <label style="color:black;">Cantidad de Personas</label>
-       {{ Form::text ('cantpersons', $reserva->cantpersons, array('class'=>'form-control','placeholder'=>'Cantidad de personas', 'autocomplete'=>'of')) }} 
+       {{ Form::text ('cantidad', $reserva->cantidad, array('class'=>'form-control','placeholder'=>'Cantidad de personas', 'id'=>'cantidad')) }} 
      </div>
       <br>
       <div class="modal-footer">
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      <button type="button" onclick="guardarReserva()" class="btn btn-primary">Guardar</button>
-      {{ Form::submit('Guardar reserva',array('class'=>'btn btn-primary')) }}       
+      <button type="button" onclick="guardarReserva()" class="btn btn-primary">Guardar Reserva</button>     
       </div>
 {{ Form::close() }}    
       </div>
@@ -401,68 +400,25 @@ var form = $('#formReserva');
                         for(datos in data.errors){
                             errores += data.errors[datos] + '<br>';
                         }
-                        $('.errors_form').addClass( "alert alert-danger error" );
-                        $('.errors_form').html(errores);
-                    }else{
-                        $(form)[0].reset();//limpiamos el formulario
-                        $('.errors_form').removeClass( "alert alert-danger error" );
-                        $('.errors_form').addClass( "alert alert-success" );
-                        $('.errors_form').html("El registro se agrego correctamente");                        
+                        $('.errors_form_reservas').addClass( "alert alert-danger error" );
+                        $('.errors_form_reservas').html(errores);
+                    }else{                        
+                        $('.errors_form_reservas').removeClass( "alert alert-danger error" );
+                        $('.errors_form_reservas').addClass( "alert alert-success" );
+                        $('.errors_form_reservas').html("La reserva se realizó correctamente");                        
                         
+                        nombre = $('#formReserva #name').val();
+                        idFace = $('#formReserva #id_facebook').val();
+
+                        $(form)[0].reset();//limpiamos el formulario
+                        mostrarReservas(nombre, idFace);
                     }
                   }
          });
-//alert(form);
-/*
-$.post("http://localhost/restapp-api/public/index.php/reservasFace/create/"+form, 
-            function(data){
-              if(data.success == false){
-                        var errores = '';
-                        for(datos in data.errors){
-                            errores += data.errors[datos] + '<br>';
-                        }
-                        $('.errors_form_reservas').addClass( "alert alert-danger error" );
-                        $('.errors_form_reservas').html(errores);
-                    }else{
-                        $(form)[0].reset();//limpiamos el formulario
-                        $('.errors_form_reservas').removeClass( "alert alert-danger error" );
-                        $('.errors_form_reservas').addClass( "alert alert-success" );
-                        $('.errors_form_reservas').html("El registro se agrego correctamente");
-                        mostrarReservas(form['name'], form['id_facebook']);                        
-                        
-                    }
-            }); */
 }
-/*
-form.on('submit', function () {
-  $.ajax({
-           type: form.attr('method'),
-           dataType: "json",
-           url: form.attr('action'),
-           data: form.serialize(),
-           success: function (data)
-                  {
-                  if(data.success == false){
-                        var errores = '';
-                        for(datos in data.errors){
-                            errores += data.errors[datos] + '<br>';
-                        }
-                        $('.errors_form').addClass( "alert alert-danger error" );
-                        $('.errors_form').html(errores);
-                    }else{
-                        $(form)[0].reset();//limpiamos el formulario
-                        $('.errors_form').removeClass( "alert alert-danger error" );
-                        $('.errors_form').addClass( "alert alert-success" );
-                        $('.errors_form').html("El registro se agrego correctamente");                        
-                        
-                    }
-                  }
-         }); 
-  return false;
-});*/
 
-    </script>
+  </script>
 
-  </body>
+</body>
 
 </html>

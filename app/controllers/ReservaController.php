@@ -72,11 +72,20 @@
         ));
    }
 
+public function faceDestroy($id) { 
+   $reserva = FaceReserva::find($id);
+   $reserva->delete();
+   return Response::json(array(
+        'success' => true,
+        'message' => 'La reserva fue eliminada con éxito'
+        ));
+   }
+
   public function getReservas($id,$name){
     $reservas = DB::table('reservas_facebook')
                 ->where('id_facebook', $id)
                 ->orWhere('name', $name)
-                ->select('id','name', 'fecha', 'cantidad')
+                ->select('id','id_facebook','name', 'fecha', 'cantidad')
                 ->orderBy('fecha', 'desc')->get();
 
    return View::make('web.reserva', array('reservas' => $reservas));
@@ -92,7 +101,7 @@
    $reserva->fecha = Input::get('fecha');
    $reserva->name = Input::get('name');
    $reserva->id_facebook = Input::get('id_facebook');
-   $reserva->cantidad = Input::get('cantpersons');
+   $reserva->cantidad = Input::get('cantidad');
 
    $validator = FaceReserva::validate(Input::all());
       if ($validator->fails())
