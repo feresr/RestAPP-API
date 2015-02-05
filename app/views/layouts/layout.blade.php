@@ -86,7 +86,7 @@
       document.getElementById('status').innerHTML =
         '<p>Gracias por ingresar a RestApp, ' + response.name + '!</p>'+
         '<p>Presione el boton que aparece a continuacion y realice su reserva</p>'+ 
-        '<button value="'+ response.name +'" id="reserva" class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">Reservar!</button>';
+        '<button value="'+ response.name +'" id="reserva" class="btn btn-default btn-lg" onclick="nuevaReserva();">Reservar!</button>';
     });
   }
 
@@ -274,10 +274,12 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
 @yield('content')
 </div>
         </div>
-    </div><!--
-    <div id="contact" class="map">
+    </div>
+    <div style="padding-top:50px; background-color:#FFBB33;" id="contact">
+    <div class="map"> 
       <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A"></a></small></iframe>
-    </div>   -->
+    </div> 
+    </div>  
 
         <!-- Call to Action -->
     <div id="reservas"class="call-to-action">
@@ -300,12 +302,13 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" style="color:black;" id="myModalLabel">Nueva Reserva</h4>
+        <h4 class="modal-title" style="color:black;" id="myModalLabel"></h4>
       </div>
       <div class="modal-body">
         <div class='errors_form_reservas'></div>
-{{ Form::open(array('url' => 'reservasFace/create/'.$reserva->id, 'id' => 'formReserva')) }}
+{{ Form::open(array('url' => 'reservasFace/create', 'id' => 'formReserva')) }}
 <input type="hidden" name="id_facebook" id="id_facebook">
+<input type="hidden" name="id_reserva" id="id_reserva" value="">
     <div class="form-group">
        <label style="color:black;" for="exampleInputPassword1">Fecha</label>
        <input class="form-control" placeholder="Fecha" autocomplete="of" name="fecha" type="date" value="{{$reserva->date}}" id="fecha">
@@ -388,10 +391,18 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
 function guardarReserva(){
 
 var form = $('#formReserva');
+var idreserva = $('#id_reserva').val();
+
+if(idreserva == ""){
+  var direccion = "http://localhost/restapp-api/public/index.php/reservasFace/create";
+}else{
+  direccion = "http://localhost/restapp-api/public/index.php/reservasFace/update/"+idreserva;
+}
+
   $.ajax({
            type: 'POST',
            dataType: "json",
-           url: "http://localhost/restapp-api/public/index.php/reservasFace/create",
+           url: direccion,
            data: form.serialize(),
            success: function (data)
                   {
@@ -405,16 +416,53 @@ var form = $('#formReserva');
                     }else{                        
                         $('.errors_form_reservas').removeClass( "alert alert-danger error" );
                         $('.errors_form_reservas').addClass( "alert alert-success" );
-                        $('.errors_form_reservas').html("La reserva se realizó correctamente");                        
+                        $('.errors_form_reservas').html(data.message);                        
                         
                         nombre = $('#formReserva #name').val();
                         idFace = $('#formReserva #id_facebook').val();
 
-                        $(form)[0].reset();//limpiamos el formulario
+                        $('#formReserva')[0].reset();//limpiamos el formulario
                         mostrarReservas(nombre, idFace);
                     }
                   }
          });
+}
+
+function confirmarDelete(id,name,idface){ 
+confirmar=confirm("¿Estas seguro que quieres elimar la Reserva?"); 
+if (confirmar){ 
+// si pulsamos en aceptar
+$.post("index.php/reservasFace/delete/"+ id, 
+            function(data){
+                if (data.success == true){
+                  alert(data.message);
+                  mostrarReservas(name, idface);
+                }
+
+            });  
+} 
+}
+
+function editarReserva(id,name,fecha,cantidad){
+   $('#myModal').modal(); 
+   $('.errors_form_reservas').html("");
+   $('.errors_form_reservas').removeClass( "alert alert-success" );
+   $('#myModalLabel').html('Editar Reserva');
+   $('#formReserva #name').val(name);
+   $('#formReserva #fecha').val(fecha);
+   $('#formReserva #cantidad').val(cantidad);
+   $('#formReserva #id_reserva').val(id);
+}
+
+
+function nuevaReserva(){
+   $('#myModal').modal(); 
+   $('.errors_form_reservas').html("");
+   $('.errors_form_reservas').removeClass( "alert alert-success" );
+   $('#formReserva')[0].reset();
+   $('#formReserva #name').val($('#reserva').val());
+   $('#formReserva #id_reserva').val("");
+   $('#myModalLabel').html('Nueva Reserva');
 }
 
   </script>

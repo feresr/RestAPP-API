@@ -63,6 +63,7 @@ Route::get('/', 'HomeController@index');
 Route::post('/', 'HomeController@store');
 //Route::get('web/reservas/{reservas}','ReservaController@reservasListado');
 Route::post('reservasFace/create', 'ReservaController@storeFace');
+Route::post('reservasFace/update/{id}', 'ReservaController@updateFace');
 Route::get('reservas/{id}/{name}', 'ReservaController@getReservas');
 Route::post('reservasFace/delete/{id}', 'ReservaController@faceDestroy');
 

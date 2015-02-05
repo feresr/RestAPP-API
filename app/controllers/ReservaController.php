@@ -113,7 +113,32 @@ public function faceDestroy($id) {
       }else{
           $reserva->save();
           return Response::json(array(
-            'success'     =>  true
+            'success'   =>  true,
+            'message'   =>  "La reserva se realizó correctamente"
+        ));
+      }     
+}
+
+  public function updateFace($id) {
+   $reserva = FaceReserva::find($id);
+   $reserva->fecha = Input::get('fecha');
+   $reserva->name = Input::get('name');
+   $reserva->id_facebook = Input::get('id_facebook');
+   $reserva->cantidad = Input::get('cantidad');
+
+   $validator = FaceReserva::validate(Input::all(), $reserva->id);
+
+      if ($validator->fails())
+      {
+         return Response::json(array(
+          'success' => false,
+          'errors' => $validator->getMessageBag()->toArray()
+      ));
+      }else{
+          $reserva->save();
+          return Response::json(array(
+            'success'  =>  true,
+            'message'  =>  "La reserva se modifico correctamente." 
         ));
       }     
 }
