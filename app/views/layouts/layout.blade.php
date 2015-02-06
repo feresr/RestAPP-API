@@ -293,6 +293,7 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
 <div id="status">
 
 </div>
+<div id="success_form"></div>
 <div id="reservasList"></div>
  
 </div>
@@ -414,14 +415,18 @@ if(idreserva == ""){
                         $('.errors_form_reservas').addClass( "alert alert-danger error" );
                         $('.errors_form_reservas').html(errores);
                     }else{                        
-                        $('.errors_form_reservas').removeClass( "alert alert-danger error" );
-                        $('.errors_form_reservas').addClass( "alert alert-success" );
-                        $('.errors_form_reservas').html(data.message);                        
+                        //$('.errors_form_reservas').removeClass( "alert alert-danger error" );
+                        $('#success_form').addClass( "alert alert-success" );
+                        $('#success_form').html(data.message);                        
                         
                         nombre = $('#formReserva #name').val();
                         idFace = $('#formReserva #id_facebook').val();
+                        $('#formReserva #id_reserva').val("");
+                        //$('#myModalLabel').html('Nueva Reserva');
+                        $('#myModal').modal('toggle');
+                        
 
-                        $('#formReserva')[0].reset();//limpiamos el formulario
+                        //$('#formReserva')[0].reset();//limpiamos el formulario
                         mostrarReservas(nombre, idFace);
                     }
                   }
