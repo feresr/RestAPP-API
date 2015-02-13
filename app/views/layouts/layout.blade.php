@@ -82,6 +82,7 @@
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
+      $('#estadoLogin').hide();
       mostrarReservas(response.name, response.id);
       document.getElementById('status').innerHTML =
         '<p>Gracias por ingresar a RestApp, ' + response.name + '!</p>'+
@@ -156,15 +157,45 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
         <div class="container">
 
             <div class="row">
-                <div class="col-lg-5 col-sm-6">
+                <div class="col-lg-6 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <h2 class="section-heading">Death to the Stock Photo:
-                        <br>Special Thanks</h2>
-                    <p class="lead">A special thanks to Death to the Stock Photo for providing the photographs that you see in this template. <a target="_blank" href="http://join.deathtothestockphoto.com/">Visit their website</a> to become a member.</p>
+                    <h2 align="center" class="section-heading">HISTORIA
+                        </h2>
+                    <p class="lead">A special thanks to Death to the Stock Photo for providing the photographs that you see in this template. to become a member.
+                      A special thanks to Death to the Stock Photo for providing the photographs that you see in this template. to become a member.
+                      A special thanks to Death to the Stock Photo for providing the photographs that you see in this template. to become a member.
+                    </p>
+                    <div style="background-color:#FF8800; border-radius: 10px;">
+                    <div class="row">
+                      <br>
+                <div class="col-md-6 text-center">
+                    <div class="service-item">
+                        <i class="service-icon fa fa-cutlery"></i>
+                        <h3>¿Qué es RestApp?</h3>
+                        <p>Reemplazá al papel y lapiz. El mozo toma los pedidos en la mesa y envía el pedido a la cocina. Ofrece un mejor servicio</p>
+                    </div>
                 </div>
-                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                  {{ HTML::image('images/web/ipad.png', "Imagen no encontrada", array('class'=> 'img-responsive')) }}
+                <div class="col-md-6 text-center">
+                    <div class="service-item">
+                        <i class="service-icon fa fa-laptop"></i>
+                        <h3>¿Qué necesito?</h3>
+                        <p>Una computadora o dispositivo movil conectado a Internet y una cuenta de Facebook es suficiente para poder utilizar RestApp.</p>
+                    </div>
+                </div>                
+              </div>
+              <div class="col-md-12 text-center">
+                    <div class="service-item">
+                        <i class="service-icon fa fa-thumbs-o-up"></i>
+                        <h3>¿Por qué usarlo?</h3>
+                        <p>Realiza tu reserva para la fecha y hora que desees. No pierdas tiempo haciendo colas ni llamando para tener una mesa.</p>
+                    </div>
+                </div>
+                <br>
+                </div>
+                </div>
+                <div class="col-lg-6 col-sm-6">
+                  {{ HTML::image('images/web/principal.png', "Imagen no encontrada", array('class'=> 'img-responsive')) }}
                 </div>
             </div>
 
@@ -186,8 +217,8 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
                         <br>by PSDCovers</h2>
                     <p class="lead">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by PSDCovers! <a target="_blank" href="http://www.psdcovers.com/">Visit their website</a> to download some of their awesome, free photoshop actions!</p>
                 </div>
-                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                    {{ HTML::image('images/web/doge.png', "Imagen no encontrada", array('class'=> 'img-responsive')) }}
+                <div class="col-lg-5 col-sm-pull-6  col-sm-6">                    
+                    {{ HTML::image('images/web/ipad.png', "Imagen no encontrada", array('class'=> 'img-responsive')) }}
                 </div>
             </div>
 
@@ -210,7 +241,7 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
                     <p class="lead">This template features the 'Lato' font, part of the <a target="_blank" href="http://www.google.com/fonts">Google Web Font library</a>, as well as <a target="_blank" href="http://fontawesome.io">icons from Font Awesome</a>.</p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    {{ HTML::image('images/web/phones.png', "Imagen no encontrada", array('class'=> 'img-responsive')) }}
+                    {{ HTML::image('images/web/menu.png', "Imagen no encontrada", array('class'=> 'img-responsive')) }}
                 </div>
             </div>
 
@@ -286,14 +317,22 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
       <div class="container">
         <div class="row">
           <div class="col-md-6 col-md-offset-3 text-center">
-            <h3>The buttons below are impossible to resist.</h3>
+    <div id="estadoLogin">
+            <h3>Ingrese con Facebook y realice su reserva.</h3>
 <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
 </fb:login-button>
-
+</div>
 <div id="status">
 
 </div>
-<div id="success_form"></div>
+
+<div id="mensaje" style="display:none;" class="alert alert-success">
+  <button type="button" class="close" onclick="cerrar()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  <h4>
+    {{ HTML::image('images/ok.png') }}
+    <div style="display:inline;" id="success_form"></div>
+  </h4>
+</div>
 <div id="reservasList"></div>
  
 </div>
@@ -305,7 +344,7 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title" style="color:black;" id="myModalLabel"></h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body">    
         <div class='errors_form_reservas'></div>
 {{ Form::open(array('url' => 'reservasFace/create', 'id' => 'formReserva')) }}
 <input type="hidden" name="id_facebook" id="id_facebook">
@@ -389,6 +428,10 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
         });
       });
 
+function cerrar(){
+  $('#mensaje').hide();
+}
+
 function guardarReserva(){
 
 var form = $('#formReserva');
@@ -416,7 +459,7 @@ if(idreserva == ""){
                         $('.errors_form_reservas').html(errores);
                     }else{                        
                         //$('.errors_form_reservas').removeClass( "alert alert-danger error" );
-                        $('#success_form').addClass( "alert alert-success" );
+                        $('#mensaje').show();
                         $('#success_form').html(data.message);                        
                         
                         nombre = $('#formReserva #name').val();
@@ -440,7 +483,8 @@ if (confirmar){
 $.post("index.php/reservasFace/delete/"+ id, 
             function(data){
                 if (data.success == true){
-                  alert(data.message);
+                  $('#mensaje').show();
+                  $('#success_form').html(data.message);
                   mostrarReservas(name, idface);
                 }
 

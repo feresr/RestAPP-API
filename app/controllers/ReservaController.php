@@ -88,8 +88,10 @@ public function faceDestroy($id) {
                 ->select('id','id_facebook','name', 'fecha', 'cantidad')
                 ->orderBy('fecha', 'desc')->get();
 
-   return View::make('web.reserva', array('reservas' => $reservas));
- 
+  if(count($reservas) >= 1){
+    return View::make('web.reserva', array('reservas' => $reservas));
+  }
+   return "No tiene Reservas realizadas"; 
   }
 
   public function reservasListado($reservas){
