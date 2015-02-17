@@ -363,8 +363,6 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
      </div>
       <br>
       <div class="modal-footer">
-      <!-- Allow form submission with keyboard without duplicating the dialog button -->
-      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       <button type="button" onclick="guardarReserva()" class="btn btn-primary">Guardar Reserva</button>     
       </div>
 {{ Form::close() }}    

@@ -64,7 +64,12 @@
 </div>
 <div class='row'>
     <!--en este los errores del formulario--> 
-<div id='message'></div>
+<div id="mensaje" style="display:none;" class="alert alert-danger">
+  <button type="button" class="close" onclick="cerrar()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  <h4>
+    <div id="success_form"></div>
+  </h4>
+</div>
 </div>
 </div>
 @else
@@ -74,9 +79,13 @@
 <div id="tabla">
 </div>
 <a id="finish" class="btn btn-default">Cerrar</a>
-<a href="javascript:confirmar({{$order->id}})" class="btn btn-danger">Eliminar</a>
+<a href="javascript:eliminarOrden({{$order->id}})" class="btn btn-danger">Eliminar</a>
 
 <script type="text/javascript">
+
+function cerrar(){
+  $('#mensaje').hide();
+}
 
 $(document).ready(function ()
 {
@@ -97,20 +106,19 @@ form.on('submit', function () {
                         for(datos in data.message){
                             errores +=  data.message[datos]+'<br>';
                         }
-                        $('#message').addClass("alert alert-danger");
-                        $('#message').html(errores);
+                        $('#mensaje').show();
+                        $('#success_form').html(errores);                        
                     }else{
-                        $(form)[0].reset();//limpiamos el formulario
-                        $('#message').removeClass("alert alert-danger");
-                        mensaje = data.message;
-                        $('#message').addClass("alert alert-success");
-                        $('#message').html(mensaje);
+                        $(form)[0].reset();//limpiamos el formulario 
+                        $('#mensaje').hide();                       
                         $("#tabla").load('list/'+id);
                     }
                   }
          }); 
   return false;
 });
+
+
 var form_edit = $('#form_edit');
 form_edit.on('submit', function () {
   $.ajax({
@@ -140,7 +148,7 @@ form_edit.on('submit', function () {
 });
 });
 
-function confirmar(id){ 
+function eliminarOrden(id){ 
 confirmar=confirm("¿Estas seguro que quieres elimar la orden?"); 
 if (confirmar){ 
 // si pulsamos en aceptar

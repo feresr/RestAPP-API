@@ -27,19 +27,17 @@
         </table>
     </ul>
 <script type="text/javascript">
-function eliminar(iditem, idorder){          
-
-$.post('orders/'+iditem, 
+function eliminar(iditem, idorder){   
+confirma = confirm("¿Estas seguro que quieres elimar el item seleccionado?"); 
+if (confirma){
+  $.post('orders/'+iditem, 
             function(data){
                 if (data.success != true){
-                  alert('Error');
+                  alert('Error: quiere eliminar un item que no existe');
                 }else{
-                    // si la respuesta fue exitosa entonces eliminamos la fila de la tabla 
-                    var mensaje = 'El item se elimino correctamente';
-                    $('#message').addClass("alert alert-danger");
-                    $('#message').html(mensaje);
                     $("#tabla").load('list/'+idorder);
                 }
-            });                         
+            });
+  }                                
 }
 </script>

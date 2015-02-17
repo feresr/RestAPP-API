@@ -52,7 +52,6 @@ class OrderItemsController extends BaseController {
 
 				return Response::json(array(
 					'success'     =>  true,
-					'message'     =>  'Se agrego el item correctamente',
 					'id' => $orderItem->id
 				));
 			}else{

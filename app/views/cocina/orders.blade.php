@@ -70,13 +70,12 @@ setTimeout(
 $.post('listOrders/' + cantOrders + '/'+cantItems, 
             function(data){
                 if (data.success == true){
-                    $('#mensaje').addClass( "alert alert-success" );
-                    $('#mensaje').html(data.message);
+                    $('#mensaje').show();
+                    $('#success_form').html(data.message); 
                     $("#tableOrders").load('listOrders');
                 }
                 else{
-                  $('#mensaje').removeClass( "alert alert-success");
-                  $('#mensaje').html('');
+                  $('#mensaje').hide();
                   messages_longpolling();
                 }
             });  
