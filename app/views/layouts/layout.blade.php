@@ -117,25 +117,17 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Rest App</a>
+          <a class="navbar-brand" href="#top">Rest App</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
+            <li><a href="#historia">Historia</a></li>
             <li><a href="#productos">Productos</a></li>
             <li><a href="#services">Servicios</a></li>
             <li><a href="#about">Consultas</a></li>
             <li><a href="#contact">Contactos</a></li>
             <li><a href="#reservas">Reservas</a></li>
           </ul>
-          <form class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form>
         </div><!--/.navbar-collapse -->
       </div>
     </div>
@@ -152,7 +144,7 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
     <!-- /Full Page Image Header Area -->
   
     <!-- Intro -->
-<div id="productos" class="content-section-a">
+<div id="historia" class="content-section-a">
 
         <div class="container">
 
@@ -205,7 +197,7 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
     </div>
     <!-- /.content-section-a -->
 
-    <div class="content-section-b">
+    <div id="productos" class="content-section-b">
 
         <div class="container">
 
@@ -250,6 +242,28 @@ $.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name,
 
     </div>
     <!-- /.content-section-a -->
+
+    <div class="content-section-b">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">3D Device Mockups
+                        <br>by PSDCovers</h2>
+                    <p class="lead">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by PSDCovers! <a target="_blank" href="http://www.psdcovers.com/">Visit their website</a> to download some of their awesome, free photoshop actions!</p>
+                </div>
+                <div class="col-lg-5 col-sm-pull-6  col-sm-6">                    
+                    {{ HTML::image('images/web/ordenes.png', "Imagen no encontrada", array('class'=> 'img-responsive')) }}
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
     <!-- /Intro -->
   
     <!-- Callout -->
