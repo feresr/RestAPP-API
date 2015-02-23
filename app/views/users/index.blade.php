@@ -24,7 +24,6 @@
                 <td> {{ $item->username }} </td>
                 <td> {{ $item->lastname }} </td>
                 <td> {{ $item->firstname}} </td>
-                <td> {{ link_to('users/'.$item->id, 'Ver') }} </td>
                 <td><a href='users/{{$item->id}}/edit' class="btn btn-default btn-xs"><i class="icon-pencil"></i> edit</a> </td>
                 <td> 
           <a href="javascript:confirmar({{$item->id}})" class="btn btn-danger btn-xs">

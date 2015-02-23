@@ -72,7 +72,7 @@ Route::group(array('before' => 'auth'), function()
 Route::get('users', 'UsersController@index');
 Route::get('users/create', 'UsersController@create');
 Route::post('users/create', 'UsersController@store');
-Route::post('users/create/{id}', 'UsersController@update');
+Route::post('users/update/{id}', 'UsersController@update');
 Route::get('users/{id}/edit', 'UsersController@edit');
 Route::post('users/delete/{id}', 'UsersController@destroy');
 

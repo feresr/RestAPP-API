@@ -60,6 +60,7 @@ else{
     $user->firstname = $input['firstname'];
     $user->lastname = $input['lastname'];
     $user->username = $input['username'];
+    $user->password = Hash::make($input['password']);
     $user->save();
     return Response::json(array(
       'success' => true,

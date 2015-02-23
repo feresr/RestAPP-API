@@ -24,9 +24,9 @@
 <div class='indicators'>
   <h3>
 @if($coord->table['taken'] == true)
-  <span class="label label-success">{{$coord->table['number']}}</span>
+  <span id="marca{{$coord->table['id']}}" class="label label-success">{{$coord->table['number']}}</span>
 @else
-  <span class="label label-false">{{$coord->table['number']}}</span>
+  <span id="marca{{$coord->table['id']}}" class="label label-false">{{$coord->table['number']}}</span>
 @endif
 </h3>
 </div>
@@ -41,7 +41,10 @@
 </div>
 <script>
 
-function editar(idtable){      
+function editar(idtable){
+$('.label-success').css({'font-size':'75%','background':'#7EA568'}); 
+$('.label-false').css({'font-size':'75%','background':'#F00'});
+$('#marca'+idtable).css({'font-size':'130%','background':'#FF9620'});     
 $.get("edi/"+ idtable, 
             function(data){
               $('#result').html("");
@@ -54,9 +57,6 @@ $.get("edi/"+ idtable,
               });
             });                         
 }
-$('.img-circle').on('click', function() {
-$('.img-circle').removeClass('active');
-    $(this).addClass('active');
-});
+
 </script>
 @stop

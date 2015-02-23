@@ -26,15 +26,15 @@
        {{ Form::text ('lastname', $user->lastname, array('class'=>'form-control','placeholder'=>'Apellido', 'autocomplete'=>'of')) }} 
      </div> 
        @if($user->id)
-          {{ Form::hidden ('_method', 'PUT') }}
+          <!-- {{ Form::hidden ('_method', 'PUT') }} -->
        @else
        <div class="form-group">
           {{ Form::label ('password', 'Contraseña') }}
           {{ Form::password ('password',array('class'=>'form-control','placeholder'=>'password', 'autocomplete'=>'of')) }}
       </div>
        @endif
-       {{ Form::submit('Guardar usuario',array('class'=>'btn btn-success')) }}
-       {{ link_to('users', 'Cancelar') }}
+       {{ Form::submit('Guardar usuario',array('class'=>'btn btn-primary')) }}
+       {{ link_to('users', 'Volver') }}
     {{ Form::close() }}
 </div>
 </div>
