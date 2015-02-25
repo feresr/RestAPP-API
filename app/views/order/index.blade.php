@@ -18,6 +18,7 @@
 @endif
 <div id="containment-wrapper">
 @foreach($coords as $coord)
+<a href="#result">
 <div id='draggable' value='{{$coord->table_id}}' onclick="editar({{ $coord->table_id}})" class="img-circle" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;">
 
 {{HTML::image('images/table.png', "Imagen no encontrada", array('id' => 'back-'.$coord->table_id))}}
@@ -31,6 +32,7 @@
 </h3>
 </div>
 </div>
+</a>
 @endforeach
 </div>
 <hr>
@@ -44,17 +46,17 @@
 function editar(idtable){
 $('.label-success').css({'font-size':'75%','background':'#7EA568'}); 
 $('.label-false').css({'font-size':'75%','background':'#F00'});
-$('#marca'+idtable).css({'font-size':'130%','background':'#FF9620'});     
-$.get("edi/"+ idtable, 
+$('#marca'+idtable).css({'font-size':'130%','background':'#2980b9'});     
+$.post("edi/"+ idtable, 
             function(data){
               $('#result').html("");
                 if (data.success == false){
                   $('#result').load('http://localhost/restapp-api/public/index.php/orders/create/'+idtable);
                 }
                 else                  
-              $.each(data, function(i,order){
-                    $('#result').load('http://localhost/restapp-api/public/index.php/orders/edit/'+order.id);
-              });
+              //$.each(data, function(i,order){                
+                    $('#result').load('http://localhost/restapp-api/public/index.php/orders/edit/'+data['id']);
+              //});
             });                         
 }
 

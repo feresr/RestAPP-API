@@ -92,6 +92,7 @@ $(document).ready(function ()
 $(".chosen-select").chosen({no_results_text:'No hay resultados para '});
 var id=$("#order_id").val();
 $("#tabla").load('list/'+id);
+
 var form = $('#formulario_busqueda');
 form.on('submit', function () {
   $.ajax({

@@ -98,12 +98,13 @@ class OrderItemsController extends BaseController {
 	public function edit($id) { 
 		$order = Order::find($id);
 		$tables = DB::table('tables')->select('id', 'number', 'seats', 'taken')->get();			
-		$users = User::all();
+		$users = DB::table('users')->select('id', 'firstname', 'lastname')->get();
 		$categories = Category::all(array('id','name'));
 		return View::make('order.edit', array('order' => $order,'categories'=>$categories, 'tables'=>$tables, 'users'=>$users));
 	}
 
 	public function items($id) {
+		//$items = DB::table('item_order')->select('id', 'firstname', 'lastname')->get();
 		$order = Order::find($id);
 		return View::make('order.items', array('order' => $order));
 	}

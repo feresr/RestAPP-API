@@ -113,7 +113,7 @@ Route::get('orders/edit/{id}', 'OrderItemsController@edit');
 Route::post('orders/edit', 'OrderItemsController@store');
 Route::post('orders/{iditem}', 'OrderItemsController@destroy');
 //Route::post('orders/{iditem}', 'OrderItemsController@destroy');//ver si lo dejo
-Route::get('edi/{id}', 'OrdersController@getOrder');
+Route::post('edi/{id}', 'OrdersController@getOrder');
 
 Route::get('items', 'ItemsController@index');
 Route::get('items/create', 'ItemsController@create');

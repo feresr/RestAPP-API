@@ -201,15 +201,22 @@ public function coords()
 
 public function getOrder($id)
 	{
-		$order = Order::where('table_id', '=', $id)->where('active', '=', true)->get();
-			if($order != "[]")
+		$order = DB::table('orders')
+					->select('id')
+					->where('table_id', $id)
+                    ->where('active', true)
+                    ->get();
+
+		//$order = Order::where('table_id', '=', $id)->where('active', '=', true)->get();
+			if(count($order) == 0)
 			{
-				return Response::json($order);
-			}
-		else{
 				return Response::json(array(
 				'success' => false
-			));	
+			));
+				
+			}
+		else{
+				return Response::json($order[0]);	
 			}
 	}
 
