@@ -96,7 +96,7 @@ function mostrarReservas(name, id){
   $('#id_facebook').val(id);
   $('#reservasList').html("Buscando reservas a nombre de "+name+"...");
   
-$.get("/restapp-api/public/index.php/reservas/"+ id+"/"+name, 
+$.get("/restapp-api/public/index.php/reservasFace/"+ id+"/"+name, 
             function(data){
               $('#reservasList').html(data);
                                                 
