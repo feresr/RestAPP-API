@@ -18,7 +18,7 @@ public function coords(){
 	}
 	//VALIDACIONES
 	public static $rules = array(
-		'number' => 'required|numeric|unique:tables',
+		'number' => 'required|numeric',
 		'seats' => 'required|numeric'
 	);
 

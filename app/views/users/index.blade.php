@@ -2,47 +2,59 @@
 
 @section('content')
 <h1> USUARIOS </h1>
-  @if(Session::has('notice'))
-  <p> <strong> {{ Session::get('notice') }} </strong> </p>
-  @endif
-    <p><a href='users/create' class="btn btn-primary"><i class="icon-plus"></i> Crear nuevo usuario</a></p>
-    @if($users->count())
+<div id="mensaje" style="display:none;" class="alert alert-success">
+  <button type="button" class="close" onclick="cerrar()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  <h4>
+    {{ HTML::image('images/ok.png') }}
+    <div style="display:inline;" id="success_form"></div>
+  </h4>
+</div>
+    <button value="" id="usuario" class="btn btn-primary" onclick="nuevoUsuario();"><i class="icon-plus"></i> Crear Usuario</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" style="color:black;" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body">    
+        <div class='errors_form'></div>
+    {{ Form::open(array('url' => 'users/create', 'id'=>'form')) }}
+    <input type="hidden" name="id_usuario" id="id_usuario" value="">
+    <div class="form-group">
+       {{ Form::label ('username', 'Nickname') }}
+       {{ Form::text ('username', '', array('class'=>'form-control','placeholder'=>'nickname', 'autocomplete'=>'of')) }}
+    </div>
+    <div class="form-group">
+       {{ Form::label ('name', 'Nombre real') }}
+       {{ Form::text ('firstname', '', array('class'=>'form-control','placeholder'=>'nombre', 'autocomplete'=>'of')) }}
+    </div>
+    <div class="form-group">
+       {{ Form::label ('lastname', 'Apellido') }}
+       {{ Form::text ('lastname', '', array('class'=>'form-control','placeholder'=>'Apellido', 'autocomplete'=>'of')) }} 
+     </div> 
+       <div class="form-group">
+          {{ Form::label ('password', 'Contraseña') }}
+          {{ Form::password ('password',array('class'=>'form-control','placeholder'=>'password', 'autocomplete'=>'of')) }}
+      </div>
+       <div class="modal-footer">
+      <button type="button" onclick="guardarUsuario()" class="btn btn-primary">Guardar Usuario</button>     
+      </div>
+    {{ Form::close() }}  
+      </div>
+    </div>
+  </div>
+</div>
 <div class="widget-content-white glossed">
-    <div class="padded">
-          <table class="table table-striped table-bordered table-hover datatable">
-          <thead>
-          <tr>
-             <th> Username </th>
-             <th> Apellido </th>
-             <th> Nombre </th>
-             <th> </th>
-          </tr>
-          </thead>
-          <tbody>
-          @foreach($users as $item)
-             <tr>
-                <td> {{ $item->username }} </td>
-                <td> {{ $item->lastname }} </td>
-                <td> {{ $item->firstname}} </td>
-                <td><a href='users/{{$item->id}}/edit' class="btn btn-default btn-xs"><i class="icon-pencil"></i> edit</a> </td>
-                <td> 
-          <a href="javascript:confirmar({{$item->id}})" class="btn btn-danger btn-xs">
-          <i class="icon-remove"></i></a>
-</td>
-             </tr>
-          @endforeach
-          </tbody>
-       </table>
+    <div id="listadoUsuarios">
 </div>
 </div>
-    @else
-       <p> No se han encontrado usuarios </p>
-    @endif
 <script type="text/javascript">
-$(document).ready(function ()
-{
+
+mostrarUsuarios();
 $('#user').addClass("active");
-});
 
 function confirmar(id){ 
 confirmar=confirm("¿Estas seguro que quieres elimar el usuario?"); 
@@ -52,11 +64,81 @@ $.post("users/delete/"+ id,
             function(data){
                 if (data.success == true){
                   alert(data.message);
-                  location.href = "http://localhost/restapp-api/public/index.php/users";
+                  mostrarUsuarios();
                 }
 
             });  
 } 
 }
+
+function cerrar(){
+  $('#mensaje').hide();
+}
+
+function nuevoUsuario(){
+   $('#myModal').modal(); 
+   $('.errors_form').html("");
+   $('.errors_form').removeClass( "alert alert-success" );
+   $('#form')[0].reset();
+   $('#form #id_usuario').val("");
+   $('#myModalLabel').html('Nuevo Usuario');
+}
+
+function editarCategoria(id,name,description){
+   $('#myModal').modal(); 
+   $('.errors_form_reservas').html("");
+   $('.errors_form_reservas').removeClass( "alert alert-success" );
+   $('#myModalLabel').html('Editar Categoria');
+   $('#form #name').val(name);
+   $('#form #description').val(description);
+   $('#form #id_usuario').val(id);
+}
+
+function guardarUsuario(){
+
+var form = $('#form');
+var idusuario = $('#id_usuario').val();
+
+if(idusuario == ""){
+  var direccion = "http://localhost/restapp-api/public/index.php/users/create";
+}else{
+  direccion = "http://localhost/restapp-api/public/index.php/users/update/"+idusuario;
+}
+
+  $.ajax({
+           type: 'POST',
+           dataType: "json",
+           url: direccion,
+           data: form.serialize(),
+           success: function (data)
+                  {
+                  if(data.success == false){
+                        var errores = '';
+                        for(datos in data.errors){
+                            errores += data.errors[datos] + '<br>';
+                        }
+                        $('.errors_form').addClass( "alert alert-danger error" );
+                        $('.errors_form').html(errores);
+                    }else{                 
+                        $('#mensaje').show();
+                        $('#success_form').html(data.message);                        
+                                                                       
+                        $('#form #id_categoria').val("");                        
+                        $('#myModal').modal('toggle');
+                        mostrarUsuarios();
+                    }
+                  }
+         });
+}
+
+function mostrarUsuarios(){
+  
+$.get("/restapp-api/public/index.php/users/listado", 
+            function(data){
+              $('#listadoUsuarios').html(data);
+                                                
+              
+            })
+  }
 </script>
 @stop

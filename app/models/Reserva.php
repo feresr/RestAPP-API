@@ -6,7 +6,7 @@ protected $table = 'reservas';
   public static $rules = array(
           'date' => 'required|date',
           'name' => 'required|min:2',
-          'cantpersons' => 'required|min:1'
+          'cantpersons' => 'required|numeric|min:1'
       );
           
    public static $messages = array(
@@ -15,6 +15,7 @@ protected $table = 'reservas';
           'name.required'=> 'Ingresar el nombre es obligatorio.',
           'name.min' => 'El nombre no puede tener menos de dos caracteres.',
           'cantpersons.required' => 'Debe ingesar una cantidad',
+          'cantpersons.numeric' => '"Cantidad de Personas" debe ser un numero',
           'cantpersons.min' => 'Debe ser al menos una persona'
       );
 

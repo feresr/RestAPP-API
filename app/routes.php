@@ -70,6 +70,7 @@ Route::post('reservasFace/delete/{id}', 'ReservaController@faceDestroy');
 Route::group(array('before' => 'auth'), function()
 {
 Route::get('users', 'UsersController@index');
+Route::get('users/listado', 'UsersController@mostrarUsuarios');
 Route::get('users/create', 'UsersController@create');
 Route::post('users/create', 'UsersController@store');
 Route::post('users/update/{id}', 'UsersController@update');
@@ -125,6 +126,7 @@ Route::post('items/create/{id}', 'ItemsController@update');
 Route::post('items/delete/{id}', 'ItemsController@destroy');
 
 Route::get('categorias', 'CategoriesController@index');
+Route::get('categorias/listado', 'CategoriesController@mostrarCategorias');
 Route::get('categorias/create', 'CategoriesController@create');
 Route::post('categorias/create', 'CategoriesController@store');
 Route::get('categorias/{id}/edit', 'CategoriesController@edit');
@@ -143,6 +145,7 @@ Route::get('tables/edit', 'TablesController@editPosition');
 Route::post('tables/savepos/{left}/{top}/{id}', 'TablesController@savepos');
 
 Route::get('reservas','ReservaController@index');
+Route::get('reservas/mostrarReservas','ReservaController@mostrarReservas');
 Route::get('reservas/create', 'ReservaController@create');
 Route::post('reservas/create', 'ReservaController@store');
 Route::get('reservas/{id}/edit', 'ReservaController@edit');

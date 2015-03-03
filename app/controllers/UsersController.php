@@ -2,9 +2,17 @@
  class UsersController extends BaseController {
 
   public function index() {
-   $users  = User::all();
-   return View::make('users.index')->with('users', $users);
+   return View::make('users.index');
    }
+
+   public function mostrarUsuarios(){
+        $users  = User::all();
+
+      if(count($users) >= 1){
+        return View::make('users.table', array('users' => $users));
+      }
+       return "No existen usuarios"; 
+      }
 
    public function show($id) { 
    $user = User::find($id);
@@ -33,7 +41,8 @@
    $user->password = Hash::make($input['password']);
       $user->save();
           return Response::json(array(
-            'success'     =>  true
+            'success'     =>  true,
+            'message'   =>  "El usuario se creó correctamente"
         ));
    }
    }
@@ -64,7 +73,7 @@ else{
     $user->save();
     return Response::json(array(
       'success' => true,
-      'types' => 'edit'
+      'message'   =>  "El usuario se creó correctamente"
     ));
   }
   }

@@ -27,12 +27,12 @@
     </div>
     <div id="{{$category->name}}" class="panel-collapse collapse in">
       <div class="panel-body">
-      <table class="table table-striped">
+      <table class="table table-striped" style='table-layout:fixed';>
       <thead>
           <tr>
              <th> Codigo </th>
-             <th> Nombre </th>
-             <th> Descripcion</th>
+             <th width="150px"> Nombre </th>
+             <th width="400px"> Descripcion</th>
              <th> Precio</th>
              <th> </th>
           </tr>

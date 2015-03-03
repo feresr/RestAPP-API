@@ -2,9 +2,21 @@
  class ReservaController extends BaseController {
     
     public function index(){
-   		$reservas = Reserva::all(array('id','date','name','cantpersons'));
-      return View::make('reservas.index', array('reservas' => $reservas));
+   		//$reservas = Reserva::all(array('id','date','name','cantpersons'));
+      return View::make('reservas.index');
     }
+
+    public function mostrarReservas(){
+        $reservas = DB::table('reservas')
+                    ->select('id','date','name', 'cantpersons')
+                    ->orderBy('date', 'desc')->get();
+
+      if(count($reservas) >= 1){
+        return View::make('reservas.table', array('reservas' => $reservas));
+      }
+       return "No existen Reservas realizadas"; 
+      }
+
      public function lista() {
       $reservas = Reserva::all();
      return View::make('reservas.listres', array('reservas' => $reservas));
@@ -31,10 +43,12 @@
       }else{
           $reserva->save();
           return Response::json(array(
-            'success'     =>  true
+            'success'     =>  true,
+            'message'   =>  "La reserva se realizó correctamente"
         ));
       }     
 }
+
     public function edit($id) {
     $reserva = Reserva::find($id);
     $title = 'Editar';
@@ -57,7 +71,7 @@
       $reserva->save();
           return Response::json(array(
             'success'     =>  true,
-            'types' => 'edit'
+            'message'   =>  "La reserva se modifico correctamente"
         ));
    }
    }

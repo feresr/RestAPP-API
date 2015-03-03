@@ -13,9 +13,18 @@ class CategoriesController extends BaseController {
 		if (Request::wantsJson()){
 			return Response::json($categories);
 		}else{
-			return View::make('categorias.index', array('categories' => $categories));
+			return View::make('categorias.index');
 		}
 	}
+
+	public function mostrarCategorias(){
+        $categories  = Category::all();
+
+      if(count($categories) >= 1){
+        return View::make('categorias.table', array('categories' => $categories));
+      }
+       return "No existen Categorias"; 
+      }
 
 	/**
 	 * Show the form for creating a new resource.
@@ -50,7 +59,8 @@ class CategoriesController extends BaseController {
 		$category->description = $input['description'];
 		$category->save();
 		return Response::json(array(
-			'success' => true
+			'success' => true,
+			'message'   =>  "La categoria se creó correctamente"
 		));
 	}
 
@@ -102,7 +112,7 @@ class CategoriesController extends BaseController {
 		$category->save();
 		return Response::json(array(
 			'success' => true,
-			'types' => 'edit'
+			'message'   =>  "La categoria se editó correctamente"
 		));
 	}
 
