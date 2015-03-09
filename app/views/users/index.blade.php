@@ -28,7 +28,7 @@
        {{ Form::text ('username', '', array('class'=>'form-control','placeholder'=>'nickname', 'autocomplete'=>'of')) }}
     </div>
     <div class="form-group">
-       {{ Form::label ('name', 'Nombre real') }}
+       {{ Form::label ('firstname', 'Nombre real') }}
        {{ Form::text ('firstname', '', array('class'=>'form-control','placeholder'=>'nombre', 'autocomplete'=>'of')) }}
     </div>
     <div class="form-group">
@@ -56,8 +56,8 @@
 mostrarUsuarios();
 $('#user').addClass("active");
 
-function confirmar(id){ 
-confirmar=confirm("¿Estas seguro que quieres elimar el usuario?"); 
+function eliminar(id){ 
+confirmar = confirm("¿Estas seguro que quieres elimar el usuario?"); 
 if (confirmar){ 
 // si pulsamos en aceptar
 $.post("users/delete/"+ id, 
@@ -84,14 +84,15 @@ function nuevoUsuario(){
    $('#myModalLabel').html('Nuevo Usuario');
 }
 
-function editarCategoria(id,name,description){
+function editarUsuario(id,username,firstname,lastname){
    $('#myModal').modal(); 
    $('.errors_form_reservas').html("");
    $('.errors_form_reservas').removeClass( "alert alert-success" );
-   $('#myModalLabel').html('Editar Categoria');
-   $('#form #name').val(name);
-   $('#form #description').val(description);
+   $('#myModalLabel').html('Editar Usuario');
    $('#form #id_usuario').val(id);
+   $('#form #username').val(username);
+   $('#form #firstname').val(firstname);
+   $('#form #lastname').val(lastname);
 }
 
 function guardarUsuario(){
@@ -135,8 +136,7 @@ function mostrarUsuarios(){
   
 $.get("/restapp-api/public/index.php/users/listado", 
             function(data){
-              $('#listadoUsuarios').html(data);
-                                                
+              $('#listadoUsuarios').html(data);                                  
               
             })
   }

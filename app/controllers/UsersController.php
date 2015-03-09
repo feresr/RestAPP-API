@@ -69,11 +69,11 @@ else{
     $user->firstname = $input['firstname'];
     $user->lastname = $input['lastname'];
     $user->username = $input['username'];
-    $user->password = Hash::make($input['password']);
+    //$user->password = Hash::make($input['password']);
     $user->save();
     return Response::json(array(
       'success' => true,
-      'message'   =>  "El usuario se creó correctamente"
+      'message'   =>  "El usuario se modificó correctamente"
     ));
   }
   }
