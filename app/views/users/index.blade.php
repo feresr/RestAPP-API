@@ -34,8 +34,8 @@
     <div class="form-group">
        {{ Form::label ('lastname', 'Apellido') }}
        {{ Form::text ('lastname', '', array('class'=>'form-control','placeholder'=>'Apellido', 'autocomplete'=>'of')) }} 
-     </div> 
-       <div class="form-group">
+     </div>
+     <div class="form-group" id='logOculto'>
           {{ Form::label ('password', 'Contraseña') }}
           {{ Form::password ('password',array('class'=>'form-control','placeholder'=>'password', 'autocomplete'=>'of')) }}
       </div>
@@ -89,10 +89,11 @@ function editarUsuario(id,username,firstname,lastname){
    $('.errors_form_reservas').html("");
    $('.errors_form_reservas').removeClass( "alert alert-success" );
    $('#myModalLabel').html('Editar Usuario');
-   $('#form #id_usuario').val(id);
+   $('#form #id_usuario').val(id);   
    $('#form #username').val(username);
    $('#form #firstname').val(firstname);
    $('#form #lastname').val(lastname);
+   $('#form #logOculto').hide();
 }
 
 function guardarUsuario(){

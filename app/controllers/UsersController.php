@@ -57,7 +57,12 @@
     $user = User::find($id);
     $input = Input::get();
     
-    $validator = User::validate($input, $user->id);
+    $validator = User::validate(array(
+       'firstname'=> $input['firstname'],
+       'lastname' => $input['lastname'],
+       'username' => $input['username'],
+       'password' => $user->password,
+       ), $user->id);
   
     if($validator->fails()){
       return Response::json(array(
