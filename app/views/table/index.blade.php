@@ -103,8 +103,8 @@ if(idtable == ""){
                         for(datos in data.errors){
                             errores += data.errors[datos] + '<br>';
                         }
-                        $('.errors_form').addClass( "alert alert-danger error" );
-                        $('.errors_form').html(errores);
+                        $('#errors_form').addClass( "alert alert-danger error" );
+                        $('#errors_form').html(errores);
                     }else{                 
                         $('#mensaje').show();
                         $('#success_form').html(data.message);                                                              
