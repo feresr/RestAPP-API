@@ -134,6 +134,7 @@ Route::post('categorias/create/{id}', 'CategoriesController@update');
 Route::post('categorias/delete/{id}', 'CategoriesController@destroy');
 
 Route::get('tables', 'TablesController@index');
+Route::get('tables/listado', 'TablesController@mostrarMesas');
 Route::get('tables/create', 'TablesController@create');
 Route::post('tables/create', 'TablesController@store');
 Route::get('tables/edit/{id}', 'TablesController@edit');

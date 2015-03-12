@@ -13,11 +13,19 @@ class TablesController extends BaseController {
 		{
 			$tables = Table::all();
 			return Response::json($tables);
-		}else{
-		$coords = Coord::all();
-		return View::make('table.index', array('coords' => $coords));
+		}else{		
+		return View::make('table.index');
 		}
 	}
+
+	public function mostrarMesas(){
+        $coords = Coord::all();
+
+      if(count($coords) >= 1){
+        return View::make('table.table', array('coords' => $coords));
+      }
+       return "No existen mesas"; 
+      }
 
 	/**
 	 * Display a listing of the resource.
@@ -60,8 +68,8 @@ class TablesController extends BaseController {
 	public function create()
 	{
 		$table = new Table();
-		$title = "Nueva";
-		return View::make('table.save', array('table' => $table, 'title' => $title));
+		//$title = "Nueva";
+		return View::make('table.save', array('table' => $table));
 	}
 
 
@@ -96,7 +104,7 @@ class TablesController extends BaseController {
 
 		return Response::json(array(
 			'success' => true,
-			'create' =>true
+			'message'   =>  "La mesa se creó correctamente"
 		));
 	}
 
@@ -156,7 +164,8 @@ class TablesController extends BaseController {
 			$table->description = $input['description'];
 			$table->save();
 			return Response::json(array(
-				'success' => true
+				'success' => true,
+				'message'   =>  "La mesa se editó correctamente"
 		  	));
 		}
 	}

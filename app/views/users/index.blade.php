@@ -123,9 +123,8 @@ if(idusuario == ""){
                         $('.errors_form').html(errores);
                     }else{                 
                         $('#mensaje').show();
-                        $('#success_form').html(data.message);                        
-                                                                       
-                        $('#form #id_categoria').val("");                        
+                        $('#success_form').html(data.message);                                                     
+                                                
                         $('#myModal').modal('toggle');
                         mostrarUsuarios();
                     }
