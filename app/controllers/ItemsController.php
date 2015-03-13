@@ -13,11 +13,24 @@ class ItemsController extends BaseController {
 		{
 			$items = Item::get();
 			return Response::json($items);
-		}else{
-			$categories = Category::all(array('id','name'));
-			return View::make('item.index', array('categories'=> $categories));
+		}else{			
+			return View::make('item.index');
 		}
 	}
+
+	public function mostrarItems(){
+        $categories = Category::all(array('id','name'));
+
+      if(count($categories) >= 1){
+        return View::make('item.table', array('categories'=> $categories));
+      }
+       return "No existen usuarios"; 
+      }
+
+    public function categories(){
+    	$categories = Category::all(array('id','name'));
+    	return View::make('item.categorias', array('categories'=> $categories));
+    }
 
 
 	/**

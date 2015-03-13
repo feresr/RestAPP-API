@@ -2,67 +2,101 @@
  
 @section('content')
 <h1> ITEMS DEL MENU </h1>
-@if(Session::has('notice'))
-<div class="alert alert-danger fade in" role="alert">
-      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-      <h4>{{ Session::get('notice') }}</h4>
+<div id="mensaje" style="display:none;" class="alert alert-success">
+  <button type="button" class="close" onclick="cerrar()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  <h4>
+    {{ HTML::image('images/ok.png') }}
+    <div style="display:inline;" id="success_form"></div>
+  </h4>
+</div>
+    <button value="" id="usuario" class="btn btn-primary" onclick="nuevoItem();"><i class="icon-plus"></i> Crear Item</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" style="color:black;" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body">    
+        <div class='errors_form'></div>
+    {{ Form::open(array('url' => 'items/create/', 'id'=>'form')) }}
+    <input type="hidden" name="id_item" id="id_item" value="">
+    <div class="form-group">
+       {{ Form::label ('name', 'nombre') }}
+       {{ Form::text ('name', '', array('class'=>'form-control','placeholder'=>'nickname', 'autocomplete'=>'of')) }}
     </div>
-    @endif
-<p> <a href='items/create' class="btn btn-primary"><i class="icon-plus"></i> Crear nuevo item</a> </p>
-<!--    @if($categories->count())
-     @foreach($categories as $category)
-     {{ link_to ('item/create/'.$category->id, $category->name, array('class'=>'btn btn-danger')) }}
-     @endforeach
-     <br>
-     <br>-->
-<div class="panel-group" id="accordion">
-@foreach($categories as $category)
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#{{$category->name}}">
-          {{$category->name}}
-        </a>
-      </h4>
+    <div class="form-group">
+       {{ Form::label ('description', 'Descripcion') }}
+       {{ Form::text ('description', '', array('class'=>'form-control','placeholder'=>'Descripcion', 'autocomplete'=>'of')) }}
     </div>
-    <div id="{{$category->name}}" class="panel-collapse collapse in">
-      <div class="panel-body">
-      <table class="table table-striped" style='table-layout:fixed';>
-      <thead>
-          <tr>
-             <th> Codigo </th>
-             <th width="150px"> Nombre </th>
-             <th width="400px"> Descripcion</th>
-             <th> Precio</th>
-             <th> </th>
-          </tr>
-          </thead>
-          <tbody>
-          @foreach($category->items as $item)
-             <tr>
-                <td> {{ $item->id }} </td>
-                <td> {{ $item->name }} </td>
-                <td> {{ $item->description }} </td>
-                <td> <h4><span class="label label-success">$ {{$item->price}}</span></h4></td>
-                <td> <a href='items/{{$item->id}}/edit' class="btn btn-default btn-xs"><i class="icon-pencil"></i> edit</a></td>
-                <td><a href='javascript:confirmar({{$item->id}})' class="btn btn-danger btn-xs"><i class="icon-remove"></i></a></td>
-             </tr>
-          @endforeach
-          </tbody>
-      </table>
+    <div class="form-group">
+        {{ Form::label ('price', 'Precio') }}
+        {{ Form::text ('price','',array('class'=>'form-control','placeholder'=>'Precio', 'autocomplete'=>'of')) }}
+     </div>
+     <div class="form-group">
+      {{ Form::label ('itemcategory', 'Categoria') }}<br>
+      <div id="categorias">
+      </div>
+    </div>
+       <div class="modal-footer">
+      <button type="button" onclick="guardarItem()" class="btn btn-primary">Guardar Item</button>     
+      </div>
+    {{ Form::close() }}  
       </div>
     </div>
   </div>
-@endforeach
 </div>
-    @else
-       <p> Primero debe crear las categorias </p>
-    @endif
+<br>
+<div class="widget-content-white glossed">
+    <div id="listadoItems">
+</div>
+</div>
+
 <script type="text/javascript">
 $(document).ready(function ()
 {
 $('#item').addClass("active");
+mostrarItems();
 });
+
+function mostrarItems(){
+  
+$.get("/restapp-api/public/index.php/items/listado", 
+            function(data){
+              $('#listadoItems').html(data);                                  
+              
+            })
+  }
+
+function cerrar(){
+  $('#mensaje').hide();
+}
+
+function nuevoItem(){
+   $('#myModal').modal(); 
+   $('.errors_form').html("");
+   $('.errors_form').removeClass( "alert alert-success" );
+   $('#form')[0].reset();
+   $('#form #id_item').val("");
+   $('#myModalLabel').html('Nuevo Item');
+   $('#categorias').load('items/categorias');
+}
+
+function editarItem(id,name,price,description,category){
+   $('#myModal').modal(); 
+   $('.errors_form_reservas').html("");
+   $('.errors_form_reservas').removeClass( "alert alert-success" );
+
+   $('#myModalLabel').html('Editar Item');
+   $('#form #id_item').val(id);   
+   $('#form #name').val(name);
+   $('#form #price').val(price);
+   $('#form #description').val(description);
+   //$('#categorias').load('items/categorias/'+category);
+   $('#form #category_id').val(category);
+}
 
 function confirmar(id){ 
 confirmar=confirm("¿Estas seguro que quieres elimar el item del menu?"); 

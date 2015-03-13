@@ -117,6 +117,8 @@ Route::post('orders/{iditem}', 'OrderItemsController@destroy');
 Route::post('edi/{id}', 'OrdersController@getOrder');
 
 Route::get('items', 'ItemsController@index');
+Route::get('items/listado', 'ItemsController@mostrarItems');
+Route::get('items/categorias', 'ItemsController@categories');
 Route::get('items/create', 'ItemsController@create');
 Route::post('items/create', 'ItemsController@store');
 Route::get('item/create/{id}', 'ItemsController@crear');
