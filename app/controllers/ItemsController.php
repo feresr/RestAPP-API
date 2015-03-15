@@ -27,9 +27,9 @@ class ItemsController extends BaseController {
        return "No existen usuarios"; 
       }
 
-    public function categories(){
+    public function categories($id){
     	$categories = Category::all(array('id','name'));
-    	return View::make('item.categorias', array('categories'=> $categories));
+    	return View::make('item.categorias', array('categories'=> $categories, 'id'=>$id));
     }
 
 
@@ -72,7 +72,8 @@ class ItemsController extends BaseController {
 			$item->category_id = $input['category_id'];  
 			$item->save();
 			return Response::json(array(
-			'success' => true
+			'success' => true,
+			'message' => 'Item creado con exito'
 			));
 		}
 	}
@@ -131,7 +132,7 @@ class ItemsController extends BaseController {
 			$item->save();
 			return Response::json(array(
 			'success' => true,
-			'types' => 'edit'
+			'message' => 'Item modificado con exito'
 			));
 
 		}

@@ -25,7 +25,7 @@
     <input type="hidden" name="id_item" id="id_item" value="">
     <div class="form-group">
        {{ Form::label ('name', 'nombre') }}
-       {{ Form::text ('name', '', array('class'=>'form-control','placeholder'=>'nickname', 'autocomplete'=>'of')) }}
+       {{ Form::text ('name', '', array('class'=>'form-control','placeholder'=>'Nombre', 'autocomplete'=>'of')) }}
     </div>
     <div class="form-group">
        {{ Form::label ('description', 'Descripcion') }}
@@ -81,21 +81,57 @@ function nuevoItem(){
    $('#form')[0].reset();
    $('#form #id_item').val("");
    $('#myModalLabel').html('Nuevo Item');
-   $('#categorias').load('items/categorias');
+   $('#categorias').load('items/categorias/null');
 }
 
 function editarItem(id,name,price,description,category){
    $('#myModal').modal(); 
-   $('.errors_form_reservas').html("");
-   $('.errors_form_reservas').removeClass( "alert alert-success" );
+   $('.errors_form').html("");
+   $('.errors_form').removeClass( "alert alert-success" );
 
    $('#myModalLabel').html('Editar Item');
    $('#form #id_item').val(id);   
    $('#form #name').val(name);
    $('#form #price').val(price);
    $('#form #description').val(description);
-   //$('#categorias').load('items/categorias/'+category);
+   $('#categorias').load('items/categorias/'+category);
    $('#form #category_id').val(category);
+}
+
+function guardarItem(){
+
+var form = $('#form');
+var iditem = $('#id_item').val();
+
+if(iditem == ""){
+  var direccion = "http://localhost/restapp-api/public/index.php/items/create";
+}else{
+  direccion = "http://localhost/restapp-api/public/index.php/items/create/"+iditem;
+}
+
+  $.ajax({
+           type: 'POST',
+           dataType: "json",
+           url: direccion,
+           data: form.serialize(),
+           success: function (data)
+                  {
+                  if(data.success == false){
+                        var errores = '';
+                        for(datos in data.errors){
+                            errores += data.errors[datos] + '<br>';
+                        }
+                        $('.errors_form').addClass( "alert alert-danger error" );
+                        $('.errors_form').html(errores);
+                    }else{                 
+                        $('#mensaje').show();
+                        $('#success_form').html(data.message);                                                     
+                                                
+                        $('#myModal').modal('toggle');
+                        mostrarItems();
+                    }
+                  }
+         });
 }
 
 function confirmar(id){ 

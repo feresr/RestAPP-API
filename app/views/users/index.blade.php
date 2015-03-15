@@ -86,8 +86,8 @@ function nuevoUsuario(){
 
 function editarUsuario(id,username,firstname,lastname){
    $('#myModal').modal(); 
-   $('.errors_form_reservas').html("");
-   $('.errors_form_reservas').removeClass( "alert alert-success" );
+   $('.errors_form').html("");
+   $('.errors_form').removeClass( "alert alert-success" );
    $('#myModalLabel').html('Editar Usuario');
    $('#form #id_usuario').val(id);   
    $('#form #username').val(username);
