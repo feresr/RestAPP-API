@@ -134,15 +134,16 @@ if(iditem == ""){
          });
 }
 
-function confirmar(id){ 
+function eliminar(id){ 
 confirmar=confirm("¿Estas seguro que quieres elimar el item del menu?"); 
 if (confirmar){ 
 // si pulsamos en aceptar
 $.post("items/delete/"+ id, 
             function(data){
                 if (data.success == true){
-                  alert(data.message);
-                  location.href = "http://localhost/restapp-api/public/index.php/items";
+                  $('#mensaje').show();
+                  $('#success_form').html(data.message);
+                  mostrarItems();
                 }
 
             });  

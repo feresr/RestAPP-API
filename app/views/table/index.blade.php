@@ -13,11 +13,10 @@
     <div style="display:inline;" id="success_form"></div>
   </h4>
 </div>
-<div class="btn-group">
-<button value="" id="usuario" class="btn btn-primary" onclick="nuevaMesa();"><i class="icon-plus"></i> Crear Mesa New</button>
-<a href="#new" id="save" class="btn btn-primary"><i class="icon-plus"></i> Crear mesa</a>
-<a href="tables/edit" class="btn btn-primary"><i class="icon-pencil"></i> Editar posicion</a>
-</div>
+
+<button value="" id="usuario" class="btn btn-primary" onclick="nuevaMesa();"><i class="icon-plus"></i> Crear Mesa</button>
+<div style='text-align: right;'><a href="tables/edit"><i class="icon-pencil"></i> Editar posicion de mesas</a></div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -116,7 +115,8 @@ if(idtable == ""){
          });
 }
 
-function confirmar(id){ 
+function eliminar(id){ 
+$('#myModal').modal('toggle');
 confirmar=confirm("¿Estas seguro que quieres elimar la mesa?"); 
 if (confirmar){ 
 // si pulsamos en aceptar
@@ -124,7 +124,7 @@ $.post("tables/delete/"+ id,
             function(data){
                 if (data.success == true){
                   alert('La mesa se elimino correctamente!');
-                  location.href = "http://localhost/restapp-api/public/index.php/tables";
+                  mostrarMesas();
                 }
 
             });  

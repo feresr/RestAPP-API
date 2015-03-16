@@ -28,7 +28,7 @@
                 <td> {{ $item->description }} </td>
                 <td> <h4><span class="label label-success">$ {{$item->price}}</span></h4></td>
                 <td> <a href='javascript:editarItem({{$item->id}},"{{$item->name}}",{{$item->price}},"{{$item->description}}","{{$category->id}}")' class="btn btn-default btn-xs"><i class="icon-pencil"></i> edit</a></td>
-                <td><a href='javascript:confirmar({{$item->id}})' class="btn btn-danger btn-xs"><i class="icon-remove"></i></a></td>
+                <td><a href='javascript:eliminar({{$item->id}})' class="btn btn-danger btn-xs"><i class="icon-remove"></i></a></td>
              </tr>
           @endforeach
           </tbody>

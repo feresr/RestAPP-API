@@ -42,6 +42,7 @@
 </div>
 </div>
 <script>
+$('#order').addClass("active");
 
 function editar(idtable){
 $('.label-success').css({'font-size':'75%','background':'#7EA568'}); 

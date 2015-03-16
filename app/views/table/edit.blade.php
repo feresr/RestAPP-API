@@ -6,9 +6,9 @@
 @stop
 
 <h2>Editar posicion de mesas</h2>
-<div class="btn-group">
-<a href="/restapp-api/public/index.php/tables" class="btn btn-primary"><i class="icon-plus"></i> Crear mesa</a>
-<a id="edit" class="btn btn-primary"><i class="icon-pencil"></i> Editar posicion</a>
+<p>Mantenga presionado sobre la mesa correspondiente, arrastre y suelte en la posicion que desea</p>
+<div style='text-align: right;'>
+<a href="/restapp-api/public/index.php/tables"><i class="icon-plus"></i> Creacion y edicion de mesas</a>
 </div>
   <div class="widget">
      <div class="widget-content-white glossed">
@@ -36,6 +36,8 @@
 
  <script>
   $(document).ready(function() {
+    $('#table').addClass("active");
+    
   $.getJSON("/restapp-api/public/index.php/orders/coords", function (datos) {
     $.each(datos, function(id, item){
     $( "#draggable"+item.id ).draggable
@@ -55,12 +57,7 @@
   });
   });
 
-  $("#form").click(function(){
-    $("#create").load("/restapp-api/public/index.php/tables/create");
-  });
-  $("#edit").click(function(){
-    $(".widget").load("/restapp-api/public/index.php/tables/edit");
-  });
+
   });
   </script>
 @stop

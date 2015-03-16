@@ -14,7 +14,7 @@
        {{ Form::text ('description', $table->description, array('class'=>'form-control','placeholder'=>'Descripcion', 'autocomplete'=>'of')) }} 
      </div>
        <div class="modal-footer">        
-       <a href="javascript:confirmar({{$table->id}})" id="delete" class="btn btn-danger">Eliminar</a>
+       <a href="javascript:eliminar({{$table->id}})" id="delete" class="btn btn-danger">Eliminar</a>
        <button type="button" onclick="guardarMesa()" class="btn btn-primary">Guardar Mesa</button>     
       </div>       
     {{ Form::close() }}
