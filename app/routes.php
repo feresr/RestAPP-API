@@ -95,6 +95,7 @@ Route::post('orders/view/{id}', 'CocinaController@orderview');
 
 
 Route::get('orders/coords', 'OrdersController@coords');
+Route::get('orders/listado', 'OrdersController@mostrarOrdenes');
 //Route::get('orders/edit', 'OrdersController@editar');
 Route::get('orders','OrdersController@index');
 Route::get('orders/create/{id}', 'OrdersController@create');

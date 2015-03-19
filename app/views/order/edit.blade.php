@@ -156,8 +156,10 @@ if (confirmar){
 $.post("orders/delete/"+ id, 
             function(data){
                 if (data.success == true){
-                  alert(data.message);
-                  location.href = "http://localhost/restapp-api/public/index.php/orders";
+                  $('#mensaje').show();
+                  $('#success_form').html(data.message);
+                  $("#resultado").html("");
+                  mostrarOrdenes();
                 }
 
             });  
@@ -165,6 +167,6 @@ $.post("orders/delete/"+ id,
 }
 
 $("#finish").click(function(){
-  $("#result").html("");
+  $("#resultado").html("");
 });
 </script>

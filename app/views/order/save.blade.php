@@ -1,9 +1,9 @@
 <h3>No existe orden en la mesa</h1>
 	<p>Seleccione un mozo para crear la orden en la mesa seleccionada</p>
-<div class="jumbotron">
+
 <div id='errors_form'></div>
 <div class="row">
-{{ Form::open(array('url' => 'orders/create/' . $order->id)) }}
+{{ Form::open(array('url' => 'orders/create/' , 'id'=>'form')) }}
 <div class="col-lg-4">
 {{ Form::label ('ordertable', 'Mesa') }}
 <input type="hidden" class="form-control" id="table_id" name="table_id" value='{{$table->id}}'>
@@ -21,10 +21,8 @@
   @endforeach
 </select>
 </div>
-<div class="col-lg-3">
-	<br>
-  {{ Form::submit('Crear',array('class'=>'btn btn-primary')) }}
+<div class="modal-footer">
+      <button type="button" onclick="guardarOrden()" class="btn btn-primary">Guardar Orden</button>     
 </div>
 {{ Form::close() }}
-</div>
 </div>

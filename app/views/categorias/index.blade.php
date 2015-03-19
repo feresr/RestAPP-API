@@ -59,7 +59,8 @@ if (confirmar){
 $.post("categorias/delete/"+ id, 
             function(data){
                 if (data.success == true){
-                  alert(data.message);
+                  $('#mensaje').show();
+                  $('#success_form').html(data.message);
                   mostrarCategorias();
                 }
 

@@ -13,11 +13,16 @@ class OrdersController extends BaseController {
 		{
 			$orders = Auth::User()->orders(true)->get();
 			return Response::json($orders);
-		}else{
-			$orders = Order::where('active', true)->get();
+		}else{			
 			$coords = Coord::all();
-			return View::make('order.index', array('coords' => $coords, 'orders' => $orders));
+			return View::make('order.index', array('coords' => $coords));
 		}
+	}
+
+	public function mostrarOrdenes()
+	{
+		$coords = Coord::all();
+		return View::make('order.table', array('coords' => $coords));
 	}
 
 	/**
@@ -65,13 +70,12 @@ class OrdersController extends BaseController {
 			$order->table->taken = true;
 			
 			$order->push();
-		if(Request::wantsJson())
-			{
+		
 			return Response::json(array('success' => true, 
 				'message' => 'Se agrego la orden correctamente',
 				'id' => $order->id));
-			}
-		return Redirect::to('orders')->with('notice', 'Se agrego la orden correctamente.');
+			
+		//return Redirect::to('orders')->with('notice', 'Se agrego la orden correctamente.');
 
 		}else{
 

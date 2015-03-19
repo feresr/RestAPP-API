@@ -63,7 +63,8 @@ if (confirmar){
 $.post("users/delete/"+ id, 
             function(data){
                 if (data.success == true){
-                  alert(data.message);
+                  $('#mensaje').show();
+                  $('#success_form').html(data.message);
                   mostrarUsuarios();
                 }
 
@@ -77,6 +78,7 @@ function cerrar(){
 
 function nuevoUsuario(){
    $('#myModal').modal(); 
+   $('#form #logOculto').show();
    $('.errors_form').html("");
    $('.errors_form').removeClass( "alert alert-success" );
    $('#form')[0].reset();

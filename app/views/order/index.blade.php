@@ -7,42 +7,83 @@
 @stop
 
 <h2>ORDENES</h2>
+<div id="mensaje" style="display:none;" class="alert alert-success">
+  <button type="button" class="close" onclick="cerrar()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  <h4>
+    {{ HTML::image('images/ok.png') }}
+    <div style="display:inline;" id="success_form"></div>
+  </h4>
+</div>
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" style="color:black;" id="myModalLabel"></h4>
+      </div>
+<div class="modal-body">    
+        <div class='errors_form'></div>
+    <div id="result">
+</div>
+    </div>
+  </div>
+</div>
+</div>
   <div class="widget">
      <div class="widget-content-white glossed">
      <div class="padded">
-@if(Session::has('notice'))
-<div class="alert alert-success fade in" role="alert">
-  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-  <h4>{{ Session::get('notice') }}</h4>
-</div>
-@endif
-<div id="containment-wrapper">
-@foreach($coords as $coord)
-<a href="#result">
-<div id='draggable' value='{{$coord->table_id}}' onclick="editar({{ $coord->table_id}})" class="img-circle" style="left:{{$coord->x_pos}}px; top:{{$coord->y_pos}}px;">
+<div id="listadoOrdenes">
 
-{{HTML::image('images/table.png', "Imagen no encontrada", array('id' => 'back-'.$coord->table_id))}}
-<div class='indicators'>
-  <h3>
-@if($coord->table['taken'] == true)
-  <span id="marca{{$coord->table['id']}}" class="label label-success">{{$coord->table['number']}}</span>
-@else
-  <span id="marca{{$coord->table['id']}}" class="label label-false">{{$coord->table['number']}}</span>
-@endif
-</h3>
-</div>
-</div>
-</a>
-@endforeach
 </div>
 <hr>
-<div id="result">
-</div>
+    <div id="resultado">
 </div>
 </div>
 </div>
 <script>
+
 $('#order').addClass("active");
+mostrarOrdenes();
+
+function mostrarOrdenes(){
+  
+$.get("/restapp-api/public/index.php/orders/listado", 
+            function(data){
+              $('#listadoOrdenes').html(data);           
+            })
+  }
+
+function guardarOrden(){
+
+var form = $('#form');
+
+var direccion = "http://localhost/restapp-api/public/index.php/orders/create";
+
+  $.ajax({
+           type: 'POST',
+           dataType: "json",
+           url: direccion,
+           data: form.serialize(),
+           success: function (data)
+                  {
+                  if(data.success == false){
+                        var errores = '';
+                        for(datos in data.errors){
+                            errores += data.errors[datos] + '<br>';
+                        }
+                        $('.errors_form').addClass( "alert alert-danger error" );
+                        $('.errors_form').html(errores);
+                    }else{                 
+                        $('#mensaje').show();
+                        $('#success_form').html(data.message);                                                     
+                                                
+                        $('#myModal').modal('toggle');
+                        $('#resultado').load('http://localhost/restapp-api/public/index.php/orders/edit/'+data['id']);
+                        mostrarOrdenes();
+                    }
+                  }
+         });
+}
 
 function editar(idtable){
 $('.label-success').css({'font-size':'75%','background':'#7EA568'}); 
@@ -50,13 +91,14 @@ $('.label-false').css({'font-size':'75%','background':'#F00'});
 $('#marca'+idtable).css({'font-size':'130%','background':'#2980b9'});     
 $.post("edi/"+ idtable, 
             function(data){
-              $('#result').html("");
+              $('#resultado').html("");
                 if (data.success == false){
+                  $('#myModal').modal();
                   $('#result').load('http://localhost/restapp-api/public/index.php/orders/create/'+idtable);
                 }
                 else                  
               //$.each(data, function(i,order){                
-                    $('#result').load('http://localhost/restapp-api/public/index.php/orders/edit/'+data['id']);
+                    $('#resultado').load('http://localhost/restapp-api/public/index.php/orders/edit/'+data['id']);
               //});
             });                         
 }

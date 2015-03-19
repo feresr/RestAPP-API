@@ -58,14 +58,15 @@ mostrarReservas();
 $('#res').addClass("active");
 });
 
-function confirmar(id){ 
+function eliminar(id){ 
 confirmar=confirm("¿Estas seguro que quieres elimar la reserva?"); 
 if (confirmar){ 
 // si pulsamos en aceptar
 $.post("reservas/delete/"+ id, 
             function(data){
                 if (data.success == true){
-                  alert(data.message);
+                  $('#mensaje').show();
+                  $('#success_form').html(data.message);
                   mostrarReservas();
                 }
 
