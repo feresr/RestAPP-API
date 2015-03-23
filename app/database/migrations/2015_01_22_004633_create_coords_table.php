@@ -15,9 +15,9 @@ class CreateCoordsTable extends Migration {
 		Schema::create('coords', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->int('table_id');
-			$table->int('x_pos');
-			$table->int('y_pos');
+			$table->integer('table_id');
+			$table->integer('x_pos');
+			$table->integer('y_pos');
 			$table->timestamps();
 		});
 	}
