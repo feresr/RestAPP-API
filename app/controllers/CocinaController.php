@@ -31,19 +31,13 @@ public function itemsOrders($cant, $items){
 	$quantOrders = DB::table('orders')->where('active', true)->count();
 	$quantItems = DB::table('item_order')->count();
 
-	$time_wasted = 0;
-
 	set_time_limit(0);
-	while ($quantOrders == $cant && $quantItems == $items) {
-		if( $time_wasted >= 120 ){
-            return Response::json(array(
-			'success' => false
-		));
-         }
-		sleep(1);
-		$time_wasted += 1;
+	while ($quantOrders == $cant && $quantItems == $items) {		
+
 		$quantOrders = DB::table('orders')->where('active', true)->count();
 		$quantItems = DB::table('item_order')->count();
+		usleep(100000);
+		clearstatcache();
 	}
 
 	if ($quantOrders > $cant) {

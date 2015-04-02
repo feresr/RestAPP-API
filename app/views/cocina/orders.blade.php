@@ -65,8 +65,7 @@ var cantItems = $("#quantitems").val();
 messages_longpolling();
 
 function messages_longpolling(){
-setTimeout(
-  function(){
+
 $.post('listOrders/' + cantOrders + '/'+cantItems, 
             function(data){
                 if (data.success == true){
@@ -74,13 +73,7 @@ $.post('listOrders/' + cantOrders + '/'+cantItems,
                     $('#success_form').html(data.message); 
                     $("#tableOrders").load('listOrders');
                 }
-                else{
-                  $('#mensaje').hide();
-                  messages_longpolling();
-                }
             });  
-  },
-5000);
 }
 
 $("#check").click(function (){          
