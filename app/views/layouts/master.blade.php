@@ -25,20 +25,20 @@
     <div class="col-md-3">
 
 <div class="side-bar-wrapper collapse navbar-collapse navbar-ex1-collapse">
-  <a href="http://localhost/restapp-api/public/index.php/admin" class="logo hidden-sm hidden-xs">
+  <a href="/admin" class="logo hidden-sm hidden-xs">
     {{ HTML::image('images/iconos/raster2.png', "Imagen", array('class' => 'img-circle')) }}
     <span>RestApp</span>
   </a>
   <div class="relative-w">
     <ul class="side-menu">
       <li id ='user'>
-        <a href="http://localhost/restapp-api/public/index.php/users">
+        <a href="/users">
           <span class="badge pull-right"></span>
           <i class="icon-group"></i> Usuarios
         </a>
       </li>
       <li id='order'>
-        <a href="http://localhost/restapp-api/public/index.php/orders">
+        <a href="/orders">
           <span class="badge pull-right">12</span>
           <i class="icon-pencil"></i> Ordenes
         </a>
@@ -50,24 +50,24 @@
         </a>
       </li>
       <li id='cat'>
-        <a href="http://localhost/restapp-api/public/index.php/categorias">
+        <a href="/categorias">
           <span class="badge pull-right">24</span>
           <i class="icon-th"></i> Categorias
         </a>
       </li>
       <li id='table'>      
-        <a href="http://localhost/restapp-api/public/index.php/tables">
+        <a href="/tables">
           <span class="badge pull-right"></span>
           <i class="icon-table"></i> Mesas
         </a>
       </li>
-      <li id='res'><a href="http://localhost/restapp-api/public/index.php/reservas">
+      <li id='res'><a href="/reservas">
           <span class="badge pull-right">11</span>
           <i class="icon-calendar"></i> Reservas
         </a>
       </li>
       <li>
-        <a href="http://localhost/restapp-api/public/index.php/login">
+        <a href="/login">
           <span class="badge pull-right"></span>
           <i class="icon-signin"></i> Login Page
         </a>
@@ -82,8 +82,8 @@
 <div class="content-inner">
           <div class="page-header">
   <div class="header-links hidden-xs">
-    <a href="http://localhost/restapp-api/public/index.php/cocina"><i class="icon-comments"></i> Cocina</a>
-    <a href="http://localhost/restapp-api/public/index.php/cocina2"><i class="icon-cog"></i> Settings</a>
+    <a href="/cocina"><i class="icon-comments"></i> Cocina</a>
+    <a href="/cocina2"><i class="icon-cog"></i> Settings</a>
     {{ link_to('/logout', 'Cerrar sesión') }}
   </div>
   <h1><i class="icon-bar-chart"></i> RestApp - Admin</h1>

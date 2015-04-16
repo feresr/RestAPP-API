@@ -47,7 +47,7 @@ mostrarOrdenes();
 
 function mostrarOrdenes(){
   
-$.get("/restapp-api/public/index.php/orders/listado", 
+$.get("orders/listado", 
             function(data){
               $('#listadoOrdenes').html(data);           
             })
@@ -57,7 +57,7 @@ function guardarOrden(){
 
 var form = $('#form');
 
-var direccion = "http://localhost/restapp-api/public/index.php/orders/create";
+var direccion = "/orders/create";
 
   $.ajax({
            type: 'POST',
@@ -78,7 +78,7 @@ var direccion = "http://localhost/restapp-api/public/index.php/orders/create";
                         $('#success_form').html(data.message);                                                     
                                                 
                         $('#myModal').modal('toggle');
-                        $('#resultado').load('http://localhost/restapp-api/public/index.php/orders/edit/'+data['id']);
+                        $('#resultado').load('/orders/edit/'+data['id']);
                         mostrarOrdenes();
                     }
                   }
@@ -94,11 +94,11 @@ $.post("edi/"+ idtable,
               $('#resultado').html("");
                 if (data.success == false){
                   $('#myModal').modal();
-                  $('#result').load('http://localhost/restapp-api/public/index.php/orders/create/'+idtable);
+                  $('#result').load('/orders/create/'+idtable);
                 }
                 else                  
               //$.each(data, function(i,order){                
-                    $('#resultado').load('http://localhost/restapp-api/public/index.php/orders/edit/'+data['id']);
+                    $('#resultado').load('/orders/edit/'+data['id']);
               //});
             });                         
 }
