@@ -78,8 +78,8 @@
 @endif
 <div id="tabla">
 </div>
-<a id="finish" class="btn btn-default">Cerrar</a>
-<a href="javascript:eliminarOrden({{$order->id}})" class="btn btn-danger">Eliminar</a>
+<a id="finish" href="#">Ocultar</a>
+<a href="javascript:eliminarOrden({{$order->id}})" style="float:right;" class="btn btn-danger">Cerrar Orden!</a>
 
 <script type="text/javascript">
 
@@ -150,7 +150,7 @@ form_edit.on('submit', function () {
 });
 
 function eliminarOrden(id){ 
-confirmar=confirm("¿Estas seguro que quieres elimar la orden?"); 
+confirmar=confirm("¿Estas seguro que quieres Finalizar la orden?"); 
 if (confirmar){ 
 // si pulsamos en aceptar
 $.post("orders/delete/"+ id, 
