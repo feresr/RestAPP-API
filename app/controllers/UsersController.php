@@ -24,7 +24,7 @@
    return View::make('users.save')->with('user', $user);
    }
 
-   public function store() { 
+   public function store() {
    
    $input = Input::get();
    $validator = User::validate($input);
@@ -38,6 +38,7 @@
    $user->firstname = $input['firstname'];
    $user->lastname = $input['lastname'];
    $user->username = $input['username'];
+   $user->id_rol = $input['id_rol'];
    $user->password = Hash::make($input['password']);
       $user->save();
           return Response::json(array(
@@ -61,6 +62,7 @@
        'firstname'=> $input['firstname'],
        'lastname' => $input['lastname'],
        'username' => $input['username'],
+       'id_rol'   => $input['id_rol'],
        'password' => $user->password,
        ), $user->id);
   
@@ -74,6 +76,7 @@ else{
     $user->firstname = $input['firstname'];
     $user->lastname = $input['lastname'];
     $user->username = $input['username'];
+    $user->id_rol = $input['id_rol'];
     //$user->password = Hash::make($input['password']);
     $user->save();
     return Response::json(array(

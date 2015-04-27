@@ -39,6 +39,11 @@
           {{ Form::label ('password', 'Contraseña') }}
           {{ Form::password ('password',array('class'=>'form-control','placeholder'=>'password', 'autocomplete'=>'of')) }}
       </div>
+      <select class="form-control" id="id_rol" name="id_rol">
+        <option value="1">Administrador</option>
+        <option value="2">Cocinero</option>
+        <option value="3">Mozo</option>
+      </select>
        <div class="modal-footer">
       <button type="button" onclick="guardarUsuario()" class="btn btn-primary">Guardar Usuario</button>     
       </div>
@@ -86,7 +91,7 @@ function nuevoUsuario(){
    $('#myModalLabel').html('Nuevo Usuario');
 }
 
-function editarUsuario(id,username,firstname,lastname){
+function editarUsuario(id,username,firstname,lastname,rol){
    $('#myModal').modal(); 
    $('.errors_form').html("");
    $('.errors_form').removeClass( "alert alert-success" );
@@ -95,6 +100,7 @@ function editarUsuario(id,username,firstname,lastname){
    $('#form #username').val(username);
    $('#form #firstname').val(firstname);
    $('#form #lastname').val(lastname);
+   $('#form #id_rol').val(rol);
    $('#form #logOculto').hide();
 }
 

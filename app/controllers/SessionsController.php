@@ -49,7 +49,13 @@ class SessionsController extends BaseController {
 	public function destroy()
 	{
 		Auth::logout();
-		return Response::json(array('action'=>'logout', 'status' => 'success'));
+		if(Request::wantsJson())
+		{
+			return Response::json(array('action'=>'logout', 'status' => 'success'));
+		}else{
+			return View::make('sessions.create');
+		}
+		
 	}
 
 
