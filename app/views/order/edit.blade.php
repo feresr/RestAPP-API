@@ -43,7 +43,7 @@
   {{ Form::open(array('url' => 'orders/edit', 'id' => 'formulario_busqueda')) }}
   <input type="hidden" class="form-control" id= 'order_id' name="order_id" value='{{$order->id}}'>
   <div class="col-lg-6">
-    <select class="chosen-select" id="item_id" name="item_id" data-placeholder="Seleccione El item">
+    <select class="chosen-select" style="width:350px;" id="item_id" name="item_id" data-placeholder="Seleccione El item">
     <option value=""></option>
     @foreach($categories as $category)
     <optgroup label="{{$category->name}}">
@@ -55,7 +55,7 @@
   </select>
   </div>
     <div class="col-lg-3">
-   <input class="form-control" style="margin-top: 6px; height:36px;" placeholder="cantidad" autocomplete="of" name="quantity" type="text" id="quantity">
+   <input class="form-control" style="margin-top: 6px; height:36px;" placeholder="cantidad" size="5" autocomplete="of" name="quantity" type="text" id="quantity">
   </div>
   <div class="col-lg-3">
   {{ Form::submit('Agregar',array('class'=>'btn btn-primary')) }}
