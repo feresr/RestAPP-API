@@ -3,6 +3,9 @@
 @section('head')
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 {{HTML::script('js/charts.js')}}
+{{HTML::script('js/bootstrap-datetimepicker.min.js')}}
+{{HTML::script('js/bootstrap-datetimepicker.es.js')}}
+{{HTML::style('css/bootstrap-datetimepicker.min.css')}}
 @stop
 <?php 
 $hasta = date('Y-m-d');
@@ -41,10 +44,10 @@ $desde = date ( 'Y-m-d' , $nuevafecha );
                 <div class="col-lg-3 col-md-4 col-sm-6 text-center hidden-md">
                   <div class="widget-content-blue-wrapper animated flipInY changed-up">
                     <div class="widget-content-blue-inner padded">
-                      <div class="pre-value-block"><i class="icon-signin"></i> Sold Items</div>
+                      <div class="pre-value-block"><i class="icon-signin"></i>Items Vendidos</div>
                       <div class="value-block">
                         <div class="value-self">275</div>
-                        <div class="value-sub">This Week</div>
+                        <div class="value-sub">Esta Semana</div>
                       </div>
                     </div>
                   </div>
@@ -52,10 +55,10 @@ $desde = date ( 'Y-m-d' , $nuevafecha );
                 <div class="col-lg-3 col-md-4 col-sm-6 text-center">
                   <div class="widget-content-blue-wrapper animated flipInY changed-up">
                     <div class="widget-content-blue-inner padded">
-                      <div class="pre-value-block"><i class="icon-money"></i> Net Profit</div>
+                      <div class="pre-value-block"><i class="icon-money"></i> Ganancias</div>
                       <div class="value-block">
                         <div class="value-self">$9,240</div>
-                        <div class="value-sub">Yesterday</div>
+                        <div class="value-sub">Hoy</div>
                       </div>
                     </div>
                   </div>
@@ -67,17 +70,35 @@ $desde = date ( 'Y-m-d' , $nuevafecha );
 <div class='widget'>
 <h3 class="section-title first-title"><i class="icon-table"></i> Balance</h3>
 <div class='widget-content-white padded glossed'>
-Desde: <input class="" value="{{$desde}}" placeholder="Fecha" autocomplete="of" name="date1" type="date" id="date1">
-Hasta: <input class="" value="{{$hasta}}" placeholder="Fecha" autocomplete="of" name="date2" type="date" id="date2">
-<button id='busqueda' type="button" style="margin-top:5px;" class="pull-right">Buscar</button>
+  <div class="form-group">
+                <label for="date1" class="col-md-2 control-label">Desde:</label>
+                <div class="input-group date form_date col-md-10" data-date="" data-date-format="dd MM yyyy" data-link-field="date1" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" value="{{$desde}}" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+        <input type="hidden" id="date1" value="{{$desde}}" /><br/>
+        <label for="date2" class="col-md-2 control-label">Hasta:</label>
+                <div class="input-group date form_date col-md-10" data-date="" data-date-format="dd MM yyyy" data-link-field="date2" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" value="{{$hasta}}" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+        <input type="hidden" id="date2" value="{{$hasta}}" /><br/>
+      </div>
+<!--Desde: <input value="{{$desde}}" placeholder="Fecha" autocomplete="of" name="date1" type="date" id="date1">
+Hasta: <input value="{{$hasta}}" placeholder="Fecha" autocomplete="of" name="date2" type="date" id="date2"> -->
+<button id='busqueda' type="button" class="btn btn-default pull-right" style="margin-top:5px;">Buscar</button>
+<br>
 <hr>
 <div id="chart_div" style="height: 400px;"></div>
+<br>
 </div>
 </div>
 </div>
   <div class='col-md-5'>
     <div class='widget'>
-<h3 class="section-title first-title"><i class="icon-table"></i> Top Sellers</h3>
+<h3 class="section-title first-title"><i class="icon-table"></i> Mas vendidos</h3>
 <div class="widget-content-white padded glossed">
 <div id="piechart"></div>
     <table id='cat' class="table">
@@ -98,9 +119,26 @@ Hasta: <input class="" value="{{$hasta}}" placeholder="Fecha" autocomplete="of" 
 <div class='widget'>
 <h3 class="section-title first-title"><i class="icon-table"></i>Imformacion Mozos</h3>
 <div class='widget-content-white padded glossed'>
-Desde: <input class="" value="{{$desde}}" placeholder="Fecha" autocomplete="of" name="fechaMozo1" type="date" id="fechaMozo1">
-Hasta: <input class="" value="{{$hasta}}" placeholder="Fecha" autocomplete="of" name="fechaMozo2" type="date" id="fechaMozo2">
-<button id='busquedaMozo' type="button" style="margin-top:5px;" class="">Buscar</button>
+  <div class="form-group">
+<label for="fechaMozo1" class="col-md-1 control-label">Desde:</label>
+                <div class="input-group date form_date col-md-4" data-date="" data-date-format="dd MM yyyy" data-link-field="fechaMozo1" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" value="{{$desde}}" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+        <input type="hidden" id="fechaMozo1" value="{{$desde}}" />
+        <label for="fechaMozo2" class="col-md-1 control-label">Hasta:</label>
+                <div class="input-group date form_date col-md-4" data-date="" data-date-format="dd MM yyyy" data-link-field="fechaMozo2" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" value="{{$hasta}}" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+        <input type="hidden" id="fechaMozo2" value="{{$hasta}}" />
+      
+<!--Desde: <input class="" value="{{$desde}}" placeholder="Fecha" autocomplete="of" name="fechaMozo1" type="date" id="fechaMozo1">
+Hasta: <input class="" value="{{$hasta}}" placeholder="Fecha" autocomplete="of" name="fechaMozo2" type="date" id="fechaMozo2"> -->
+<button id='busquedaMozo' class="col-md-2 btn btn-default" type="button">Buscar</button>
+</div>
 <hr>
 <div class="row">
 <div class='col-md-6'>
@@ -156,7 +194,7 @@ Hasta: <input class="" value="{{$hasta}}" placeholder="Fecha" autocomplete="of" 
                 <td> 
         {{ Form::open(array('url' => 'orders/'.$order->id)) }}
          {{ Form::hidden("_method", "DELETE") }}
-        <input type="submit" value="Eliminar" class="btn btn-primary btn-xs">
+        <button type="submit" class="btn btn-danger btn-xs"><i class="icon-remove"></i></button>
         {{ Form::close() }}
                 </td>
              </tr>
@@ -175,6 +213,18 @@ Hasta: <input class="" value="{{$hasta}}" placeholder="Fecha" autocomplete="of" 
 @endforeach
 </div>
 <script type="text/javascript">
+
+$('.form_date').datetimepicker({
+    language:  'es',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0
+    });
+
 $("#busqueda").click(function (){          
 
 var desde = $( "#date1" ).val();

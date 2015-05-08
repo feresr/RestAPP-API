@@ -51,7 +51,7 @@
       </li>
       <li id='cat'>
         <a href="http://localhost/restapp-api/public/index.php/categorias">
-          <span class="badge pull-right">24</span>
+          <span class="badge pull-right">7</span>
           <i class="icon-th"></i> Categorias
         </a>
       </li>

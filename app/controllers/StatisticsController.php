@@ -5,18 +5,18 @@ public function index() {
    $items = DB::table('item_order')->where('item_order.created_at', '>', '2014-07-31')
    ->join('items', 'item_order.item_id', '=', 'items.id')
    ->select('items.name', DB::raw('SUM(quantity) AS quantity'))->groupBy('item_id')
-   ->orderBy('quantity', 'desc')->get();
+   ->orderBy('quantity', 'desc')->take(8)->get();
    return Response::json($items);
    }
 
  public function barrasChart($desde = null, $hasta=null){
 
-  if ($desde = null) {
+  if ($desde == null) {
       $fecha = date('Y-m-d');
       $nuevafecha = strtotime ( '-1 month' , strtotime ( $fecha ) ) ;
       $desde = date ( 'Y-m-d' , $nuevafecha );
   }
-  if ($hasta = null) {
+  if ($hasta == null) {
       $hasta = date("Y-m-d H:m:s");
   }
 
@@ -57,12 +57,12 @@ public function index() {
  }
 
   public function barrasChart1($desde = null, $hasta=null){
-if ($desde = null) {
+if ($desde == null) {
       $fecha = date('Y-m-d');
       $nuevafecha = strtotime ( '-1 month' , strtotime ( $fecha ) ) ;
       $desde = date ( 'Y-m-d' , $nuevafecha );
   }
-  if ($hasta = null) {
+  if ($hasta == null) {
       $hasta = date("Y-m-d H:m:s");
   }
    $orders = DB::table('orders')
@@ -75,12 +75,12 @@ if ($desde = null) {
  }
 
   public function mesasXmozo($desde = null, $hasta=null){
-if ($desde = null) {
+if ($desde == null) {
       $fecha = date('Y-m-d');
       $nuevafecha = strtotime ( '-1 month' , strtotime ( $fecha ) ) ;
       $desde = date ( 'Y-m-d' , $nuevafecha );
   }
-  if ($hasta = null) {
+  if ($hasta == null) {
       $hasta = date("Y-m-d H:m:s");
   }
    $orders = DB::table('orders')
