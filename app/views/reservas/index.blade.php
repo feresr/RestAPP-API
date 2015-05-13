@@ -1,5 +1,9 @@
 @extends('layouts.master')
-
+@section('head')
+{{HTML::script('js/bootstrap-datetimepicker.min.js')}}
+{{HTML::script('js/bootstrap-datetimepicker.es.js')}}
+{{HTML::style('css/bootstrap-datetimepicker.min.css')}}
+@stop
 @section('content')
 
 <h1> RESERVAS </h1>
@@ -25,8 +29,16 @@
 <input type="hidden" name="id_reserva" id="id_reserva" value="">
     <div class="form-group">
        <label style="color:black;" for="exampleInputPassword1">Fecha</label>
-       <input class="form-control" placeholder="Fecha" autocomplete="of" name="date" type="date" value="" id="date">
+       <!-- <input class="form-control" placeholder="Fecha" autocomplete="of" name="date" type="date" value="" id="date">
     </div>
+    <div class="form-group">-->
+                <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="date">
+                    <input class="form-control" size="16" type="text" value="" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+          <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+        <input type="hidden" id="date" name="date" value="" />
+            </div>
     <div class="form-group">
        <label style="color:black;">Nombre</label>
        {{ Form::text ('name', '', array('class'=>'form-control','placeholder'=>'Nombre', 'id'=>'name')) }} 
@@ -52,6 +64,17 @@
 </div>
 </div>
 <script type="text/javascript">
+
+$('.form_datetime').datetimepicker({
+    language:  'es',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
+    });
 $(document).ready(function ()
 {
 mostrarReservas();
