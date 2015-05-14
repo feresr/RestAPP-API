@@ -73,14 +73,14 @@ $desde = date ( 'Y-m-d' , $nuevafecha );
   <div class="form-group">
                 <label for="date1" class="col-md-2 control-label">Desde:</label>
                 <div class="input-group date form_date col-md-10" data-date="" data-date-format="dd MM yyyy" data-link-field="date1" data-link-format="yyyy-mm-dd">
-                    <input class="form-control" size="16" type="text" value="{{$desde}}" readonly>
+                    <input class="form-control" size="16" type="text" id="ventas1" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
           <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
         <input type="hidden" id="date1" value="{{$desde}}" /><br/>
         <label for="date2" class="col-md-2 control-label">Hasta:</label>
                 <div class="input-group date form_date col-md-10" data-date="" data-date-format="dd MM yyyy" data-link-field="date2" data-link-format="yyyy-mm-dd">
-                    <input class="form-control" size="16" type="text" value="{{$hasta}}" readonly>
+                    <input class="form-control" size="16" type="text" id="ventas2" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
           <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
@@ -121,25 +121,23 @@ Hasta: <input value="{{$hasta}}" placeholder="Fecha" autocomplete="of" name="dat
 <div class='widget-content-white padded glossed'>
   <div class="form-group">
 <label for="fechaMozo1" class="col-md-1 control-label">Desde:</label>
-                <div class="input-group date form_date col-md-4" data-date="" data-date-format="dd MM yyyy" data-link-field="fechaMozo1" data-link-format="yyyy-mm-dd">
-                    <input class="form-control" size="16" type="text" value="{{$desde}}" readonly>
+                <div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="fechaMozo1" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="25" type="text" value="" id="mozo1" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
           <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
         <input type="hidden" id="fechaMozo1" value="{{$desde}}" />
         <label for="fechaMozo2" class="col-md-1 control-label">Hasta:</label>
-                <div class="input-group date form_date col-md-4" data-date="" data-date-format="dd MM yyyy" data-link-field="fechaMozo2" data-link-format="yyyy-mm-dd">
-                    <input class="form-control" size="16" type="text" value="{{$hasta}}" readonly>
+                <div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="fechaMozo2" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="25" type="text" id="mozo2" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
           <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
         <input type="hidden" id="fechaMozo2" value="{{$hasta}}" />
-      
-<!--Desde: <input class="" value="{{$desde}}" placeholder="Fecha" autocomplete="of" name="fechaMozo1" type="date" id="fechaMozo1">
-Hasta: <input class="" value="{{$hasta}}" placeholder="Fecha" autocomplete="of" name="fechaMozo2" type="date" id="fechaMozo2"> -->
-<button id='busquedaMozo' class="col-md-2 btn btn-default" type="button">Buscar</button>
 </div>
 <hr>
+<button style="float:right;" id='busquedaMozo' class="btn btn-default" type="button">Buscar</button>
+<br><br>
 <div class="row">
 <div class='col-md-6'>
 <div id="chart_div1" style="height: 400px;"></div>
@@ -213,6 +211,16 @@ Hasta: <input class="" value="{{$hasta}}" placeholder="Fecha" autocomplete="of" 
 @endforeach
 </div>
 <script type="text/javascript">
+
+var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+var f = new Date();
+var fecha1 = f.getDate() +" "+ meses[f.getMonth()-1] + " "+f.getFullYear();
+var fecha2 = f.getDate() +" "+ meses[f.getMonth()] + " "+f.getFullYear();
+$( "#ventas1" ).val(fecha1);
+$( "#ventas2" ).val(fecha2);
+$( "#mozo1" ).val(fecha1);
+$( "#mozo2" ).val(fecha2);
+//document.write(f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());
 
 $('.form_date').datetimepicker({
     language:  'es',

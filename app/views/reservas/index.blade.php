@@ -33,7 +33,7 @@
     </div>
     <div class="form-group">-->
                 <div class="input-group date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="date">
-                    <input class="form-control" size="16" type="text" value="" readonly>
+                    <input class="form-control" size="16" type="text" id="fechaRes" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
           <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                 </div>
@@ -75,6 +75,7 @@ $('.form_datetime').datetimepicker({
     forceParse: 0,
     showMeridian: 1
     });
+
 $(document).ready(function ()
 {
 mostrarReservas();
@@ -106,16 +107,21 @@ function nuevaReserva(){
    $('.errors_form_reservas').html("");
    $('.errors_form_reservas').removeClass( "alert alert-success" );
    $('#formReserva')[0].reset();
-   $('#formReserva #id_reserva').val("");
+   $('#formReserva #id_reserva').val("");   
+   //$('#formReserva #fechaRes').val(fechaReserva);
    $('#myModalLabel').html('Nueva Reserva');
 }
 
 function editarReserva(id,name,fecha,cantidad){
+  var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+  var f = new Date(fecha);
+  var fechaReserva = f.getDate() +" "+ meses[f.getMonth()] + " "+f.getFullYear()+" - "+f.getHours()+":"+f.getMinutes();
    $('#myModal').modal(); 
    $('.errors_form_reservas').html("");
    $('.errors_form_reservas').removeClass( "alert alert-success" );
    $('#myModalLabel').html('Editar Reserva');
    $('#formReserva #name').val(name);
+   $('#formReserva #fechaRes').val(fechaReserva);
    $('#formReserva #date').val(fecha);
    $('#formReserva #cantidad').val(cantidad);
    $('#formReserva #id_reserva').val(id);
