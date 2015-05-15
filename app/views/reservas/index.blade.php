@@ -107,15 +107,18 @@ function nuevaReserva(){
    $('.errors_form_reservas').html("");
    $('.errors_form_reservas').removeClass( "alert alert-success" );
    $('#formReserva')[0].reset();
-   $('#formReserva #id_reserva').val("");   
-   //$('#formReserva #fechaRes').val(fechaReserva);
+   $('#formReserva #id_reserva').val("");
    $('#myModalLabel').html('Nueva Reserva');
 }
 
 function editarReserva(id,name,fecha,cantidad){
-  var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-  var f = new Date(fecha);
+  var meses = new Array ("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+  var fechaYhora = fecha.split(" ");
+  var fechaSp = fechaYhora[0].split("-");
+  var horaSp = fechaYhora[1].split(":");
+  var f = new Date(fechaSp[0],fechaSp[1],fechaSp[2],horaSp[0],horaSp[1],horaSp[2]);
   var fechaReserva = f.getDate() +" "+ meses[f.getMonth()] + " "+f.getFullYear()+" - "+f.getHours()+":"+f.getMinutes();
+
    $('#myModal').modal(); 
    $('.errors_form_reservas').html("");
    $('.errors_form_reservas').removeClass( "alert alert-success" );
