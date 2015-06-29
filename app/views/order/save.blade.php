@@ -7,7 +7,7 @@
 <input type="hidden" class="form-control" id="table_id" name="table_id" value='{{$table->id}}'>
 <div id='table_select'>
 {{ HTML::image('images/table.png') }}
-  <div class='indicators'><h3><span class="label label-success">{{$table->number}}</span></h3>
+  <div class='indicators' style="margin:0.3em 5px 10px -0.8em;"><h3><span class="label label-success">{{$table->number}}</span></h3>
   </div>
 </div>
 </div>

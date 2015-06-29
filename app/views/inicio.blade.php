@@ -17,7 +17,7 @@ $desde = date ( 'Y-m-d' , $nuevafecha );
                 <a href="#" class="widget-link-remove"><i class="icon-minus-sign"></i></a>
                 <a href="#" class="widget-link-remove"><i class="icon-remove-sign"></i></a>
               </div>
-              <h3 class="section-title first-title"><i class="icon-tasks"></i> Statistics</h3>
+              <h3 class="section-title first-title"><i class="icon-tasks"></i> Estadísticas</h3>
               <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6 text-center">
                   <div class="widget-content-blue-wrapper animated flipInY changed-up">
@@ -211,6 +211,7 @@ Hasta: <input value="{{$hasta}}" placeholder="Fecha" autocomplete="of" name="dat
 @endforeach
 </div>
 <script type="text/javascript">
+$('#estadisticas').addClass("active");
 
 var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 var f = new Date();
@@ -245,12 +246,14 @@ function draw(desde, hasta) {
 $.getJSON("/restapp-api/public/index.php/admin/colum/"+desde+"/"+hasta,
  function (datos) {
         var data = new google.visualization.DataTable();
-        data.addColumn('number', 'Meses');
+        data.addColumn('string', 'Meses');
         data.addColumn('number', 'Total');
           
           $.each(datos, function(id, item){
+            //obtengo el nombre del mes como string
+          valorFecha = meses[item.fecha-1];
           data.addRows([
-            [item.fecha, item.total],
+            [valorFecha, item.total],
             ])
           })
 

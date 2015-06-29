@@ -5,12 +5,14 @@ function drawChart() {
 
 $.getJSON("/restapp-api/public/index.php/admin/colum", function (datos) {
         var data = new google.visualization.DataTable();
-        data.addColumn('number', 'Meses');
+        data.addColumn('string', 'Meses');
         data.addColumn('number', 'Total');
           
           $.each(datos, function(id, item){
+            //obtengo el nombre del mes como string
+          valorFecha = meses[item.fecha-1];
           data.addRows([
-            [item.fecha, item.total],
+            [valorFecha, item.total],
             ])
           })
 

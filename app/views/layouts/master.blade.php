@@ -31,6 +31,12 @@
   </a>
   <div class="relative-w">
     <ul class="side-menu">
+      <li id ='estadisticas'>
+        <a href="http://localhost/restapp-api/public/index.php/admin">
+          <span class="badge pull-right"></span>
+          <i class="icon-signin"></i> Estadísticas 
+        </a>
+      </li>
       <li id ='user'>
         <a href="http://localhost/restapp-api/public/index.php/users">
           <span class="badge pull-right"></span>
@@ -65,13 +71,7 @@
           <span class="badge pull-right">11</span>
           <i class="icon-calendar"></i> Reservas
         </a>
-      </li>
-      <li>
-        <a href="http://localhost/restapp-api/public/index.php/login">
-          <span class="badge pull-right"></span>
-          <i class="icon-signin"></i> Login Page
-        </a>
-      </li>
+      </li>      
     </ul>
   </div>
 </div>
@@ -83,7 +83,7 @@
           <div class="page-header">
   <div class="header-links hidden-xs">
     <a href="http://localhost/restapp-api/public/index.php/cocina"><i class="icon-comments"></i> Cocina</a>
-    <a href="http://localhost/restapp-api/public/index.php/cocina2"><i class="icon-cog"></i> Settings</a>
+    <a href="http://localhost/restapp-api/public/index.php/cocina2"><i class="icon-cog"></i> Configuración</a>
     {{ link_to('/logout', 'Cerrar sesión') }}
   </div>
   <h1><i class="icon-bar-chart"></i> RestApp - Admin</h1>

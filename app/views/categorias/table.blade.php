@@ -12,7 +12,7 @@
              <tr id='fila_{{$category->id}}'>
                 <td> {{ $category->name }} </td>
                 <td> {{ $category->description }} </td>
-                <td> <a href='javascript:editarCategoria({{$category->id}},"{{$category->name}}","{{$category->description}}")' class="btn btn-default btn-xs"><i class="icon-pencil"></i> edit</a> </td>
+                <td> <a href='javascript:editarCategoria({{$category->id}},"{{$category->name}}","{{$category->description}}")' class="btn btn-default btn-xs"><i class="icon-pencil"></i> editar</a> </td>
                 <td><a href='javascript:eliminar({{$category->id}})' class="btn btn-danger btn-xs"><i class="icon-remove"></i></a></td>
              </tr>
           @endforeach

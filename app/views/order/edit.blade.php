@@ -1,5 +1,3 @@
-<h3>Modifique los datos de la orden</h1>
-<div class="jumbotron">
 <div id='errors_form'></div>
 <div class="row">
 {{ Form::open(array('url' => 'orders/create/' . $order->id, 'id'=>'form_edit')) }}
@@ -35,10 +33,8 @@
 </div>
 {{ Form::close() }}
 </div>
-</div>
 @if($order->active==true)
 <h3>Seleccione los items que desea agregar</h1>
-  <div class="jumbotron">
   <div class="row">
   {{ Form::open(array('url' => 'orders/edit', 'id' => 'formulario_busqueda')) }}
   <input type="hidden" class="form-control" id= 'order_id' name="order_id" value='{{$order->id}}'>
@@ -71,14 +67,13 @@
   </h4>
 </div>
 </div>
-</div>
 @else
 <input type="hidden" class="form-control" id= 'order_id' name="order_id" value='{{$order->id}}'>
   <div class="alert alert-danger">No puede editar esta orden, Ya fue cobrada!</div>
 @endif
 <div id="tabla">
 </div>
-<a id="finish" href="#">Ocultar</a>
+<a id="finish">Ocultar</a>
 <a href="javascript:eliminarOrden({{$order->id}})" style="float:right;" class="btn btn-danger">Cerrar Orden!</a>
 
 <script type="text/javascript">
@@ -158,7 +153,7 @@ $.post("orders/delete/"+ id,
                 if (data.success == true){
                   $('#mensaje').show();
                   $('#success_form').html(data.message);
-                  $("#resultado").html("");
+                  $('#miModal').modal('toggle');
                   mostrarOrdenes();
                 }
 
@@ -167,6 +162,6 @@ $.post("orders/delete/"+ id,
 }
 
 $("#finish").click(function(){
-  $("#resultado").html("");
+  $('#miModal').modal('toggle');
 });
 </script>

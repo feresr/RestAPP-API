@@ -36,10 +36,10 @@ public function index() {
  public function ventasMensuales($desde = null, $hasta=null){
 
   $items = DB::table('orders')
-                    ->select(DB::raw('SUM(total) as total, Month(created_at) as fecha'))
-                    ->groupBy(DB::raw('Month(created_at)'))
-                    ->whereBetween('created_at', array($desde,$hasta))
-                    ->get();
+              ->select(DB::raw('SUM(total) as total, Month(created_at) as fecha'))
+              ->groupBy(DB::raw('Month(created_at)'))
+              ->whereBetween('created_at', array($desde,$hasta))
+              ->get();
 
   return Response::json($items);
  }

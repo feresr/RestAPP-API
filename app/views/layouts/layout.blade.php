@@ -136,8 +136,8 @@ $.get("/restapp-api/public/index.php/reservasFace/"+ id+"/"+name,
     <div id="top" class="header">
       <div class="vert-text">
             <div class="row-traslucida">
-            <h1>Start RestApp</h1>
-            <h2><em>Conozca nuestro </em>software online para la gestión de restaurantes, bares y cafés.</h2>
+              <h1>{{ HTML::image('images/iconos/raster2.png', "Imagen no encontrada") }}
+            RestApp</h1>
             </div>
       </div>
     </div>
@@ -256,7 +256,7 @@ $.get("/restapp-api/public/index.php/reservasFace/"+ id+"/"+name,
                     <p class="lead">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by PSDCovers! <a target="_blank" href="http://www.psdcovers.com/">Visit their website</a> to download some of their awesome, free photoshop actions!</p>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">                    
-                    {{ HTML::image('images/web/ordenes.png', "Imagen no encontrada", array('class'=> 'img-responsive')) }}
+                    {{ HTML::image('images/web/orders.png', "Imagen no encontrada", array('class'=> 'img-responsive')) }}
                 </div>
             </div>
 

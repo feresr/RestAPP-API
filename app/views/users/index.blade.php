@@ -24,12 +24,12 @@
     {{ Form::open(array('url' => 'users/create', 'id'=>'form')) }}
     <input type="hidden" name="id_usuario" id="id_usuario" value="">
     <div class="form-group">
-       {{ Form::label ('username', 'Nickname') }}
-       {{ Form::text ('username', '', array('class'=>'form-control','placeholder'=>'nickname', 'autocomplete'=>'of')) }}
+       {{ Form::label ('username', 'Nombre de usuario') }}
+       {{ Form::text ('username', '', array('class'=>'form-control','placeholder'=>'Nombre de usuario', 'autocomplete'=>'of')) }}
     </div>
     <div class="form-group">
-       {{ Form::label ('firstname', 'Nombre real') }}
-       {{ Form::text ('firstname', '', array('class'=>'form-control','placeholder'=>'nombre', 'autocomplete'=>'of')) }}
+       {{ Form::label ('firstname', 'Nombres') }}
+       {{ Form::text ('firstname', '', array('class'=>'form-control','placeholder'=>'Nombres', 'autocomplete'=>'of')) }}
     </div>
     <div class="form-group">
        {{ Form::label ('lastname', 'Apellido') }}
@@ -37,8 +37,9 @@
      </div>
      <div class="form-group" id='logOculto'>
           {{ Form::label ('password', 'Contraseña') }}
-          {{ Form::password ('password',array('class'=>'form-control','placeholder'=>'password', 'autocomplete'=>'of')) }}
+          {{ Form::password ('password',array('class'=>'form-control','placeholder'=>'Contraseña', 'autocomplete'=>'of')) }}
       </div>
+      {{ Form::label ('rol', 'Rol') }}
       <select class="form-control" id="id_rol" name="id_rol">
         <option value="1">Administrador</option>
         <option value="2">Cocinero</option>
@@ -85,7 +86,7 @@ function nuevoUsuario(){
    $('#myModal').modal(); 
    $('#form #logOculto').show();
    $('.errors_form').html("");
-   $('.errors_form').removeClass( "alert alert-success" );
+   $('#mensaje').hide();
    $('#form')[0].reset();
    $('#form #id_usuario').val("");
    $('#myModalLabel').html('Nuevo Usuario');
@@ -93,8 +94,9 @@ function nuevoUsuario(){
 
 function editarUsuario(id,username,firstname,lastname,rol){
    $('#myModal').modal(); 
-   $('.errors_form').html("");
-   $('.errors_form').removeClass( "alert alert-success" );
+
+   //$('.errors_form').html("");
+   $('#mensaje').hide();
    $('#myModalLabel').html('Editar Usuario');
    $('#form #id_usuario').val(id);   
    $('#form #username').val(username);

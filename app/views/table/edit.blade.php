@@ -48,10 +48,8 @@
 						$.post("savepos/" + coord.left + "/" + coord.top+"/"+item.id, 
             				function(data){
                 			if (data.success != true){
-                  				alert('Error');
-                			}else{
-                				alert(data.message);
-                }
+                  				alert('Error, No cambio la posicion correctamente');
+                			}
             });  
 					});
   });

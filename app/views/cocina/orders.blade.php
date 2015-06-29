@@ -31,7 +31,7 @@
           <table class="table table-striped table-bordered">
            <tr>
              <th> Item </th>
-             <th> Descripcion </th>
+             <th> Descripción </th>
              <th> Cantidad </th>
           </tr>
         <div id="form">

@@ -37,17 +37,12 @@
 <div class="content-inner">
           <div class="page-header">
   <div class="header-links hidden-xs">
-    <a href="notifications.html"><i class="icon-comments"></i> User Alerts</a>
-    <a href="#"><i class="icon-cog"></i> Settings</a>
+    <a href="notifications.html"><i class="icon-comments"></i>Mensajes de Usuarios</a>
+    <a href="#"><i class="icon-cog"></i> Configuración</a>
     {{ link_to('/logout', 'Cerrar sesión') }}
   </div>
   <h1><i class="icon-bar-chart"></i> RestApp - Admin</h1>
 </div>
-<ol class="breadcrumb">
-  <li><a href="#">Home</a></li>
-  <li><a href="#">Bread</a></li>
-  <li><a href="#">Crumbs</a></li>
-</ol>
           <div class="main-content">
 @yield('content')
           </div>

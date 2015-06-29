@@ -56,8 +56,7 @@ class TablesController extends BaseController {
 		$coord->save();
 
 		return Response::json(array(
-		'success' => true,
-		'message' => 'Ha cambiado la posicion'
+		'success' => true
 		));	
 		}
 	/**
