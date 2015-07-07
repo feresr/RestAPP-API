@@ -111,13 +111,8 @@ function nuevaReserva(){
    $('#myModalLabel').html('Nueva Reserva');
 }
 
-function editarReserva(id,name,fecha,cantidad){
-  var meses = new Array ("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-  var fechaYhora = fecha.split(" ");
-  var fechaSp = fechaYhora[0].split("-");
-  var horaSp = fechaYhora[1].split(":");
-  var f = new Date(fechaSp[0],fechaSp[1],fechaSp[2],horaSp[0],horaSp[1],horaSp[2]);
-  var fechaReserva = f.getDate() +" "+ meses[f.getMonth()] + " "+f.getFullYear()+" - "+f.getHours()+":"+f.getMinutes();
+function editarReserva(id,name,fecha,cantidad){  
+  var fechaReserva = obtenerFechaYHoraPalabras(fecha);
 
    $('#myModal').modal(); 
    $('.errors_form_reservas').html("");
@@ -128,6 +123,18 @@ function editarReserva(id,name,fecha,cantidad){
    $('#formReserva #date').val(fecha);
    $('#formReserva #cantidad').val(cantidad);
    $('#formReserva #id_reserva').val(id);
+}
+
+//Funcion que recibe la fecha en formato datetime y retorna un formato en palabras
+//Ejemplo 24 Julio 2015 
+function obtenerFechaYHoraPalabras(fecha){
+  var meses = new Array ("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+  var fechaYhora = fecha.split(" ");
+  var fechaSp = fechaYhora[0].split("-");
+  var horaSp = fechaYhora[1].split(":");
+  var f = new Date(fechaSp[0],fechaSp[1],fechaSp[2],horaSp[0],horaSp[1],horaSp[2]);
+  var fechaReserva = f.getDate() +" "+ meses[f.getMonth()] + " "+f.getFullYear()+" - "+f.getHours()+":"+f.getMinutes();
+  return fechaReserva;
 }
 
 function guardarReserva(){

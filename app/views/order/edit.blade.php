@@ -73,7 +73,7 @@
 @endif
 <div id="tabla">
 </div>
-<a id="finish">Ocultar</a>
+<a href="javascript:ocultar()">Ocultar</a>
 <a href="javascript:eliminarOrden({{$order->id}})" style="float:right;" class="btn btn-danger">Cerrar Orden!</a>
 
 <script type="text/javascript">
@@ -161,7 +161,8 @@ $.post("orders/delete/"+ id,
 } 
 }
 
-$("#finish").click(function(){
+function ocultar(){
   $('#miModal').modal('toggle');
-});
+  $('.label-success').css({'font-size':'75%','background':'#7EA568'});
+};
 </script>

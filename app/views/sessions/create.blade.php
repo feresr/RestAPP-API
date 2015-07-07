@@ -9,7 +9,7 @@
         <div class="content-inner">
           <div class="main-content main-content-grey-gradient no-page-header">
 <div class='errors_form'></div>
-    {{ Form::open(array('url' => '/login', 'id'=>'form')) }} 
+    {{ Form::open(array('url' => '/login', 'id'=>'form', 'autocomplete'=>'of')) }} 
     <h3 class="form-title form-title-first"><i class="icon-lock"></i> Inicio de sesion</h3>
     <div class="form-group">
        {{ Form::label('name', 'Usuario') }}
