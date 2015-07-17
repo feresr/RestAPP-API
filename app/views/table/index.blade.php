@@ -123,7 +123,8 @@ if (confirmar){
 $.post("tables/delete/"+ id, 
             function(data){
                 if (data.success == true){
-                  alert('La mesa se elimino correctamente!');
+                  $('#mensaje').show();
+                  $('#success_form').html('La mesa se elimino correctamente!');
                   mostrarMesas();
                 }
 

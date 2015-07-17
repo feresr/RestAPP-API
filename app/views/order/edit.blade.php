@@ -1,4 +1,10 @@
-<div id='errors_form'></div>
+<div id="mensaje_nuevo" style="display:none;" class="alert alert-success">
+  <button type="button" class="close" onclick="cerrarNuevo()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  <h4>
+    {{ HTML::image('images/ok.png') }}
+    <div style="display:inline;" id="alert_form"></div>
+  </h4>
+</div>
 <div class="row">
 {{ Form::open(array('url' => 'orders/create/' . $order->id, 'id'=>'form_edit')) }}
 <div class="col-lg-4">
@@ -132,10 +138,8 @@ form_edit.on('submit', function () {
                         $('#errors_form').addClass("alert alert-danger");
                         $('#errors_form').html(errores);
                     }else{
-                        $('#errors_form').removeClass("alert alert-danger");
-                        mensaje = "Los datos de la orden se modificaron correctamente";
-                        $('#errors_form').addClass("alert alert-success");
-                        $('#errors_form').html(mensaje);
+                        $('#mensaje_nuevo').show();
+                        $('#alert_form').html('Los datos de la orden se modificaron correctamente');
                         $("#tabla").load('list/'+id);
                     }
                   }
@@ -159,6 +163,10 @@ $.post("orders/delete/"+ id,
 
             });  
 } 
+}
+
+function cerrarNuevo(){
+  $('#mensaje_nuevo').hide();
 }
 
 function ocultar(){
