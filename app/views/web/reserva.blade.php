@@ -3,9 +3,9 @@
   <table class="table table-striped">
       <thead>
       <tr style="background-color:#FFBB33;">
-         <th> Fecha </th>
-         <th> Nombre </th>
-         <th> Cantidad de personas </th>
+         <th width="20%"> Fecha </th>
+         <th width="40%"> Nombre </th>
+         <th width="20%"> Cantidad de personas </th>
          <th colspan="2"></th>
       </tr>
       </thead>

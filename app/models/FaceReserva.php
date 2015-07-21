@@ -4,14 +4,14 @@ class FaceReserva extends Eloquent{
 protected $table = 'reservas_facebook';
 
   public static $rules = array(
-          'fecha' => 'required|date',
+          'date' => 'required|date',
           'name' => 'required|min:2',
           'cantidad' =>'required|numeric'
       );
           
    public static $messages = array(
-          'fecha.required'=> 'Ingresar una fecha es obligatorio.',
-          'fecha.date'=> 'Ingresar una fecha.',
+          'date.required'=> 'Ingresar una fecha es obligatorio.',
+          'date.date'=> 'Ingresar una fecha.',
           'name.required'=> 'Ingresar el nombre es obligatorio.',
           'name.min' => 'El nombre no puede tener menos de dos caracteres.',
           'cantidad.required'=> 'Debe ingresar una cantidad.',

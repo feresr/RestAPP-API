@@ -114,7 +114,7 @@ public function faceDestroy($id) {
 
   public function storeFace() {
    $reserva = new FaceReserva();
-   $reserva->fecha = Input::get('fecha');
+   $reserva->fecha = Input::get('date');
    $reserva->name = Input::get('name');
    $reserva->id_facebook = Input::get('id_facebook');
    $reserva->cantidad = Input::get('cantidad');
@@ -137,7 +137,7 @@ public function faceDestroy($id) {
 
   public function updateFace($id) {
    $reserva = FaceReserva::find($id);
-   $reserva->fecha = Input::get('fecha');
+   $reserva->fecha = Input::get('date');
    $reserva->name = Input::get('name');
    $reserva->id_facebook = Input::get('id_facebook');
    $reserva->cantidad = Input::get('cantidad');

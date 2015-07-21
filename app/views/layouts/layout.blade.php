@@ -12,99 +12,15 @@
     {{HTML::style('css/styleWeb.css')}}
     {{HTML::style('css/bootstrap.css')}}   
     {{HTML::style('font-awesome/css/font-awesome.min.css')}}
-        <!-- JavaScript -->
+    {{HTML::style('css/bootstrap-datetimepicker.min.css')}}        
+    <!-- JavaScript -->
     {{HTML::script('js/jquery-1.11.0.min.js')}}
     {{HTML::script('js/bootstrap.min.js')}}
-
+    {{HTML::script('js/bootstrap-datetimepicker.min.js')}}
+    {{HTML::script('js/bootstrap-datetimepicker.es.js')}}
     @section ('head')
     @show
- 
-<script type="text/javascript">
-// This is called with the results from from FB.getLoginStatus().
-  function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    // Full docs on the response object can be found in the documentation
-    // for FB.getLoginStatus().
-    if (response.status === 'connected') {
-      // Logged into your app and Facebook.
-      testAPI();
-    } else if (response.status === 'not_authorized') {
-      // The person is logged into Facebook, but not your app.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
-    } else {
-      // The person is not logged into Facebook, so we're not sure if
-      // they are logged into this app or not.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into Facebook.';
-    }
-  }
-
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
-
-  window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '676733425743501',
-    cookie     : true,  // enable cookies to allow the server to access 
-                        // the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.1' // use version 2.1
-  });
-
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
-
-  };
-
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      $('#estadoLogin').hide();
-      mostrarReservas(response.name, response.id);
-      document.getElementById('status').innerHTML =
-        '<p>Gracias por ingresar a RestApp, ' + response.name + '!</p>'+
-        '<p>Presione el boton que aparece a continuacion y realice su reserva</p>'+ 
-        '<button value="'+ response.name +'" id="reserva" class="btn btn-default btn-lg" onclick="nuevaReserva();">Reservar!</button>';
-    });
-  }
-
-function mostrarReservas(name, id){
-  $('#name').val(name);
-  $('#id_facebook').val(id);
-  $('#reservasList').html("Buscando reservas a nombre de "+name+"...");
-  
-$.get("/restapp-api/public/index.php/reservasFace/"+ id+"/"+name, 
-            function(data){
-              $('#reservasList').html(data);
-                                                
-              
-            })
-  }
-
-</script>    
+    
   </head>
 
   <body>
@@ -370,12 +286,12 @@ $.get("/restapp-api/public/index.php/reservasFace/"+ id+"/"+name,
             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
           <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                 </div>
-        <input type="hidden" id="fecha" name="fecha" value="" />
+        <input type="hidden" id="date" name="date" value="" />
             </div>
-    <div class="form-group">
+    <!--<div class="form-group">
        <label style="color:black;" for="exampleInputPassword1">Fecha</label>
        <input class="form-control" placeholder="Fecha" autocomplete="of" name="fecha" type="date" value="{{$reserva->date}}" id="fecha">
-    </div>
+    </div> -->
     <div class="form-group">
        <label style="color:black;">Nombre</label>
        {{ Form::text ('name', $reserva->name, array('class'=>'form-control','placeholder'=>'Nombre', 'id'=>'name')) }} 
@@ -419,19 +335,28 @@ $.get("/restapp-api/public/index.php/reservasFace/"+ id+"/"+name,
     </footer>
     <!-- /Footer -->
     <!-- Custom JavaScript for the Side Menu and Smooth Scrolling -->
-    <script>
+    <script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+    language:  'es',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
+    });
+
         $("#menu-close").click(function(e) {
             e.preventDefault();
             $("#sidebar-wrapper").toggleClass("active");
         });
-    </script>
-    <script>
+
         $("#menu-toggle").click(function(e) {
             e.preventDefault();
             $("#sidebar-wrapper").toggleClass("active");
         });
-    </script>
-    <script>
+
       $(function() {
         $('a[href*=#]:not([href=#])').click(function() {
           if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
@@ -514,16 +439,28 @@ $.post("index.php/reservasFace/delete/"+ id,
 }
 
 function editarReserva(id,name,fecha,cantidad){
+  var fechaReserva = obtenerFechaYHoraPalabras(fecha);
+
    $('#myModal').modal(); 
    $('.errors_form_reservas').html("");
    $('.errors_form_reservas').removeClass( "alert alert-success" );
    $('#myModalLabel').html('Editar Reserva');
    $('#formReserva #name').val(name);
-   $('#formReserva #fecha').val(fecha);
+   $('#formReserva #fechaRes').val(fechaReserva);
+   $('#formReserva #date').val(fecha);
    $('#formReserva #cantidad').val(cantidad);
    $('#formReserva #id_reserva').val(id);
 }
 
+function obtenerFechaYHoraPalabras(fecha){
+  var meses = new Array ("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+  var fechaYhora = fecha.split(" ");
+  var fechaSp = fechaYhora[0].split("-");
+  var horaSp = fechaYhora[1].split(":");
+  var f = new Date(fechaSp[0],fechaSp[1],fechaSp[2],horaSp[0],horaSp[1],horaSp[2]);
+  var fechaReserva = f.getDate() +" "+ meses[f.getMonth()] + " "+f.getFullYear()+" - "+f.getHours()+":"+f.getMinutes();
+  return fechaReserva;
+}
 
 function nuevaReserva(){
    $('#myModal').modal(); 
@@ -535,8 +472,91 @@ function nuevaReserva(){
    $('#myModalLabel').html('Nueva Reserva');
 }
 
-  </script>
+// This is called with the results from from FB.getLoginStatus().
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      testAPI();
+    } else if (response.status === 'not_authorized') {
+      // The person is logged into Facebook, but not your app.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    } else {
+      // The person is not logged into Facebook, so we're not sure if
+      // they are logged into this app or not.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into Facebook.';
+    }
+  }
 
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '676733425743501',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.1' // use version 2.1
+  });
+
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      $('#estadoLogin').hide();
+      mostrarReservas(response.name, response.id);
+      document.getElementById('status').innerHTML =
+        '<p>Gracias por ingresar a RestApp, ' + response.name + '!</p>'+
+        '<p>Presione el boton que aparece a continuacion y realice su reserva</p>'+ 
+        '<button value="'+ response.name +'" id="reserva" class="btn btn-default btn-lg" onclick="nuevaReserva();">Reservar!</button>';
+    });
+  }
+
+function mostrarReservas(name, id){
+  $('#name').val(name);
+  $('#id_facebook').val(id);
+  $('#reservasList').html("Buscando reservas a nombre de "+name+"...");
+  
+$.get("/restapp-api/public/index.php/reservasFace/"+ id+"/"+name, 
+            function(data){
+              $('#reservasList').html(data);
+                                                
+              
+            })
+  }
+
+</script> 
 </body>
 
 </html>
